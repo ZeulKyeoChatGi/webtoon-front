@@ -1,14 +1,27 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import { useState } from 'react';
 // import styles from '../styles/Home.module.css'
 import styled from 'styled-components';
 
+import CalendarWebtoonItem from './calendar/components/calendarWebtoonItem';
+import Calendar from './calendar';
+
 const GlobalWrapper = styled.div`
-  padding: 16px;
+  padding: 16px 0 0 0;
+  max-width: 640px;
+  // display: flex;
+  // align-item: center;
+  // flex-direction: column;
+  margin: 0 0;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const HeaderWrapper = styled.div`
+  padding: 0 16px;
+
   height: 56px;
   width: 100%;
   display: flex;
@@ -28,10 +41,39 @@ const HeaderWrapper = styled.div`
 const NavToggleWrapper = styled.div`
   display: flex;
   height: 48px;
+  padding: 0 16px;
+  cursor: pointer;
+
+  .toggled {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+
+    border-bottom: 3px solid #000000;
+  }
+
+  .normal {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+    text-transform: uppercase;
+
+    opacity: 0.3;
+
+    color: #000000;
+  }
 `;
 
 const NavIcon = styled.div`
-  width: 48px;
+  width: 50%;
   height: 48px;
   display: flex;
   align-items: center;
@@ -44,40 +86,20 @@ const NavIcon = styled.div`
 `;
 
 const NavItem = styled.div`
-  width: 74px;
+  width: 50%;
   height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-const CalendarInput = styled.input`
-  width: 100%;
-  height: 48px;
-
-  margin-top: 16px;
-
-  border: 1px solid #000000;
-  box-sizing: border-box;
-  border-radius: 4px;
-
-  ::placeholder {
-    padding: 12px;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 24px;
-
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-
-    color: #c4c4c4;
-  }
-`;
-
 const Home: NextPage = () => {
+  const [toggleMenu, setToggleMenu] = useState('calendar');
+
+  const changeToggleMenu = (menu: string) => {
+    setToggleMenu(menu);
+  };
+
   return (
     <>
       <GlobalWrapper>
@@ -86,17 +108,30 @@ const Home: NextPage = () => {
         </HeaderWrapper>
 
         <NavToggleWrapper>
-          <NavIcon>
-            {/* <HomeIcon/> */}
+          {/* <NavIcon>
             <img src={`icons/home.png`} />
-          </NavIcon>
+          </NavIcon> */}
 
-          <NavItem>
+          <NavItem onClick={() => changeToggleMenu('calendar')} className={toggleMenu === 'calendar' ? 'toggled' : 'normal'}>
+            <p>유료화 일정</p>
+          </NavItem>
+
+          <NavItem onClick={() => changeToggleMenu('category')} className={toggleMenu === 'category' ? 'toggled' : 'normal'}>
             <p>장르별</p>
           </NavItem>
+
+
+
+        
         </NavToggleWrapper>
 
-        <CalendarInput placeholder="웹툰명을 검색해주세요." />
+          {toggleMenu === 'calendar' ? (
+            <>
+              <Calendar></Calendar>
+            </>
+          ) : (
+            <></>
+          )}
       </GlobalWrapper>
     </>
     // <div className={styles.container}>
