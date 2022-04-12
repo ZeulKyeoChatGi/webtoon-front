@@ -148,3 +148,14 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+
+.selected {
+  background: #000000 !important;
+
+  
+}
+
+.selected > p {
+  color: #fff;
+}
