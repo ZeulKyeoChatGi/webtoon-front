@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import CalendarWebtoonItem from './components/calendarWebtoonItem';
+import CalendarWebtoonItem from '../category/components/calendarWebtoonItem';
 
 const CalendarInput = styled.input`
   width: 100%;

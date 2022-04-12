@@ -5,8 +5,9 @@ import { useState } from 'react';
 // import styles from '../styles/Home.module.css'
 import styled from 'styled-components';
 
-import CalendarWebtoonItem from './calendar/components/calendarWebtoonItem';
+import CalendarWebtoonItem from './category/components/calendarWebtoonItem';
 import Calendar from './calendar';
+import Category from './category';
 
 const GlobalWrapper = styled.div`
   padding: 16px 0 0 0;
@@ -119,19 +120,17 @@ const Home: NextPage = () => {
           <NavItem onClick={() => changeToggleMenu('category')} className={toggleMenu === 'category' ? 'toggled' : 'normal'}>
             <p>장르별</p>
           </NavItem>
-
-
-
-        
         </NavToggleWrapper>
 
-          {toggleMenu === 'calendar' ? (
-            <>
-              <Calendar></Calendar>
-            </>
-          ) : (
-            <></>
-          )}
+        {toggleMenu === 'calendar' ? (
+          <>
+            <Calendar></Calendar>
+          </>
+        ) : (
+          <>
+            <Category></Category>
+          </>
+        )}
       </GlobalWrapper>
     </>
     // <div className={styles.container}>
