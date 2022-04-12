@@ -314,6 +314,8 @@ const Calendar = () => {
 
         <Divider />
 
+        <div style={{ height: '68px' }}>{/* 체크박스 */}</div>
+
         {webtoonMain2.map((webtoon, index) => (
           <WebtoonCard>
             <p className="title">{webtoon.name}</p>
