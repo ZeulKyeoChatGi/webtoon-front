@@ -30,7 +30,7 @@ const CalendarInput = styled.input`
 const MainWebttonWrapper = styled.div`
   margin: 0 16px;
 
-  width: 328px;
+  // width: 328px;
   height: 200px;
   background-color: #e9eaee;
 
