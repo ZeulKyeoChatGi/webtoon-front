@@ -28,6 +28,7 @@ const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   // background-color: blue;
+  justify-content: space-between;
 
   p,
   h1 {
@@ -104,8 +105,10 @@ const Home: NextPage = () => {
   return (
     <>
       <GlobalWrapper>
-        <HeaderWrapper>
+        <HeaderWrapper style={{}}>
           <h1>Logo</h1>
+
+          <img src="/icons/ic-search.svg" />
         </HeaderWrapper>
 
         <NavToggleWrapper>

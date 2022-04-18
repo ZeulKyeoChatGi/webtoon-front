@@ -29,13 +29,31 @@ const CalendarInput = styled.input`
 
 const MainWebttonWrapper = styled.div`
   margin: 0 16px;
-
-  // width: 328px;
   height: 200px;
   background-color: #e9eaee;
-
   margin-top: 24px;
   border-radius: 22px;
+  background: #eee0f7;
+  box-shadow: 0px 4px 50px rgb(192 192 224 / 20%);
+  border-radius: 22px;
+  position: relative;
+  overflow: hidden;
+
+  .shadow {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.05) 51.56%, rgba(0, 0, 0, 0.4) 100%);
+    width: 100%;
+    height: 100%;
+    border-radius: 22px;
+    position: absolute;
+  }
+
+  .img {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 10%);
+    width: 262px;
+    overflow: hidden;
+  }
 
   .title-wrapper {
     background: rgba(255, 255, 255, 0.5);
@@ -48,6 +66,7 @@ const MainWebttonWrapper = styled.div`
     }
 
     .title {
+      color: #2C3131;
       font-style: normal;
       font-weight: 700;
       font-size: 14px;
@@ -58,8 +77,24 @@ const MainWebttonWrapper = styled.div`
       text-transform: uppercase;
       margin-left: 16px;
 
-      color: #000000;
+      // color: #000000;
     }
+  }
+
+  .discount-price {
+    color: #ffffff;
+    margin-left: 16px;
+
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 26px;
+    /* identical to box height, or 144% */
+
+    margin-top: 98px;
+
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
   }
 
   .d-day {
@@ -68,7 +103,8 @@ const MainWebttonWrapper = styled.div`
     font-weight: 700;
     font-size: 18px;
     line-height: 26px;
-    color: #000000;
+    color: #fff;
+    // color: #000000;
     margin-left: 16px;
   }
 
@@ -86,7 +122,8 @@ const MainWebttonWrapper = styled.div`
 
     margin-left: 16px;
 
-    color: #6e7781;
+    color: #fff;
+    // color: #6e7781;
   }
 `;
 
@@ -117,7 +154,8 @@ const Calendar = () => {
       site: 'naver',
       date: 'D-3',
       name: '대학일기',
-      datetext: '2022년 04월 20일 유료화'
+      datetext: '2022년 04월 20일 유료화',
+      discountPrice: 20000
     }
   ];
 
@@ -146,12 +184,16 @@ const Calendar = () => {
       <Wrapper>
         {webtoonMain.map((webtoon, index) => (
           <MainWebttonWrapper key={index}>
-            <div>
+            <div className="shadow"></div>
+            <img className="img" src="/images/temp/thumb_main.png" />
+
+            <div style={{ position: 'absolute' }}>
               <div className={'title-wrapper'}>
                 <p className={'title'}>{webtoon.name}</p>
               </div>
 
-              <p className={'d-day'}>{webtoon.date}</p>
+              {/* <p className={'d-day'}>{webtoon.date}</p> */}
+              <p className="discount-price">지금보면 최대 {webtoon.discountPrice}원 절약</p>
               <p className={'date'}>{webtoon.datetext}</p>
             </div>
           </MainWebttonWrapper>
