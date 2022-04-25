@@ -223,6 +223,7 @@ const Calendar = () => {
 
   const webtoonMain2 = [
     {
+      id: 1,
       site: 'naver',
       name: '대학일기',
       dDay: 'D-3',
@@ -232,6 +233,7 @@ const Calendar = () => {
       liked: '44.9만'
     },
     {
+      id: 2,
       site: 'naver',
       name: '대학일기',
       dDay: 'D-3',
@@ -241,6 +243,7 @@ const Calendar = () => {
       liked: '44.9만'
     },
     {
+      id: 3,
       site: 'naver',
       name: '대학일기',
       dDay: 'D-3',
@@ -284,6 +287,7 @@ const Calendar = () => {
           {webtoonMain2.map((webtoon, index) => (
             <CalendarWebtoonItem
               key={index}
+              index={index}
               name={webtoon.name}
               dDay={webtoon.dDay}
               thumbnailUrl={webtoon.thumbnailUrl}

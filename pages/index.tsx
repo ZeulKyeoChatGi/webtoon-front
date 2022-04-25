@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 // import styles from '../styles/Home.module.css'
 import styled from 'styled-components';
 
@@ -175,24 +175,64 @@ const NavItem = styled.div`
 `;
 
 const Home: NextPage = () => {
+  const [isMainSlider, setIsMainSlider] = useState(true);
   const [toggleMenu, setToggleMenu] = useState('calendar');
+  const [animation, setAnimation] = useState('');
+
+  const homeRef = useRef<HTMLDivElement>(null);
+  const topRef = useRef<HTMLDivElement>(null);
 
   const changeToggleMenu = (menu: string) => {
+
+    if (menu === 'calendar') {
+      // topRef.current?.scrollIntoView({ behavior: 'smooth' });
+
+      setIsMainSlider(true);
+    } else {
+      homeRef.current?.scrollIntoView({ behavior: 'smooth' });
+
+      var scrollTimeout: NodeJS.Timeout;
+
+      const scrollFunction = () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(function () {
+          console.log(menu);
+          if (menu === 'category') {
+            console.log('Scroll ended');
+            setIsMainSlider(false);
+
+            removeEventListener('scroll', scrollFunction);
+          }
+        }, 100);
+      };
+
+      addEventListener('scroll', scrollFunction);
+
+      // setTimeout(() => {
+      //   setIsMainSlider(menu === 'calendar');
+      // }, 1000);
+    }
+
     setToggleMenu(menu);
+
+
+    // setTimeout(() => {
+    //   setIsMainSlider(menu === 'calendar');
+    // }, 1000);
   };
 
   return (
     <>
-      <GlobalWrapper>
+      <GlobalWrapper ref={topRef}>
         <HeaderWrapper style={{}}>
           <h1>Logo</h1>
 
           <img src="/icons/ic-search.svg" />
         </HeaderWrapper>
 
-        {toggleMenu === 'calendar' ? (
+        {isMainSlider ? (
           <>
-            <MainSliderWrapper>
+            <MainSliderWrapper className={`${animation}`}>
               <img className="img" src="/images/temp/thumb_main.png" />
 
               <div className="background_shadow"></div>
@@ -209,7 +249,7 @@ const Home: NextPage = () => {
           <></>
         )}
 
-        <NavToggleWrapper>
+        <NavToggleWrapper ref={homeRef}>
           <NavItem onClick={() => changeToggleMenu('calendar')} className={toggleMenu === 'calendar' ? 'toggled' : 'normal'}>
             <p>유료화 일정</p>
           </NavItem>

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 interface webtoonInfoProp {
+  index: number;
   name: string;
   dDay: string;
   thumbnailUrl: string;
@@ -164,10 +165,10 @@ const CalendarWebtoonWrapper = styled.div`
   }
 `;
 
-const CalendarWebtoonItem = ({ name, dDay, thumbnailUrl, site, writer, star, liked }: webtoonInfoProp) => {
+const CalendarWebtoonItem = ({ index, name, dDay, thumbnailUrl, site, writer, star, liked }: webtoonInfoProp) => {
   return (
     <>
-      <CalendarWebtoonWrapper>
+      <CalendarWebtoonWrapper key={index}>
         <div className={'img'}></div>
 
         <div className={'content'}>

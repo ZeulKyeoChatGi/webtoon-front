@@ -5,6 +5,7 @@ import Footer from '../components/Fotter';
 import styled from 'styled-components';
 
 import '../assets/scss/global.scss'
+import '../assets/scss/animation.scss'
 
 const GlobalWrapper = styled.div`
   // padding: 16px 0 0 0;
