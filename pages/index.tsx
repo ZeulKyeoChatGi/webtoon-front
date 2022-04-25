@@ -190,18 +190,24 @@ const Home: NextPage = () => {
           <img src="/icons/ic-search.svg" />
         </HeaderWrapper>
 
-        <MainSliderWrapper>
-          <img className="img" src="/images/temp/thumb_main.png" />
+        {toggleMenu === 'calendar' ? (
+          <>
+            <MainSliderWrapper>
+              <img className="img" src="/images/temp/thumb_main.png" />
 
-          <div className="background_shadow"></div>
+              <div className="background_shadow"></div>
 
-          <div className="save_info">
-            <p className="text_price">지금보면 최대 20,000원 절약!</p>
-            <p className="text_date">2022년 04월 08일 유료화</p>
-          </div>
+              <div className="save_info">
+                <p className="text_price">지금보면 최대 20,000원 절약!</p>
+                <p className="text_date">2022년 04월 08일 유료화</p>
+              </div>
 
-          <div className="save_info"> </div>
-        </MainSliderWrapper>
+              <div className="save_info"> </div>
+            </MainSliderWrapper>
+          </>
+        ) : (
+          <></>
+        )}
 
         <NavToggleWrapper>
           <NavItem onClick={() => changeToggleMenu('calendar')} className={toggleMenu === 'calendar' ? 'toggled' : 'normal'}>
