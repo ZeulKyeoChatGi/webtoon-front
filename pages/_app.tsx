@@ -1,7 +1,7 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 
-import Footer from '../components/Fotter';
+import Footer from '../components/Footer';
 import styled from 'styled-components';
 
 import '../assets/scss/global.scss'
