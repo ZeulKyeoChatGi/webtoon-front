@@ -1948,7 +1948,7 @@
     "is-bigint" "^1.0.1"
     "is-boolean-object" "^1.1.0"
     "is-number-object" "^1.0.4"
-    "is-string" "^1.0.5"
+    "is-string" "^1.0.5" 
     "is-symbol" "^1.0.3"
 
 "which@^2.0.1":
@@ -1972,3 +1972,11 @@
   "integrity" "sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A=="
   "resolved" "https://registry.npmjs.org/yallist/-/yallist-4.0.0.tgz"
   "version" "4.0.0"
+
+
+원 5 5 5
+예 7 3 5
+저 7 3 5
+타 12 3
+피 12 3
+예 3

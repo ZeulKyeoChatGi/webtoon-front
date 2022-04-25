@@ -40,23 +40,102 @@ const HeaderWrapper = styled.div`
   }
 `;
 
+const MainSliderWrapper = styled.div`
+  width: 100%;
+  height: 340px;
+  position: relative;
+  background-color: #eee0f7;
+  // background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 40.1%);
+
+  img {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+  }
+
+  .background_shadow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0) 40.1%);
+  }
+
+  .save_info {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    position: absolute;
+    right: 16px;
+    top: 16px;
+
+    .text_price {
+      /* M/20px/bold */
+
+      font-family: 'Pretendard';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 140%;
+      /* identical to box height, or 28px */
+
+      display: flex;
+      align-items: center;
+
+      /* black/100 */
+
+      color: #2c3131;
+    }
+
+    .text_date {
+      font-family: 'Pretendard';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 150%;
+      /* identical to box height, or 24px */
+
+      display: flex;
+      align-items: center;
+      text-align: right;
+
+      /* black/100 */
+
+      color: #2c3131;
+
+      display: flex;
+      flex-flow: row-reverse;
+    }
+  }
+
+  .webtoon_title {
+  }
+`;
+
 const NavToggleWrapper = styled.div`
   display: flex;
   height: 48px;
-  padding: 0 16px;
   cursor: pointer;
+  border-bottom: 1px solid #000000;
+  margin-top: 24px;
 
   .toggled {
+    width: 120px;
+    height: 48px;
+
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
     line-height: 24px;
-    color: #000000;
 
-    border-bottom: 3px solid #000000;
+    color: white;
+    background: #000000;
   }
 
   .normal {
+    width: 120px;
+    height: 48px;
+
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
@@ -111,17 +190,26 @@ const Home: NextPage = () => {
           <img src="/icons/ic-search.svg" />
         </HeaderWrapper>
 
-        <NavToggleWrapper>
-          {/* <NavIcon>
-            <img src={`icons/home.png`} />
-          </NavIcon> */}
+        <MainSliderWrapper>
+          <img className="img" src="/images/temp/thumb_main.png" />
 
+          <div className="background_shadow"></div>
+
+          <div className="save_info">
+            <p className="text_price">지금보면 최대 20,000원 절약!</p>
+            <p className="text_date">2022년 04월 08일 유료화</p>
+          </div>
+
+          <div className="save_info"> </div>
+        </MainSliderWrapper>
+
+        <NavToggleWrapper>
           <NavItem onClick={() => changeToggleMenu('calendar')} className={toggleMenu === 'calendar' ? 'toggled' : 'normal'}>
             <p>유료화 일정</p>
           </NavItem>
 
           <NavItem onClick={() => changeToggleMenu('category')} className={toggleMenu === 'category' ? 'toggled' : 'normal'}>
-            <p>장르별</p>
+            <p>장르별 보기</p>
           </NavItem>
         </NavToggleWrapper>
 
