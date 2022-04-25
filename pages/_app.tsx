@@ -4,6 +4,9 @@ import type { AppProps } from 'next/app';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
 
+import '../assets/scss/global.scss'
+import '../assets/scss/animation.scss'
+
 const GlobalWrapper = styled.div`
   // padding: 16px 0 0 0;
   max-width: 640px;

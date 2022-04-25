@@ -18,6 +18,8 @@ a {
   box-sizing: border-box;
 }
 
+
+
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -110,7 +112,8 @@ video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
-  font-family: 'Noto Sans KR', sans-serif;
+  /* font-family: 'Noto Sans KR', sans-serif; */
+  font-family: 'Pretendard';
 }
 /* HTML5 display-role reset for older browsers */
 article,

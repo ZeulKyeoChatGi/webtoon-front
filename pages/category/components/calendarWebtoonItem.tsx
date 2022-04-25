@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 interface webtoonInfoProp {
+  index: number;
   name: string;
   dDay: string;
   thumbnailUrl: string;
@@ -20,26 +21,45 @@ const Spacer = styled.div`
 `;
 
 const CalendarWebtoonWrapper = styled.div`
-  height: 114px;
+  height: 96px;
   // border: 1px solid red;
+  border-bottom: 1px solid #E5E5EC;
+  margin-top: 8px;
+  
+  float: right;
 
   display: flex;
+  width: 328px;
 
-  padding: 16px 0 18px 0;
+  // padding: 16px 0 18px 0;
 
   .img {
-    width: 80px;
+    min-width: 80px;
     height: 80px;
 
     background: #abb4bf;
+    margin: 8px 16px 8px 8px;
   }
 
   .content {
+    margin: 8px 0;
+
     display: flex;
     flex-direction: column;
-    margin-left: 7px;
     width: 100%;
     // background-color: blue;
+
+    .title_wrapper {
+      width: 100%;
+      justify-content: space-between;
+
+      .naver {
+        width: 17px;
+        height: 20px;
+        background-color: #31c52e;
+        margin-right: 16px;
+      }
+    }
 
     .site-chip {
       width: 48px;
@@ -145,22 +165,17 @@ const CalendarWebtoonWrapper = styled.div`
   }
 `;
 
-const CalendarWebtoonItem = ({ name, dDay, thumbnailUrl, site, writer, star, liked }: webtoonInfoProp) => {
+const CalendarWebtoonItem = ({ index, name, dDay, thumbnailUrl, site, writer, star, liked }: webtoonInfoProp) => {
   return (
     <>
-      <CalendarWebtoonWrapper>
-        {/* <img /> */}
+      <CalendarWebtoonWrapper key={index}>
         <div className={'img'}></div>
 
         <div className={'content'}>
-          <Layout>
-            <div className={'site-chip'}>
-              <p>네이버</p>
-            </div>
+          <Layout className="title_wrapper">
+            <p className={'webtoon-title'}>{name}</p>
 
-            <p className={'webtoon-title'}>웹툰명</p>
-
-            <p className={'webtoon-d-day'}>D-3</p>
+            <div className="naver"></div>
           </Layout>
 
           <Layout>
