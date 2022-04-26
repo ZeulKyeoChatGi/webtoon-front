@@ -53,6 +53,11 @@ const Footer = () => {
 
       border-bottom: 1px solid rgba(196, 196, 196, 0.2);
 
+      img {
+        margin-right: 4px;
+        // margin-top: -1px;
+      }
+
       p {
         font-family: 'Pretendard';
         font-style: normal;
@@ -98,14 +103,17 @@ const Footer = () => {
         </div>
 
         <div className="section_content">
+          <img src="/icons/ic_raising_hands.svg" />
           <p>팀 소개 보러가기</p>
         </div>
 
         <div className="section_content">
+          <img src="/icons/ic_memo.svg" />
           <p>더 나은 서비스를 위해 의견 남기기</p>
         </div>
 
         <div className="section_content">
+          <img src="/icons/ic_love_letter.svg" />
           <p>후원하기</p>
         </div>
 

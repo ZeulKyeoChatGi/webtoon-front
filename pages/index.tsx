@@ -1,4 +1,6 @@
 import type { NextPage } from 'next';
+import Link from 'next/link';
+
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
@@ -183,7 +185,6 @@ const Home: NextPage = () => {
   const topRef = useRef<HTMLDivElement>(null);
 
   const changeToggleMenu = (menu: string) => {
-
     if (menu === 'calendar') {
       // topRef.current?.scrollIntoView({ behavior: 'smooth' });
 
@@ -215,7 +216,6 @@ const Home: NextPage = () => {
 
     setToggleMenu(menu);
 
-
     // setTimeout(() => {
     //   setIsMainSlider(menu === 'calendar');
     // }, 1000);
@@ -227,7 +227,11 @@ const Home: NextPage = () => {
         <HeaderWrapper style={{}}>
           <h1>Logo</h1>
 
-          <img src="/icons/ic-search.svg" />
+          <Link href="/search">
+            <a>
+              <img src="/icons/ic-search.svg" />
+            </a>
+          </Link>
         </HeaderWrapper>
 
         {isMainSlider ? (

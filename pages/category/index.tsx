@@ -119,18 +119,20 @@ const Wrapper = styled.div`
 `;
 
 const Chip = styled.div`
-  width: 61px;
+  // width: 61px;
+  padding: 0 12px;
   height: 32px;
   left: 57px;
   top: 0px;
 
   background: #adadad;
-  border-radius: 16px;
+  // border-radius: 16px;
   margin-right: 8px;
 
   cursor: pointer;
 
   p {
+    width: max-content;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -146,7 +148,7 @@ const Chip = styled.div`
     align-items: center;
     text-transform: uppercase;
 
-    color: #ffffff;
+    // color: #ffffff;
   }
 `;
 
@@ -294,6 +296,22 @@ const Calendar = () => {
     {
       text: '로맨스',
       value: 'cate2'
+    },
+    {
+      text: '학원물',
+      value: 'cate3'
+    },
+    {
+      text: '무협',
+      value: 'cate4'
+    },
+    {
+      text: '카테고리',
+      value: 'cate5'
+    },
+    {
+      text: '카테고리~~',
+      value: 'cate6'
     }
   ];
 
@@ -304,9 +322,9 @@ const Calendar = () => {
       {/* <CalendarInput placeholder="웹툰명을 검색해주세요." /> */}
 
       <Wrapper>
-        <Layout style={{ marginLeft: '19px', marginTop: '16px', marginBottom: '24px' }}>
+        <Layout className="category_scroll" style={{ overflowX: 'auto', height: '64px', marginLeft: '19px' }}>
           {categories.map((cat, index) => (
-            <Chip onClick={() => setSelectedCategory(cat.value)} className={selectedCategory === cat.value ? 'selected' : 'test'} key={index}>
+            <Chip onClick={() => setSelectedCategory(cat.value)} className={selectedCategory === cat.value ? 'selected' : ''} key={index}>
               <p>{cat.text}</p>
             </Chip>
           ))}
