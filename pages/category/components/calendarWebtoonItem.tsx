@@ -23,13 +23,13 @@ const Spacer = styled.div`
 const CalendarWebtoonWrapper = styled.div`
   height: 96px;
   // border: 1px solid red;
-  border-bottom: 1px solid #E5E5EC;
+  border-bottom: 1px solid #e5e5ec;
   margin-top: 8px;
-  
+
   float: right;
 
   display: flex;
-  width: 328px;
+  width: 91%;
 
   // padding: 16px 0 18px 0;
 
