@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 import CalendarWebtoonItem from '../category/components/calendarWebtoonItem';
+import API from '../../api/axios';
+import { useEffect, useState } from 'react';
+
+import { _getListToBePaid, _getRecentlyPaidWebtoonList } from 'api/webtoon';
 
 const CalendarInput = styled.input`
   width: 100%;
@@ -210,7 +214,88 @@ const BottomActionWrapper = styled.div`
   }
 `;
 
+const Wrapper = styled.div`
+  display: flex;
+  align-item: center;
+  flex-direction: column;
+`;
+
 const Calendar = () => {
+  const [toBePaidList, setToBePaidList] = useState([]);
+  const [recentlyPaidList, setRecentPaidList] = useState([
+    {
+      id: 3963,
+      webtoon_data: [
+        {
+          like_count: null,
+          view_count: null,
+          rating: null,
+          is_completed: true,
+          paid_status: 'TOBE',
+          paid_date: '2022-05-01T09:00:00+09:00',
+          published_at: '2003-10-24T09:00:00+09:00',
+          ended_at: null,
+          last_crawled_at: '2022-04-17T10:41:10+09:00',
+          series_count: 46,
+          webtoon: 3963
+        }
+      ],
+      diffDate: 2,
+      title: '순정만화',
+      author: '강풀',
+      origin_genre: '로맨스',
+      zfind_genre: '순정',
+      days: null,
+      source_id: '4',
+      drawer: '강풀',
+      platform: 'KAKAO',
+      thumbnail_first_layer: 'https://kr-a.kakaopagecdn.com/P/C/4/bg/2x/d6d67ae4-b058-4154-a812-a4cd64b009cf.jpg',
+      thumbnail_second_layer: 'https://kr-a.kakaopagecdn.com/P/C/4/c1/2x/03633a88-1128-4391-a41a-3c491115d323.png',
+      thumbnail_third_layer: null,
+      thumbnail_bg_color: '#c9a079',
+      description: "강풀 작가의 대표작품인 '순정만화'. 2004년 최고의 히트작품",
+      simple_description: '2004년 최고의 인기를 얻은\n강풀 작가의 대표작',
+      webtoon_url: 'https://webtoon.kakao.com/content/순정만화/4',
+      is_censored: false
+    },
+    {
+      id: 3964,
+      diffDate: 2,
+
+      webtoon_data: [
+        {
+          like_count: null,
+          view_count: null,
+          rating: null,
+          is_completed: true,
+          paid_status: 'DONE',
+          paid_date: '2022-04-20T09:00:00+09:00',
+          published_at: '2003-10-24T09:00:00+09:00',
+          ended_at: null,
+          last_crawled_at: '2022-04-17T10:41:10+09:00',
+          series_count: 46,
+          webtoon: 3964
+        }
+      ],
+      title: '순정만화',
+      author: '강풀',
+      origin_genre: '로맨스',
+      zfind_genre: '순정',
+      days: null,
+      source_id: '4',
+      drawer: '강풀',
+      platform: 'KAKAO',
+      thumbnail_first_layer: 'https://kr-a.kakaopagecdn.com/P/C/4/bg/2x/d6d67ae4-b058-4154-a812-a4cd64b009cf.jpg',
+      thumbnail_second_layer: 'https://kr-a.kakaopagecdn.com/P/C/4/c1/2x/03633a88-1128-4391-a41a-3c491115d323.png',
+      thumbnail_third_layer: null,
+      thumbnail_bg_color: '#c9a079',
+      description: "강풀 작가의 대표작품인 '순정만화'. 2004년 최고의 히트작품",
+      simple_description: '2004년 최고의 인기를 얻은\n강풀 작가의 대표작',
+      webtoon_url: 'https://webtoon.kakao.com/content/순정만화/4',
+      is_censored: false
+    }
+  ]);
+
   const webtoonMain = [
     {
       site: 'naver',
@@ -254,50 +339,68 @@ const Calendar = () => {
     }
   ];
 
-  const Wrapper = styled.div`
-    display: flex;
-    align-item: center;
-    flex-direction: column;
-  `;
+  const getListToBePaid = async () => {
+    const result = await _getListToBePaid();
+
+    if (result.data) {
+      console.log(result.data);
+      console.log(JSON.stringify(result.data.results));
+
+      setToBePaidList(result.data.results);
+    }
+  };
+
+  const getRecentlyPaidWebtoonList = async () => {
+    const result = await _getRecentlyPaidWebtoonList();
+
+    if (result.data) {
+
+      for (const webtoon of result.data.results) {
+        const nowDate = new Date();
+        const toDate = webtoon.webtoon_data[0].paid_date;
+
+        if (nowDate.getTime() > new Date(toDate).getTime()) {
+          const diffDate = nowDate.getTime() - new Date(toDate).getTime();
+          const dateDays = Math.round(diffDate / (1000 * 3600 * 24));
+
+          webtoon.diffDate = dateDays;
+        }
+      }
+
+      setRecentPaidList(result.data.results);
+    }
+  };
+
+  useEffect(() => {
+    getListToBePaid();
+    getRecentlyPaidWebtoonList();
+  }, []);
 
   return (
     <>
-      {/* <CalendarInput placeholder="웹툰명을 검색해주세요." /> */}
-
       <Wrapper>
-        {/* {webtoonMain.map((webtoon, index) => (
-          <MainWebttonWrapper key={index}>
-            <div className="shadow"></div>
-            <img className="img" src="/images/temp/thumb_main.png" />
+        {recentlyPaidList.map((webtoon, index) => (
+          <>
+            <FeeBasedPaymentWrapper key={index}>
+              <p className={'title'}>{webtoon.diffDate}일 전 유료화</p>
 
-            <div style={{ position: 'absolute' }}>
-              <div className={'title-wrapper'}>
-                <p className={'title'}>{webtoon.name}</p>
-              </div>
-
-              <p className="discount-price">지금보면 최대 {webtoon.discountPrice}원 절약</p>
-              <p className={'date'}>{webtoon.datetext}</p>
-            </div>
-          </MainWebttonWrapper>
-        ))} */}
-
-        <FeeBasedPaymentWrapper>
-          <p className={'title'}>3일 뒤에 유료화</p>
-
-          {webtoonMain2.map((webtoon, index) => (
-            <CalendarWebtoonItem
-              key={index}
-              index={index}
-              name={webtoon.name}
-              dDay={webtoon.dDay}
-              thumbnailUrl={webtoon.thumbnailUrl}
-              site={webtoon.site}
-              writer={webtoon.writer}
-              star={webtoon.star}
-              liked={webtoon.liked}
-            />
-          ))}
-        </FeeBasedPaymentWrapper>
+              {/* {webtoonMain2.map((webtoon, index) => ( */}
+              <CalendarWebtoonItem
+                key={index}
+                index={index}
+                name={webtoon.title}
+                dDay={webtoon.diffDate.toString()}
+                thumbnailUrl1={webtoon.thumbnail_first_layer}
+                thumbnailUrl2={webtoon.thumbnail_second_layer}
+                site={webtoon.platform}
+                writer={webtoon.author}
+                star={'100'}
+                liked={webtoon.webtoon_url}
+              />
+              {/* ))} */}
+            </FeeBasedPaymentWrapper>
+          </>
+        ))}
 
         <BottomActionWrapper>
           <img style={{ width: '32px', height: '32px' }} src="/icons/ic-bottom-arrow.svg" />

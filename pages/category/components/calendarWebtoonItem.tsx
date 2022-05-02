@@ -4,7 +4,8 @@ interface webtoonInfoProp {
   index: number;
   name: string;
   dDay: string;
-  thumbnailUrl: string;
+  thumbnailUrl1: string;
+  thumbnailUrl2: string;
   site: string;
   writer: string;
   star: string;
@@ -22,22 +23,35 @@ const Spacer = styled.div`
 
 const CalendarWebtoonWrapper = styled.div`
   height: 96px;
-  // border: 1px solid red;
   border-bottom: 1px solid #e5e5ec;
   margin-top: 8px;
-
   float: right;
-
   display: flex;
   width: 91%;
 
-  // padding: 16px 0 18px 0;
+  position: relative;
+  overflow: hidden;
 
-  .img {
+  .img-section {
+  }
+
+  img.background {
+    min-width: 80px;
+    margin: 8px 16px 8px 8px;
+    position: absolute;
+    width: 80px;
+    overflow: hidden;
+    height: 80px;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  img.background2 {
+    z-index: 1;
     min-width: 80px;
     height: 80px;
 
-    background: #abb4bf;
+    // background: #abb4bf;
     margin: 8px 16px 8px 8px;
   }
 
@@ -165,11 +179,15 @@ const CalendarWebtoonWrapper = styled.div`
   }
 `;
 
-const CalendarWebtoonItem = ({ index, name, dDay, thumbnailUrl, site, writer, star, liked }: webtoonInfoProp) => {
+const CalendarWebtoonItem = ({ index, name, dDay, thumbnailUrl1, thumbnailUrl2, site, writer, star, liked }: webtoonInfoProp) => {
   return (
     <>
       <CalendarWebtoonWrapper key={index}>
-        <div className={'img'}></div>
+        {/* <div className={'img'}></div> */}
+        {/* <div className="img-section"> */}
+        <img className="background" src={thumbnailUrl1}></img>
+        <img className="background2" src={thumbnailUrl2}></img>
+        {/* </div> */}
 
         <div className={'content'}>
           <Layout className="title_wrapper">

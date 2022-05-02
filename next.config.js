@@ -7,7 +7,26 @@ module.exports = withSass({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true
-}
+  webpack: (config, { webpack }) => {
+    // const prod = process.env.NODE_ENV === 'production';
+    const prod = false
+    const newConfig = {
+      ...config,
+      mode: prod ? 'production' : 'development',
+    };
+    if (prod) {
+      newConfig.devtool = 'hidden-source-map';
+    }
+    return newConfig;
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: `http://192.168.0.9:8080/:path*`,
+      },
+    ];
+  },
+};
 
 module.exports = withImages(nextConfig)
