@@ -9,6 +9,8 @@ import SelectBox from 'components/SelectBox';
 import { BottomSheet } from 'react-spring-bottom-sheet';
 import { CategoryWebtoon } from 'types/webtoon';
 
+import ReactLoading from 'react-loading';
+
 const CalendarInput = styled.input`
   width: 100%;
   height: 48px;
@@ -331,22 +333,34 @@ const Calendar = () => {
           <img src="/icons/ic_filter.svg" onClick={() => setOpen(true)} />
         </div>
 
-        {webtoonList.map((webtoon, index) => (
-          <WebtoonCard key={index}>
-            <img className="background" src={webtoon.thumbnail_first_layer} />
+        {webtoonList.length > 0 ? (
+          <>
+            {webtoonList.map((webtoon, index) => (
+              <WebtoonCard key={index}>
+                <img className="background" src={webtoon.thumbnail_first_layer} />
 
-            {webtoon.thumbnail_second_layer ? (
-              <>
-                <img className="background2" src={webtoon.thumbnail_second_layer} />
-              </>
-            ) : (
-              <></>
-            )}
-            <p className="title">{webtoon.title}</p>
-            <p className="writer">{webtoon.author}</p>
-            <p className="description">{webtoon.description}</p>
-          </WebtoonCard>
-        ))}
+                {webtoon.thumbnail_second_layer ? (
+                  <>
+                    <img className="background2" src={webtoon.thumbnail_second_layer} />
+                  </>
+                ) : (
+                  <></>
+                )}
+                <p className="title">{webtoon.title}</p>
+                <p className="writer">{webtoon.author}</p>
+                <p className="description">{webtoon.description}</p>
+              </WebtoonCard>
+            ))}
+          </>
+        ) : (
+          <>
+            <Layout style={{ display: 'flex', justifyContent: 'center' }}>
+              <ReactLoading type="bubbles" color="#000" />
+
+              <div style={{ height: '500px' }}></div>
+            </Layout>
+          </>
+        )}
       </Wrapper>
 
       <BottomSheet open={open} onDismiss={onDismiss} snapPoints={({ minHeight }) => minHeight}>
