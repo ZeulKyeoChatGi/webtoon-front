@@ -7,6 +7,8 @@ import { useRef, useState } from 'react';
 // import styles from '../styles/Home.module.css'
 import styled from 'styled-components';
 
+import Slider from 'react-slick';
+
 import CalendarWebtoonItem from './category/components/calendarWebtoonItem';
 import Calendar from './calendar';
 import Category from './category';
@@ -34,11 +36,26 @@ const HeaderWrapper = styled.div`
 
   p,
   h1 {
-    margin-left: 8px;
+    // margin-left: 8px;
     font-style: normal;
     font-weight: 700;
     font-size: 18px;
     line-height: 26px;
+  }
+
+  h1 {
+    font-family: 'ChangwonDangamAsac';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 26px;
+    /* identical to box height, or 108% */
+
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+
+    color: #2c3131;
   }
 `;
 
@@ -112,6 +129,35 @@ const MainSliderWrapper = styled.div`
 
   .webtoon_title {
   }
+
+  .webtoon_info {
+    position: absolute;
+    width: 137px;
+    height: 28px;
+    right: 16px;
+    bottom: 17px;
+
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p.webtoon_title {
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      /* identical to box height, or 143% */
+
+      display: flex;
+      align-items: center;
+      text-align: right;
+      text-transform: uppercase;
+
+      color: #ffffff;
+    }
+  }
 `;
 
 const NavToggleWrapper = styled.div`
@@ -184,6 +230,26 @@ const Home: NextPage = () => {
   const homeRef = useRef<HTMLDivElement>(null);
   const topRef = useRef<HTMLDivElement>(null);
 
+  const settings = {
+    customPaging: function () {
+      return (
+        <a>
+          <div className="slider_bar">
+            <div className="item"></div>
+          </div>
+        </a>
+      );
+    },
+    dots: true,
+    dotsClass: 'slick-dots slick-thumb',
+    infinite: true,
+    speed: 500,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
+
   const changeToggleMenu = (menu: string) => {
     if (menu === 'calendar') {
       // topRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -225,7 +291,7 @@ const Home: NextPage = () => {
     <>
       <GlobalWrapper ref={topRef}>
         <HeaderWrapper style={{}}>
-          <h1>Logo</h1>
+          <h1 className="logo">오늘의 웹툰</h1>
 
           <Link href="/search">
             <a>
@@ -236,7 +302,64 @@ const Home: NextPage = () => {
 
         {isMainSlider ? (
           <>
-            <MainSliderWrapper className={`${animation}`}>
+            <Slider {...settings}>
+              <div>
+                <MainSliderWrapper className={`${animation}`}>
+                  <img className="img" src="/images/temp/thumb_main.png" />
+
+                  <div className="background_shadow"></div>
+
+                  <div className="save_info">
+                    <p className="text_price">지금보면 최대 20,000원 절약!</p>
+                    <p className="text_date">2022년 04월 08일 유료화</p>
+                  </div>
+
+                  <div className="save_info"> </div>
+
+                  <div className="webtoon_info">
+                    <p className="webtoon_title">와이키키 뱀파이어</p>
+                  </div>
+                </MainSliderWrapper>
+              </div>
+              <div>
+                <MainSliderWrapper className={`${animation}`}>
+                  <img className="img" src="/images/temp/thumb_main.png" />
+
+                  <div className="background_shadow"></div>
+
+                  <div className="save_info">
+                    <p className="text_price">지금보면 최대 20,000원 절약!</p>
+                    <p className="text_date">2022년 04월 08일 유료화</p>
+                  </div>
+
+                  <div className="save_info"> </div>
+
+                  <div className="webtoon_info">
+                    <p className="webtoon_title">와이키키 뱀파이어</p>
+                  </div>
+                </MainSliderWrapper>
+              </div>
+              <div>
+                <MainSliderWrapper className={`${animation}`}>
+                  <img className="img" src="/images/temp/thumb_main.png" />
+
+                  <div className="background_shadow"></div>
+
+                  <div className="save_info">
+                    <p className="text_price">지금보면 최대 20,000원 절약!</p>
+                    <p className="text_date">2022년 04월 08일 유료화</p>
+                  </div>
+
+                  <div className="save_info"> </div>
+
+                  <div className="webtoon_info">
+                    <p className="webtoon_title">와이키키 뱀파이어</p>
+                  </div>
+                </MainSliderWrapper>
+              </div>
+            </Slider>
+
+            {/* <MainSliderWrapper className={`${animation}`}>
               <img className="img" src="/images/temp/thumb_main.png" />
 
               <div className="background_shadow"></div>
@@ -247,7 +370,11 @@ const Home: NextPage = () => {
               </div>
 
               <div className="save_info"> </div>
-            </MainSliderWrapper>
+
+              <div className="webtoon_info">
+                <p className="webtoon_title">와이키키 뱀파이어</p>
+              </div>
+            </MainSliderWrapper> */}
           </>
         ) : (
           <></>

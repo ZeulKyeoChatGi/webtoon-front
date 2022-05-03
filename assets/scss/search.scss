@@ -1,3 +1,54 @@
+.slider_bar {
+  float: right;
+  .item {
+    width: 100px;
+    height: 4px;
+    background-color: #ededed;
+    // background-color: black;
+  }
+
+  .item--active {
+    width: 100px;
+    height: 4px;
+    background-color: black;
+  }
+}
+
+.category_filter_container {
+  height: 48px;
+  display: flex;
+
+  padding: 0 16px;
+  justify-content: space-between;
+
+  img {
+    height: 20px;
+    margin-top: 12px;
+  }
+}
+
+.mt-32 {
+  margin-top: 32px;
+}
+
+.bottom_sheet_item {
+  margin: 32px 0;
+
+  p {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+
+    letter-spacing: -0.05em;
+
+    color: #000000;
+    margin-left: 16px;
+  }
+}
+
 .search_container {
   .header {
     height: 56px;

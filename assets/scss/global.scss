@@ -10,3 +10,49 @@
 * {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+
+.logo {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, ChangwonDangamAsac, sans-serif !important;
+}
+
+@font-face {
+  font-family: 'ChangwonDangamAsac';
+  font-weight: 200;
+  src: url('/fonts/ChangwonDangamAsac.ttf') format('truetype');
+}
+
+.slider_item {
+  background-color: aqua;
+}
+
+.slick-dots {
+  display: flex !important;
+  justify-content: end !important;
+}
+
+.slick-dots li {
+  width: 100px !important;
+  margin: 0 !important;
+  justify-content: end !important;
+  display: flex !important;
+}
+
+.slick-active {
+  a {
+    div {
+      div {
+        background-color: black !important;
+      }
+    }
+  }
+}
+
+.slick-next {
+  display: none !important;
+}
+
+.slick-prev {
+  display: none !important;
+}
