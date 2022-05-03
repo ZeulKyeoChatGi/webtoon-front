@@ -25,7 +25,7 @@ export const Select = styled.select`
   outline: 0;
   appearance: none;
 
-  background: url(/icons/ic_selectbox_arrow.svg) no-repeat left 26px center;
+  background: url(/icons/ic_selectbox_arrow.svg) no-repeat left 36px center;
 
   // margin: 0;
   // min-width: 0;

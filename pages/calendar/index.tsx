@@ -4,6 +4,7 @@ import API from '../../api/axios';
 import { useEffect, useState } from 'react';
 
 import { _getListToBePaid, _getRecentlyPaidWebtoonList } from 'api/webtoon';
+import { CalendarWebtoon } from '@/types/webtoon';
 
 const CalendarInput = styled.input`
   width: 100%;
@@ -222,79 +223,7 @@ const Wrapper = styled.div`
 
 const Calendar = () => {
   const [toBePaidList, setToBePaidList] = useState([]);
-  const [recentlyPaidList, setRecentPaidList] = useState([
-    {
-      id: 3963,
-      webtoon_data: [
-        {
-          like_count: null,
-          view_count: null,
-          rating: null,
-          is_completed: true,
-          paid_status: 'TOBE',
-          paid_date: '2022-05-01T09:00:00+09:00',
-          published_at: '2003-10-24T09:00:00+09:00',
-          ended_at: null,
-          last_crawled_at: '2022-04-17T10:41:10+09:00',
-          series_count: 46,
-          webtoon: 3963
-        }
-      ],
-      diffDate: 2,
-      title: '순정만화',
-      author: '강풀',
-      origin_genre: '로맨스',
-      zfind_genre: '순정',
-      days: null,
-      source_id: '4',
-      drawer: '강풀',
-      platform: 'KAKAO',
-      thumbnail_first_layer: 'https://kr-a.kakaopagecdn.com/P/C/4/bg/2x/d6d67ae4-b058-4154-a812-a4cd64b009cf.jpg',
-      thumbnail_second_layer: 'https://kr-a.kakaopagecdn.com/P/C/4/c1/2x/03633a88-1128-4391-a41a-3c491115d323.png',
-      thumbnail_third_layer: null,
-      thumbnail_bg_color: '#c9a079',
-      description: "강풀 작가의 대표작품인 '순정만화'. 2004년 최고의 히트작품",
-      simple_description: '2004년 최고의 인기를 얻은\n강풀 작가의 대표작',
-      webtoon_url: 'https://webtoon.kakao.com/content/순정만화/4',
-      is_censored: false
-    },
-    {
-      id: 3964,
-      diffDate: 2,
-
-      webtoon_data: [
-        {
-          like_count: null,
-          view_count: null,
-          rating: null,
-          is_completed: true,
-          paid_status: 'DONE',
-          paid_date: '2022-04-20T09:00:00+09:00',
-          published_at: '2003-10-24T09:00:00+09:00',
-          ended_at: null,
-          last_crawled_at: '2022-04-17T10:41:10+09:00',
-          series_count: 46,
-          webtoon: 3964
-        }
-      ],
-      title: '순정만화',
-      author: '강풀',
-      origin_genre: '로맨스',
-      zfind_genre: '순정',
-      days: null,
-      source_id: '4',
-      drawer: '강풀',
-      platform: 'KAKAO',
-      thumbnail_first_layer: 'https://kr-a.kakaopagecdn.com/P/C/4/bg/2x/d6d67ae4-b058-4154-a812-a4cd64b009cf.jpg',
-      thumbnail_second_layer: 'https://kr-a.kakaopagecdn.com/P/C/4/c1/2x/03633a88-1128-4391-a41a-3c491115d323.png',
-      thumbnail_third_layer: null,
-      thumbnail_bg_color: '#c9a079',
-      description: "강풀 작가의 대표작품인 '순정만화'. 2004년 최고의 히트작품",
-      simple_description: '2004년 최고의 인기를 얻은\n강풀 작가의 대표작',
-      webtoon_url: 'https://webtoon.kakao.com/content/순정만화/4',
-      is_censored: false
-    }
-  ]);
+  const [recentlyPaidList, setRecentPaidList] = useState<Array<CalendarWebtoon>>([]);
 
   const webtoonMain = [
     {
@@ -354,7 +283,6 @@ const Calendar = () => {
     const result = await _getRecentlyPaidWebtoonList();
 
     if (result.data) {
-
       for (const webtoon of result.data.results) {
         const nowDate = new Date();
         const toDate = webtoon.webtoon_data[0].paid_date;

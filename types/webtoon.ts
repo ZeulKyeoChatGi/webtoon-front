@@ -12,6 +12,7 @@ export interface CalendarWebtoon {
   thumbnail_first_layer:  string;
   thumbnail_second_layer: string;
   thumbnail_third_layer:  null;
+  diffDate:               number;
   thumbnail_bg_color:     string;
   description:            string;
   simple_description:     string;

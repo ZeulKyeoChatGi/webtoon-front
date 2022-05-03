@@ -390,6 +390,14 @@ const Home: NextPage = () => {
           </NavItem>
         </NavToggleWrapper>
 
+        {/* <div className={toggleMenu === 'calendar' ? '' : 'display_none'}>
+          <Calendar></Calendar>
+        </div>
+
+        <div className={toggleMenu === 'calendar' ? 'display_none' : ''}>
+          <Category></Category>
+        </div> */}
+
         {toggleMenu === 'calendar' ? (
           <>
             <Calendar></Calendar>
