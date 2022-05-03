@@ -405,11 +405,11 @@ const Calendar = () => {
         <BottomActionWrapper>
           <img style={{ width: '32px', height: '32px' }} src="/icons/ic-bottom-arrow.svg" />
 
-          <p className="share_info_text">친구들에게 서비스를 공유해보세요!</p>
+          {/* <p className="share_info_text">친구들에게 서비스를 공유해보세요!</p>
 
           <div className="btn_share">
             <p>서비스 친구에게 소개하기</p>
-          </div>
+          </div> */}
         </BottomActionWrapper>
       </Wrapper>
     </>

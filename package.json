@@ -18,11 +18,15 @@
     "node-sass": "^4.14.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-slick": "^0.29.0",
+    "react-spring-bottom-sheet": "^3.4.0",
+    "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.3"
   },
   "devDependencies": {
     "@types/node": "17.0.22",
     "@types/react": "17.0.41",
+    "@types/react-slick": "^0.23.8",
     "@types/styled-components": "^5.1.24",
     "babel-plugin-styled-components": "^2.0.6",
     "eslint": "8.11.0",
