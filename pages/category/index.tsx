@@ -261,31 +261,31 @@ const Calendar = () => {
   const categories = [
     {
       text: '전체',
-      value: 'ALL'
+      value: ''
     },
     {
       text: '판타지',
-      value: 'cate1'
+      value: 'fantasy'
     },
     {
-      text: '로맨스',
-      value: 'cate2'
+      text: '순정',
+      value: 'pure'
     },
     {
-      text: '학원물',
-      value: 'cate3'
+      text: '액션/무협',
+      value: 'action'
     },
     {
-      text: '무협',
-      value: 'cate4'
+      text: '드라마',
+      value: 'drama'
     },
     {
-      text: '카테고리',
-      value: 'cate5'
+      text: '공포/스릴러',
+      value: 'thrill'
     },
     {
-      text: '카테고리~~',
-      value: 'cate6'
+      text: '일상/개그',
+      value: 'daily'
     }
   ];
 
@@ -294,12 +294,16 @@ const Calendar = () => {
     setOpen(false);
   };
 
-  const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   const [webtoonList, setWebtoonList] = useState<Array<CategoryWebtoon>>([]);
 
   const getWebtoonListAll = async () => {
-    const result = await _getWebtoonListAll();
+    const parmas = {
+      genre: selectedCategory
+    };
+
+    const result = await _getWebtoonListAll(parmas);
 
     result.data.results.map((webtoon: any, index: number) => {
       webtoon.thumbnail_second_layer = '';
@@ -307,6 +311,16 @@ const Calendar = () => {
 
     setWebtoonList(result.data.results);
   };
+
+  const onChangeWebtoonCategory = (cat: string) => {
+    const selectCat = cat;
+
+    setSelectedCategory(selectCat);
+  };
+
+  useEffect(() => {
+    getWebtoonListAll();
+  }, [selectedCategory]);
 
   useEffect(() => {
     getWebtoonListAll();
@@ -319,7 +333,7 @@ const Calendar = () => {
       <Wrapper>
         <Layout className="category_scroll" style={{ overflowX: 'auto', height: '64px', marginLeft: '19px' }}>
           {categories.map((cat, index) => (
-            <Chip onClick={() => setSelectedCategory(cat.value)} className={selectedCategory === cat.value ? 'selected' : ''} key={index}>
+            <Chip onClick={() => onChangeWebtoonCategory(cat.value)} className={selectedCategory === cat.value ? 'selected' : ''} key={index}>
               <p>{cat.text}</p>
             </Chip>
           ))}
