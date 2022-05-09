@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 
+import { ToastContainer, toast } from 'react-toastify';
+
 const FooterWrapper = styled.div`
   width: 100%;
   min-height: 120px;
@@ -166,14 +168,20 @@ const ShareModalWrapper = styled.div`
   height: 100%;
 
   .modal_content {
+    position: absolute;
     background: white;
     width: 296px;
     height: 198px;
-    margin: auto auto;
-    top: 50%;
+    margin: 0 auto;
+    /* top: 50%; */
     bottom: 50%;
-    transform: translate(0%, 100%);
+    /* -webkit-transform: translate(0%,100%); */
+    -ms-transform: translate(0%,100%);
+    /* transform: translate(0%,100%); */
     border-radius: 4px;
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%, 50%);
 
     .title {
       display: flex;
@@ -230,6 +238,7 @@ const ShareModalWrapper = styled.div`
       justify-content: space-around;
 
       img {
+        cursor: pointer;
         -webkit-user-drag: none;
       }
     }
@@ -252,6 +261,64 @@ const Footer = () => {
 
   const handleClickAboutUs = () => {
     window.open('https://www.notion.so/1jisoo/4dd92cc2681444199c7fe7a9497e248c', '_blank');
+  };
+
+  const handleShareFacebook = () => {
+    window.open('https://www.facebook.com/sharer/sharer.php?u=https://naver.com/');
+  };
+
+  const handleShareTwitter = () => {
+    window.open('https://www.twitter.com/intent/tweet?&url=https://naver.com/');
+  };
+
+  const handleShareKakao = () => {
+    Kakao.Link.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: '오늘의웹툰 제목제목',
+        description: '오늘의 웹툰 내용 나타나는 부분',
+        imageUrl: 'http://k.kakaocdn.net/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png',
+        link: {
+          mobileWebUrl: 'https://developers.kakao.com',
+          webUrl: 'https://developers.kakao.com'
+        }
+      },
+      social: {
+        likeCount: 286,
+        commentCount: 45,
+        sharedCount: 845
+      },
+      buttons: [
+        {
+          title: '웹으로 보기',
+          link: {
+            mobileWebUrl: 'https://developers.kakao.com',
+            webUrl: 'https://developers.kakao.com'
+          }
+        }
+      ]
+    });
+  };
+
+  const handleShareUrl = () => {
+    const url = 'testtest';
+
+    const t = document.createElement('textarea');
+    document.body.appendChild(t);
+    t.value = url;
+    t.select();
+    document.execCommand('copy');
+    document.body.removeChild(t);
+
+    toast('클립보드에 복사되었습니다.', {
+      position: 'bottom-center',
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined
+    });
   };
 
   return (
@@ -313,10 +380,10 @@ const Footer = () => {
               </div>
 
               <div className="modal_actions">
-                <img src="/images/image_facebook.png" />
-                <img src="/images/image_kakao.png" />
-                <img src="/images/image_twitter.png" />
-                <img src="/images/image_url.png" />
+                <img onClick={handleShareFacebook} src="/images/image_facebook.png" />
+                <img onClick={handleShareKakao} src="/images/image_kakao.png" />
+                <img onClick={handleShareTwitter} src="/images/image_twitter.png" />
+                <img onClick={handleShareUrl} src="/images/image_url.png" />
               </div>
             </div>
           </ShareModalWrapper>
