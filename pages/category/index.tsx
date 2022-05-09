@@ -9,7 +9,15 @@ import SelectBox from 'components/SelectBox';
 import { BottomSheet } from 'react-spring-bottom-sheet';
 import { CategoryWebtoon } from 'types/webtoon';
 
+import Select from 'react-select';
+
 import ReactLoading from 'react-loading';
+
+interface Filters {
+  title: String;
+  value: String;
+  isChecked: boolean;
+}
 
 const CalendarInput = styled.input`
   width: 100%;
@@ -134,7 +142,7 @@ const Chip = styled.div`
   left: 57px;
   top: 0px;
 
-  background: #adadad;
+  background: #f1f1f5;
   // border-radius: 16px;
   margin-right: 8px;
 
@@ -257,6 +265,58 @@ const WebtoonCard = styled.div`
   }
 `;
 
+const customStyles = {
+  menu: (base) => ({
+    ...base,
+    fontFamily: 'Pretendard',
+    fontSize: '13px',
+    color: '#2C3131',
+    zIndex: 100
+
+  }),
+
+  control: (provided, state) => ({
+    ...provided,
+    background: '#fff',
+    fontFamily: 'Pretendard',
+    fontSize: '13px',
+    color: '#2C3131',
+    minHeight: '30px',
+    height: '30px',
+    boxShadow: state.isFocused ? null : null,
+    border: 'none',
+    fontFamily: 'Pretendard',
+    fontSize: '13px',
+    zIndex: 100
+  }),
+
+  valueContainer: (provided, state) => ({
+    ...provided,
+    height: '30px',
+    padding: '0 6px',
+    fontFamily: 'Pretendard',
+    fontSize: '13px',
+    zIndex: 100
+
+  }),
+
+  input: (provided, state) => ({
+    ...provided,
+    margin: '0px',
+    fontFamily: 'Pretendard'
+  }),
+
+  indicatorSeparator: (state) => ({
+    display: 'none'
+  }),
+
+  indicatorsContainer: (provided, state) => ({
+    ...provided,
+    height: '30px',
+    fontSize: '13px'
+  })
+};
+
 const Calendar = () => {
   const categories = [
     {
@@ -289,6 +349,21 @@ const Calendar = () => {
     }
   ];
 
+  const options = [
+    { value: 'recent', label: '최신순' },
+    { value: 'old', label: '오랜된 순' },
+    { value: 'money', label: '절약금액 순' }
+  ];
+
+  const [selectedOrder, setSelectedOrder] = useState('recent');
+
+  const [filters, setFilters] = useState<Array<Filters>>([
+    { title: '네이버 웹툰', value: 'naver', isChecked: false },
+    { title: '카카오 웹툰', value: 'kakao', isChecked: false },
+    { title: '연재작품', value: 'use', isChecked: false },
+    { title: '완결작품', value: 'done', isChecked: false }
+  ]);
+
   const [open, setOpen] = useState(false);
   const onDismiss = () => {
     setOpen(false);
@@ -298,15 +373,26 @@ const Calendar = () => {
 
   const [webtoonList, setWebtoonList] = useState<Array<CategoryWebtoon>>([]);
 
+  const handleClickFilter = (index: number) => {
+    const copyArray = [...filters];
+
+    copyArray[index].isChecked = !copyArray[index].isChecked;
+
+    setFilters(copyArray);
+  };
+
   const getWebtoonListAll = async () => {
     const parmas = {
-      genre: selectedCategory
+      genre: selectedCategory,
+      order: selectedOrder
     };
 
     const result = await _getWebtoonListAll(parmas);
 
     result.data.results.map((webtoon: any, index: number) => {
-      webtoon.thumbnail_second_layer = '';
+      if (webtoon.thumbnail_second_layer === null) {
+        webtoon.thumbnail_second_layer = '';
+      }
     });
 
     setWebtoonList(result.data.results);
@@ -318,9 +404,15 @@ const Calendar = () => {
     setSelectedCategory(selectCat);
   };
 
+  const handleChangeOrder = (e: any) => {
+    console.log(e);
+
+    setSelectedOrder(e.value);
+  };
+
   useEffect(() => {
     getWebtoonListAll();
-  }, [selectedCategory]);
+  }, [selectedCategory, selectedOrder]);
 
   useEffect(() => {
     getWebtoonListAll();
@@ -342,7 +434,9 @@ const Calendar = () => {
         <Divider />
 
         <div className="category_filter_container">
-          <SelectBox />
+          {/* <SelectBox /> */}
+
+          <Select onChange={handleChangeOrder} options={options} styles={customStyles} value={options.filter((obj) => obj.value === selectedOrder)} />
 
           <img src="/icons/ic_filter.svg" onClick={() => setOpen(true)} />
         </div>
@@ -353,12 +447,10 @@ const Calendar = () => {
               <WebtoonCard key={index}>
                 <img className="background" src={webtoon.thumbnail_first_layer} />
 
-                {webtoon.thumbnail_second_layer ? (
+                {webtoon.thumbnail_second_layer && (
                   <>
                     <img className="background2" src={webtoon.thumbnail_second_layer} />
                   </>
-                ) : (
-                  <></>
                 )}
                 <p className="title">{webtoon.title}</p>
                 <p className="writer">{webtoon.author}</p>
@@ -377,40 +469,28 @@ const Calendar = () => {
         )}
       </Wrapper>
 
-      <BottomSheet open={open} onDismiss={onDismiss} snapPoints={({ minHeight }) => minHeight}>
-        <div className="bottom_sheet_item">
-          <p>네이버 웹툰</p>
-        </div>
+      <BottomSheet
+        open={open}
+        onDismiss={onDismiss}
+        className="bottomsheet"
+        style={{ maxWidth: '640px', margin: '0 auto' }}
+        snapPoints={({ minHeight }) => minHeight}
+      >
+        {filters.map((item, index) => (
+          <div onClick={() => handleClickFilter(index)} key={index} className="bottom_sheet_item">
+            <p>{item.title}</p>
 
-        <div className="bottom_sheet_item mt-32">
-          <p>카카오 웹툰</p>
-        </div>
-
-        <div className="bottom_sheet_item mt-32">
-          <p>연재작품</p>
-        </div>
-
-        <div className="bottom_sheet_item">
-          <p>완결작품</p>
-        </div>
-
-        {/* <SheetContent>
-            <p>
-              Using <Code>onDismiss</Code> lets users close the sheet by swiping
-              it down, tapping on the backdrop or by hitting <Kbd>esc</Kbd> on
-              their keyboard.
-            </p>
-            <Expandable>
-              <div className="bg-gray-200 block rounded-md h-10 w-full my-10" />
-              <p>
-                The height adjustment is done automatically, it just works™!
-              </p>
-              <div className="bg-gray-200 block rounded-md h-10 w-full my-10" />
-            </Expandable>
-            <Button onClick={onDismiss} className="w-full">
-              Dismiss
-            </Button>
-          </SheetContent> */}
+            {item.isChecked ? (
+              <>
+                <img src="/icons/ic_check.svg" />
+              </>
+            ) : (
+              <>
+                <img src="/icons/ic_checked.svg" />
+              </>
+            )}
+          </div>
+        ))}
       </BottomSheet>
     </>
   );
