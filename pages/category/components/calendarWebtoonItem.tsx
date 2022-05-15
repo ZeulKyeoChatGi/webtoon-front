@@ -10,8 +10,6 @@ interface webtoonInfoProp {
   writer: string;
   star: string;
   liked: string;
-  isNaver: boolean;
-  isKakao: boolean;
 }
 
 const Layout = styled.div`
@@ -210,7 +208,7 @@ const CalendarWebtoonWrapper = styled.div`
   }
 `;
 
-const CalendarWebtoonItem = ({ index, name, dDay, thumbnailUrl1, thumbnailUrl2, site, writer, star, liked, isNaver, isKakao }: webtoonInfoProp) => {
+const CalendarWebtoonItem = ({ index, name, dDay, thumbnailUrl1, thumbnailUrl2, site, writer, star, liked }: webtoonInfoProp) => {
   return (
     <>
       <CalendarWebtoonWrapper key={index}>
@@ -224,14 +222,14 @@ const CalendarWebtoonItem = ({ index, name, dDay, thumbnailUrl1, thumbnailUrl2, 
           <Layout className="title_wrapper">
             <p className={'webtoon-title'}>{name}</p>
 
-            <div style={{ display: 'flex' }}>
+            {/* <div style={{ display: 'flex' }}>
               <div className="naver">
                 <p>N</p>
               </div>
               <div className="kakao">
                 <p>K</p>
               </div>
-            </div>
+            </div> */}
           </Layout>
 
           <Layout>

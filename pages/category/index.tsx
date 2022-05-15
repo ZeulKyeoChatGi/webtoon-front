@@ -301,8 +301,6 @@ const customStyles = {
     height: '30px',
     boxShadow: state.isFocused ? null : null,
     border: 'none',
-    fontFamily: 'Pretendard',
-    fontSize: '13px',
     zIndex: 100
   }),
 
