@@ -12,6 +12,8 @@ import '../assets/scss/search.scss'
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
+import 'assets/scss/main.scss'
+
 
 const GlobalWrapper = styled.div`
   // padding: 16px 0 0 0;

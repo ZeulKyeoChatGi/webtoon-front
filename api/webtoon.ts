@@ -1,8 +1,10 @@
 import API from './axios';
 
-const _getWebtoonListAll = async () => {
+const _getWebtoonListAll = async (params: any) => {
   try {
-    const res = API.get('/list');
+    const res = API.get('/list', {
+      params: params
+    });
 
     return res;
   } catch (error: any) {

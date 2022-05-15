@@ -225,49 +225,6 @@ const Calendar = () => {
   const [toBePaidList, setToBePaidList] = useState([]);
   const [recentlyPaidList, setRecentPaidList] = useState<Array<CalendarWebtoon>>([]);
 
-  const webtoonMain = [
-    {
-      site: 'naver',
-      date: 'D-3',
-      name: '대학일기',
-      datetext: '2022년 04월 20일 유료화',
-      discountPrice: 20000
-    }
-  ];
-
-  const webtoonMain2 = [
-    {
-      id: 1,
-      site: 'naver',
-      name: '대학일기',
-      dDay: 'D-3',
-      thumbnailUrl: '',
-      writer: '작가이름',
-      star: '5.00',
-      liked: '44.9만'
-    },
-    {
-      id: 2,
-      site: 'naver',
-      name: '대학일기',
-      dDay: 'D-3',
-      thumbnailUrl: '',
-      writer: '작가이름',
-      star: '5.00',
-      liked: '44.9만'
-    },
-    {
-      id: 3,
-      site: 'naver',
-      name: '대학일기',
-      dDay: 'D-3',
-      thumbnailUrl: '',
-      writer: '작가이름',
-      star: '5.00',
-      liked: '44.9만'
-    }
-  ];
-
   const getListToBePaid = async () => {
     const result = await _getListToBePaid();
 
@@ -294,6 +251,8 @@ const Calendar = () => {
           webtoon.diffDate = dateDays;
         }
       }
+
+      console.log(setRecentPaidList);
 
       setRecentPaidList(result.data.results);
     }

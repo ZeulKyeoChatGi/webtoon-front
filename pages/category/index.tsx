@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CalendarWebtoonItem from './components/calendarWebtoonItem';
+
+import { useInView } from 'react-intersection-observer';
 
 import { _getWebtoonListAll } from 'api/webtoon';
 import 'react-spring-bottom-sheet/dist/style.css';
@@ -9,7 +11,15 @@ import SelectBox from 'components/SelectBox';
 import { BottomSheet } from 'react-spring-bottom-sheet';
 import { CategoryWebtoon } from 'types/webtoon';
 
+import Select from 'react-select';
+
 import ReactLoading from 'react-loading';
+
+interface Filters {
+  title: String;
+  value: String;
+  isChecked: boolean;
+}
 
 const CalendarInput = styled.input`
   width: 100%;
@@ -134,7 +144,7 @@ const Chip = styled.div`
   left: 57px;
   top: 0px;
 
-  background: #adadad;
+  background: #f1f1f5;
   // border-radius: 16px;
   margin-right: 8px;
 
@@ -187,14 +197,29 @@ const WebtoonCard = styled.div`
     z-index: -1;
     position: absolute;
     overflow: hidden;
-    width: 100%;
+
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%, 0);
   }
 
   img.background2 {
     z-index: -1;
     position: absolute;
     overflow: hidden;
-    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%, 0);
   }
 
   p.title {
@@ -257,60 +282,195 @@ const WebtoonCard = styled.div`
   }
 `;
 
+const customStyles = {
+  menu: (base: any) => ({
+    ...base,
+    fontFamily: 'Pretendard',
+    fontSize: '13px',
+    color: '#2C3131',
+    zIndex: 100
+  }),
+
+  control: (provided: any, state: any) => ({
+    ...provided,
+    background: '#fff',
+    fontFamily: 'Pretendard',
+    fontSize: '13px',
+    color: '#2C3131',
+    minHeight: '30px',
+    height: '30px',
+    boxShadow: state.isFocused ? null : null,
+    border: 'none',
+    zIndex: 100
+  }),
+
+  valueContainer: (provided: any, state: any) => ({
+    ...provided,
+    height: '30px',
+    padding: '0 6px',
+    fontFamily: 'Pretendard',
+    fontSize: '13px',
+    zIndex: 100
+  }),
+
+  input: (provided: any, state: any) => ({
+    ...provided,
+    margin: '0px',
+    fontFamily: 'Pretendard'
+  }),
+
+  indicatorSeparator: (state: any) => ({
+    display: 'none'
+  }),
+
+  indicatorsContainer: (provided: any, state: any) => ({
+    ...provided,
+    height: '30px',
+    fontSize: '13px'
+  })
+};
+
 const Calendar = () => {
+  const [ref, inView] = useInView();
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+
   const categories = [
     {
       text: '전체',
-      value: 'ALL'
+      value: ''
     },
     {
       text: '판타지',
-      value: 'cate1'
+      value: 'fantasy'
     },
     {
-      text: '로맨스',
-      value: 'cate2'
+      text: '순정',
+      value: 'pure'
     },
     {
-      text: '학원물',
-      value: 'cate3'
+      text: '액션/무협',
+      value: 'action'
     },
     {
-      text: '무협',
-      value: 'cate4'
+      text: '드라마',
+      value: 'drama'
     },
     {
-      text: '카테고리',
-      value: 'cate5'
+      text: '공포/스릴러',
+      value: 'thrill'
     },
     {
-      text: '카테고리~~',
-      value: 'cate6'
+      text: '일상/개그',
+      value: 'daily'
     }
   ];
+
+  const options = [
+    { value: 'recent', label: '최신순' },
+    { value: 'old', label: '오랜된 순' },
+    { value: 'money', label: '절약금액 순' }
+  ];
+
+  const [selectedOrder, setSelectedOrder] = useState('recent');
+
+  const [filters, setFilters] = useState<Array<Filters>>([
+    { title: '네이버 웹툰', value: 'naver', isChecked: false },
+    { title: '카카오 웹툰', value: 'kakao', isChecked: false },
+    { title: '연재작품', value: 'updating', isChecked: false },
+    { title: '완결작품', value: 'completed', isChecked: false }
+  ]);
 
   const [open, setOpen] = useState(false);
   const onDismiss = () => {
     setOpen(false);
+    getWebtoonListAll();
   };
 
-  const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   const [webtoonList, setWebtoonList] = useState<Array<CategoryWebtoon>>([]);
 
-  const getWebtoonListAll = async () => {
-    const result = await _getWebtoonListAll();
+  const handleClickFilter = (index: number) => {
+    console.log(index);
+    const copyArray = [...filters];
 
-    result.data.results.map((webtoon: any, index: number) => {
-      webtoon.thumbnail_second_layer = '';
+    copyArray[index].isChecked = !copyArray[index].isChecked;
+
+    setFilters(copyArray);
+  };
+
+  // 서버에서 아이템을 가지고 오는 함수
+  const getWebtoonListAll = useCallback(async () => {
+    console.log('getWebtoonListAll');
+    const parmas = {
+      genre: selectedCategory,
+      order: selectedOrder,
+      filter: '',
+      page: page
+    };
+
+    let tempFilter: any = [];
+
+    filters.map((filter, index) => {
+      if (filter.isChecked) {
+        tempFilter.push(filter.value);
+      }
     });
 
-    setWebtoonList(result.data.results);
+    parmas.filter = tempFilter.toString();
+
+    const result = await _getWebtoonListAll(parmas);
+
+
+    const tempWebtoonList = [...webtoonList]
+
+    result.data.results.map((webtoon: any, index: number) => {
+      if (webtoon.thumbnail_second_layer === null) {
+        webtoon.thumbnail_second_layer = '';
+      }
+
+      tempWebtoonList.push(webtoon)
+    });
+
+    setWebtoonList(tempWebtoonList);
+  }, [page]);
+
+  // const getWebtoonListAll = async () => {
+
+  // };
+
+  const onChangeWebtoonCategory = (cat: string) => {
+    const selectCat = cat;
+
+    setSelectedCategory(selectCat);
+  };
+
+  const handleChangeOrder = (e: any) => {
+    console.log(e);
+
+    setSelectedOrder(e.value);
   };
 
   useEffect(() => {
     getWebtoonListAll();
+  }, [selectedCategory, selectedOrder]);
+
+  useEffect(() => {
+    getWebtoonListAll();
   }, []);
+
+  useEffect(() => {
+    getWebtoonListAll();
+  }, [getWebtoonListAll]);
+
+  useEffect(() => {
+    console.log(inView, loading);
+    // 사용자가 마지막 요소를 보고 있고, 로딩 중이 아니라면
+    if (inView && !loading) {
+      setPage((prevState) => prevState + 1);
+    }
+  }, [inView, loading]);
 
   return (
     <>
@@ -319,7 +479,7 @@ const Calendar = () => {
       <Wrapper>
         <Layout className="category_scroll" style={{ overflowX: 'auto', height: '64px', marginLeft: '19px' }}>
           {categories.map((cat, index) => (
-            <Chip onClick={() => setSelectedCategory(cat.value)} className={selectedCategory === cat.value ? 'selected' : ''} key={index}>
+            <Chip onClick={() => onChangeWebtoonCategory(cat.value)} className={selectedCategory === cat.value ? 'selected' : ''} key={index}>
               <p>{cat.text}</p>
             </Chip>
           ))}
@@ -328,7 +488,9 @@ const Calendar = () => {
         <Divider />
 
         <div className="category_filter_container">
-          <SelectBox />
+          {/* <SelectBox /> */}
+
+          <Select onChange={handleChangeOrder} options={options} styles={customStyles} value={options.filter((obj) => obj.value === selectedOrder)} />
 
           <img src="/icons/ic_filter.svg" onClick={() => setOpen(true)} />
         </div>
@@ -336,15 +498,13 @@ const Calendar = () => {
         {webtoonList.length > 0 ? (
           <>
             {webtoonList.map((webtoon, index) => (
-              <WebtoonCard key={index}>
+              <WebtoonCard ref={ref} key={index} style={{ backgroundColor: webtoon.thumbnail_bg_color?.split(':')[1]! }}>
                 <img className="background" src={webtoon.thumbnail_first_layer} />
 
-                {webtoon.thumbnail_second_layer ? (
+                {webtoon.thumbnail_second_layer && (
                   <>
                     <img className="background2" src={webtoon.thumbnail_second_layer} />
                   </>
-                ) : (
-                  <></>
                 )}
                 <p className="title">{webtoon.title}</p>
                 <p className="writer">{webtoon.author}</p>
@@ -363,40 +523,28 @@ const Calendar = () => {
         )}
       </Wrapper>
 
-      <BottomSheet open={open} onDismiss={onDismiss} snapPoints={({ minHeight }) => minHeight}>
-        <div className="bottom_sheet_item">
-          <p>네이버 웹툰</p>
-        </div>
+      <BottomSheet
+        open={open}
+        onDismiss={onDismiss}
+        className="bottomsheet"
+        style={{ maxWidth: '640px', margin: '0 auto' }}
+        snapPoints={({ minHeight }) => minHeight}
+      >
+        {filters.map((item, index) => (
+          <div onClick={() => handleClickFilter(index)} key={index} className="bottom_sheet_item">
+            <p>{item.title}</p>
 
-        <div className="bottom_sheet_item mt-32">
-          <p>카카오 웹툰</p>
-        </div>
-
-        <div className="bottom_sheet_item mt-32">
-          <p>연재작품</p>
-        </div>
-
-        <div className="bottom_sheet_item">
-          <p>완결작품</p>
-        </div>
-
-        {/* <SheetContent>
-            <p>
-              Using <Code>onDismiss</Code> lets users close the sheet by swiping
-              it down, tapping on the backdrop or by hitting <Kbd>esc</Kbd> on
-              their keyboard.
-            </p>
-            <Expandable>
-              <div className="bg-gray-200 block rounded-md h-10 w-full my-10" />
-              <p>
-                The height adjustment is done automatically, it just works™!
-              </p>
-              <div className="bg-gray-200 block rounded-md h-10 w-full my-10" />
-            </Expandable>
-            <Button onClick={onDismiss} className="w-full">
-              Dismiss
-            </Button>
-          </SheetContent> */}
+            {item.isChecked ? (
+              <>
+                <img src="/icons/ic_check.svg" />
+              </>
+            ) : (
+              <>
+                <img src="/icons/ic_checked.svg" />
+              </>
+            )}
+          </div>
+        ))}
       </BottomSheet>
     </>
   );

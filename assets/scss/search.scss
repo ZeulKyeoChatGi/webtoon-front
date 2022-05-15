@@ -1,3 +1,5 @@
+
+
 .slider_bar {
   float: right;
   .item {
@@ -20,10 +22,11 @@
 
   padding: 0 16px;
   justify-content: space-between;
+  align-items: center;
 
   img {
     height: 20px;
-    margin-top: 12px;
+    // margin-top: 12px;
   }
 }
 
@@ -31,23 +34,7 @@
   margin-top: 32px;
 }
 
-.bottom_sheet_item {
-  margin: 32px 0;
 
-  p {
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
-    /* identical to box height, or 150% */
-
-    letter-spacing: -0.05em;
-
-    color: #000000;
-    margin-left: 16px;
-  }
-}
 
 .search_container {
   .header {

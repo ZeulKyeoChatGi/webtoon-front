@@ -33,13 +33,13 @@
 
 .slick-dots {
   display: flex !important;
-  justify-content: end !important;
+  justify-content: flex-end !important;
 }
 
 .slick-dots li {
   width: 100px !important;
   margin: 0 !important;
-  justify-content: end !important;
+  justify-content: flex-end !important;
   display: flex !important;
 }
 
