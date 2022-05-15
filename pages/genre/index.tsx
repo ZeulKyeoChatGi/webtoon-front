@@ -14,6 +14,7 @@ import { CategoryWebtoon } from 'types/webtoon';
 import Select from 'react-select';
 
 import ReactLoading from 'react-loading';
+import Link from 'next/link';
 
 interface Filters {
   title: String;
@@ -282,6 +283,68 @@ const WebtoonCard = styled.div`
   }
 `;
 
+const NavToggleWrapper = styled.div`
+  display: flex;
+  height: 48px;
+  cursor: pointer;
+  border-bottom: 1px solid #000000;
+  margin-top: 24px;
+
+  .toggled {
+    width: 120px;
+    height: 48px;
+
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+
+    color: white;
+    background: #000000;
+  }
+
+  .normal {
+    width: 120px;
+    height: 48px;
+
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+    text-transform: uppercase;
+
+    opacity: 0.3;
+
+    color: #000000;
+  }
+`;
+
+const NavIcon = styled.div`
+  width: 50%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 16px;
+    height: 18.59px;
+  }
+`;
+
+const NavItem = styled.div`
+  width: 50%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const customStyles = {
   menu: (base: any) => ({
     ...base,
@@ -332,7 +395,7 @@ const customStyles = {
 
 const Calendar = () => {
   const [ref, inView] = useInView();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
 
   const categories = [
@@ -382,8 +445,10 @@ const Calendar = () => {
   ]);
 
   const [open, setOpen] = useState(false);
+
   const onDismiss = () => {
     setOpen(false);
+    setPage(0);
     getWebtoonListAll();
   };
 
@@ -392,22 +457,26 @@ const Calendar = () => {
   const [webtoonList, setWebtoonList] = useState<Array<CategoryWebtoon>>([]);
 
   const handleClickFilter = (index: number) => {
-    console.log(index);
     const copyArray = [...filters];
 
     copyArray[index].isChecked = !copyArray[index].isChecked;
 
     setFilters(copyArray);
+
+    setPage(0)
   };
 
   // 서버에서 아이템을 가지고 오는 함수
   const getWebtoonListAll = useCallback(async () => {
     console.log('getWebtoonListAll');
+
+    console.log(selectedCategory);
+
     const parmas = {
       genre: selectedCategory,
       order: selectedOrder,
       filter: '',
-      page: page
+      page: page + 1
     };
 
     let tempFilter: any = [];
@@ -422,19 +491,22 @@ const Calendar = () => {
 
     const result = await _getWebtoonListAll(parmas);
 
+    let tempWebtoonList: any = [];
 
-    const tempWebtoonList = [...webtoonList]
+    if (page > 0) {
+      tempWebtoonList = [...webtoonList];
+    }
 
     result.data.results.map((webtoon: any, index: number) => {
       if (webtoon.thumbnail_second_layer === null) {
         webtoon.thumbnail_second_layer = '';
       }
 
-      tempWebtoonList.push(webtoon)
+      tempWebtoonList.push(webtoon);
     });
 
     setWebtoonList(tempWebtoonList);
-  }, [page]);
+  }, [filters, page, selectedCategory, selectedOrder]);
 
   // const getWebtoonListAll = async () => {
 
@@ -444,25 +516,21 @@ const Calendar = () => {
     const selectCat = cat;
 
     setSelectedCategory(selectCat);
+
+    console.log('onChangeWebtoonCategory');
   };
 
   const handleChangeOrder = (e: any) => {
-    console.log(e);
-
     setSelectedOrder(e.value);
+    setPage(0)
   };
 
   useEffect(() => {
-    getWebtoonListAll();
-  }, [selectedCategory, selectedOrder]);
+    console.log('useeffect selectedCategory');
+    console.log(selectedCategory);
 
-  useEffect(() => {
     getWebtoonListAll();
-  }, []);
-
-  useEffect(() => {
-    getWebtoonListAll();
-  }, [getWebtoonListAll]);
+  }, [getWebtoonListAll, selectedCategory, selectedOrder, filters]);
 
   useEffect(() => {
     console.log(inView, loading);
@@ -475,6 +543,24 @@ const Calendar = () => {
   return (
     <>
       {/* <CalendarInput placeholder="웹툰명을 검색해주세요." /> */}
+
+      <NavToggleWrapper>
+        <Link href="/calendar">
+          <a>
+            <NavItem className={'normal'}>
+              <p>유료화 일정</p>
+            </NavItem>
+          </a>
+        </Link>
+
+        <Link href="/genre">
+          <a>
+            <NavItem className={'toggled'}>
+              <p>장르별 보기</p>
+            </NavItem>
+          </a>
+        </Link>
+      </NavToggleWrapper>
 
       <Wrapper>
         <Layout className="category_scroll" style={{ overflowX: 'auto', height: '64px', marginLeft: '19px' }}>

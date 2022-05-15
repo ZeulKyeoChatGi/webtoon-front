@@ -8,8 +8,8 @@ interface webtoonInfoProp {
   thumbnailUrl2: string;
   site: string;
   writer: string;
-  star: string;
-  liked: string;
+  rating: number;
+  likeCount: number;
 }
 
 const Layout = styled.div`
@@ -208,38 +208,42 @@ const CalendarWebtoonWrapper = styled.div`
   }
 `;
 
-const CalendarWebtoonItem = ({ index, name, dDay, thumbnailUrl1, thumbnailUrl2, site, writer, star, liked }: webtoonInfoProp) => {
+const CalendarWebtoonItem = ({ index, name, dDay, thumbnailUrl1, thumbnailUrl2, site, writer, rating, likeCount }: webtoonInfoProp) => {
   return (
     <>
       <CalendarWebtoonWrapper key={index}>
-        {/* <div className={'img'}></div> */}
-        {/* <div className="img-section"> */}
         <img className="background" src={thumbnailUrl1}></img>
         <img className="background2" src={thumbnailUrl2}></img>
-        {/* </div> */}
 
         <div className={'content'}>
           <Layout className="title_wrapper">
             <p className={'webtoon-title'}>{name}</p>
-
-            {/* <div style={{ display: 'flex' }}>
-              <div className="naver">
-                <p>N</p>
-              </div>
-              <div className="kakao">
-                <p>K</p>
-              </div>
-            </div> */}
           </Layout>
 
           <Layout>
-            <p className={'webtoon-writer'}>작가이름</p>
+            <p className={'webtoon-writer'}>{writer}</p>
           </Layout>
 
           <Layout style={{ alignItems: 'center' }}>
-            <p className={'linked'}>4.9</p>
-            <div className={'divider'}></div>
-            <p className={'star'}>44.9만</p>
+            {rating > 0 && (
+              <>
+                <img src="/icons/ic-star.svg"></img>
+                <p className={'linked'}>{rating}</p>
+              </>
+            )}
+
+            {rating > 0 && likeCount > 0 && (
+              <>
+                <div className={'divider'}></div>
+              </>
+            )}
+
+            {likeCount > 0 && (
+              <>
+                <img src="/icons/ic-heart.svg"></img>
+                <p className={'linked'}>{likeCount}</p>
+              </>
+            )}
           </Layout>
         </div>
       </CalendarWebtoonWrapper>
