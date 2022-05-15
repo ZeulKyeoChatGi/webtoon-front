@@ -21,9 +21,9 @@ export interface CalendarWebtoon {
 }
 
 export interface WebtoonDatum {
-  like_count:      null;
+  like_count:      number | null;
   view_count:      null;
-  rating:          null;
+  rating:          number|null;
   is_completed:    boolean;
   paid_status:     string;
   paid_date:       Date;

@@ -1,136 +1,12 @@
 import styled from 'styled-components';
-import CalendarWebtoonItem from '../category/components/calendarWebtoonItem';
+import CalendarWebtoonItem from '../genre/components/calendarWebtoonItem';
 import API from '../../api/axios';
 import { useEffect, useState } from 'react';
 
 import { _getListToBePaid, _getRecentlyPaidWebtoonList } from 'api/webtoon';
 import { CalendarWebtoon } from '@/types/webtoon';
-
-const CalendarInput = styled.input`
-  width: 100%;
-  height: 48px;
-
-  margin-top: 16px;
-
-  border: 1px solid #000000;
-  box-sizing: border-box;
-  border-radius: 4px;
-
-  ::placeholder {
-    padding: 12px;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 24px;
-
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-
-    color: #c4c4c4;
-  }
-`;
-
-const MainWebttonWrapper = styled.div`
-  margin: 0 16px;
-  height: 200px;
-  background-color: #e9eaee;
-  margin-top: 24px;
-  border-radius: 22px;
-  background: #eee0f7;
-  box-shadow: 0px 4px 50px rgb(192 192 224 / 20%);
-  border-radius: 22px;
-  position: relative;
-  overflow: hidden;
-
-  .shadow {
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.05) 51.56%, rgba(0, 0, 0, 0.4) 100%);
-    width: 100%;
-    height: 100%;
-    border-radius: 22px;
-    position: absolute;
-  }
-
-  .img {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 10%);
-    width: 262px;
-    overflow: hidden;
-  }
-
-  .title-wrapper {
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 15px;
-    margin: 12px 0 0 12px;
-    width: 85px;
-    height: 28px;
-
-    .logo {
-    }
-
-    .title {
-      color: #2c3131;
-      font-style: normal;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 20px;
-
-      display: flex;
-      align-items: center;
-      text-transform: uppercase;
-      margin-left: 16px;
-
-      // color: #000000;
-    }
-  }
-
-  .discount-price {
-    color: #ffffff;
-    margin-left: 16px;
-
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 26px;
-    /* identical to box height, or 144% */
-
-    margin-top: 98px;
-
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-  }
-
-  .d-day {
-    margin-top: 98px;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 26px;
-    color: #fff;
-    // color: #000000;
-    margin-left: 16px;
-  }
-
-  .date {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 20px;
-    /* identical to box height, or 154% */
-
-    display: flex;
-    align-items: center;
-    text-align: right;
-    text-transform: uppercase;
-
-    margin-left: 16px;
-
-    color: #fff;
-    // color: #6e7781;
-  }
-`;
+import Slider from 'react-slick';
+import Link from 'next/link';
 
 const FeeBasedPaymentWrapper = styled.div`
   // background-color: #f3f3f3;
@@ -215,11 +91,93 @@ const BottomActionWrapper = styled.div`
   }
 `;
 
+const NavToggleWrapper = styled.div`
+  display: flex;
+  height: 48px;
+  cursor: pointer;
+  border-bottom: 1px solid #000000;
+  margin-top: 24px;
+
+  .toggled {
+    width: 120px;
+    height: 48px;
+
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+
+    color: white;
+    background: #000000;
+  }
+
+  .normal {
+    width: 120px;
+    height: 48px;
+
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+    text-transform: uppercase;
+
+    opacity: 0.3;
+
+    color: #000000;
+  }
+`;
+
+const NavIcon = styled.div`
+  width: 50%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 16px;
+    height: 18.59px;
+  }
+`;
+
+const NavItem = styled.div`
+  width: 50%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Wrapper = styled.div`
   display: flex;
   align-item: center;
   flex-direction: column;
 `;
+
+const settings = {
+  customPaging: function () {
+    return (
+      <a>
+        <div className="slider_bar">
+          <div className="item"></div>
+        </div>
+      </a>
+    );
+  },
+  dots: true,
+  dotsClass: 'slick-dots slick-thumb',
+  infinite: true,
+  speed: 500,
+  autoplay: true,
+  autoplaySpeed: 4000,
+  slidesToShow: 1,
+  slidesToScroll: 1
+};
 
 const Calendar = () => {
   const [toBePaidList, setToBePaidList] = useState([]);
@@ -265,13 +223,69 @@ const Calendar = () => {
 
   return (
     <>
+      <Slider {...settings}>
+        <div>
+          <div className="main-slider-wrapper">
+            <img className="img" src="/images/temp/thumb_main.png" />
+
+            <div className="background_shadow"></div>
+
+            <div className="save_info">
+              <p className="text_price">지금보면 최대 20,000원 절약!</p>
+              <p className="text_date">2022년 04월 08일 유료화</p>
+            </div>
+
+            <div className="save_info"> </div>
+
+            <div className="webtoon_info">
+              <p className="webtoon_title">와이키키 뱀파이어</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div className="main-slider-wrapper">
+            <img className="img" src="/images/temp/thumb_main.png" />
+
+            <div className="background_shadow"></div>
+
+            <div className="save_info">
+              <p className="text_price">지금보면 최대 20,000원 절약!</p>
+              <p className="text_date">2022년 04월 08일 유료화</p>
+            </div>
+
+            <div className="save_info"> </div>
+
+            <div className="webtoon_info">
+              <p className="webtoon_title">와이키키 뱀파이어</p>
+            </div>
+          </div>
+        </div>
+      </Slider>
+
+      <NavToggleWrapper>
+        <Link href="/calendar">
+          <a>
+            <NavItem className={'toggled'}>
+              <p>유료화 일정</p>
+            </NavItem>
+          </a>
+        </Link>
+
+        <Link href="/genre">
+          <a>
+            <NavItem className={'normal'}>
+              <p>장르별 보기</p>
+            </NavItem>
+          </a>
+        </Link>
+      </NavToggleWrapper>
+
       <Wrapper>
         {recentlyPaidList.map((webtoon, index) => (
           <>
             <FeeBasedPaymentWrapper key={index}>
               <p className={'title'}>{webtoon.diffDate}일 전 유료화</p>
 
-              {/* {webtoonMain2.map((webtoon, index) => ( */}
               <CalendarWebtoonItem
                 key={index}
                 index={index}
@@ -281,22 +295,16 @@ const Calendar = () => {
                 thumbnailUrl2={webtoon.thumbnail_second_layer}
                 site={webtoon.platform}
                 writer={webtoon.author}
-                star={'100'}
-                liked={webtoon.webtoon_url}
+                rating={webtoon.webtoon_data[0].rating || 0}
+                likeCount={webtoon.webtoon_data[0].like_count || 0}
+
               />
-              {/* ))} */}
             </FeeBasedPaymentWrapper>
           </>
         ))}
 
         <BottomActionWrapper>
           <img style={{ width: '32px', height: '32px' }} src="/icons/ic-bottom-arrow.svg" />
-
-          {/* <p className="share_info_text">친구들에게 서비스를 공유해보세요!</p>
-
-          <div className="btn_share">
-            <p>서비스 친구에게 소개하기</p>
-          </div> */}
         </BottomActionWrapper>
       </Wrapper>
     </>
