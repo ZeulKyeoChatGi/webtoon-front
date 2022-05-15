@@ -283,6 +283,7 @@ const Calendar = () => {
                 writer={webtoon.author}
                 star={'100'}
                 liked={webtoon.webtoon_url}
+                // isNaver={webtoon.webtoon_data.}
               />
               {/* ))} */}
             </FeeBasedPaymentWrapper>

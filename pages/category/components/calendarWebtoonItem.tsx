@@ -10,6 +10,8 @@ interface webtoonInfoProp {
   writer: string;
   star: string;
   liked: string;
+  isNaver: boolean;
+  isKakao: boolean;
 }
 
 const Layout = styled.div`
@@ -72,6 +74,35 @@ const CalendarWebtoonWrapper = styled.div`
         height: 20px;
         background-color: #31c52e;
         margin-right: 16px;
+
+        p {
+          font-weight: bold;
+          margin-top: 1px;
+          margin-left: 1px;
+          height: 100%;
+          color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+      .kakao {
+        width: 17px;
+        height: 20px;
+        background-color: #000000;
+        margin-right: 16px;
+
+        p {
+          font-weight: bold;
+          margin-top: 1px;
+          margin-left: 1px;
+          height: 100%;
+          color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
       }
     }
 
@@ -179,7 +210,7 @@ const CalendarWebtoonWrapper = styled.div`
   }
 `;
 
-const CalendarWebtoonItem = ({ index, name, dDay, thumbnailUrl1, thumbnailUrl2, site, writer, star, liked }: webtoonInfoProp) => {
+const CalendarWebtoonItem = ({ index, name, dDay, thumbnailUrl1, thumbnailUrl2, site, writer, star, liked, isNaver, isKakao }: webtoonInfoProp) => {
   return (
     <>
       <CalendarWebtoonWrapper key={index}>
@@ -193,7 +224,14 @@ const CalendarWebtoonItem = ({ index, name, dDay, thumbnailUrl1, thumbnailUrl2, 
           <Layout className="title_wrapper">
             <p className={'webtoon-title'}>{name}</p>
 
-            <div className="naver"></div>
+            <div style={{ display: 'flex' }}>
+              <div className="naver">
+                <p>N</p>
+              </div>
+              <div className="kakao">
+                <p>K</p>
+              </div>
+            </div>
           </Layout>
 
           <Layout>
