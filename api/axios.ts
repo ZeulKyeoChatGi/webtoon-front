@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: 'http://13.125.46.14:80/webtoon'
+  baseURL: 'https://api.todaytoon.me/webtoon'
 });
 
 export default instance
