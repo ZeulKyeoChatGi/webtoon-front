@@ -1,5 +1,6 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
+import type { NextComponentType  } from 'next'
 
 import Footer from '../components/Footer';
 import styled from 'styled-components';
@@ -20,7 +21,11 @@ import { useEffect } from 'react';
 
 import Link from 'next/link';
 
-function MyApp({ Component, pageProps }: AppProps) {
+type CustomAppProps = AppProps & {
+  Component: NextComponentType & {auth?: boolean} // add auth type
+}
+
+function MyApp({ Component, pageProps }: CustomAppProps) {
   useEffect(() => {
     // @ts-ignore
     window.Kakao.init('350229edb0e64261ecacf6fdcc508c57');
