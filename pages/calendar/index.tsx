@@ -297,7 +297,6 @@ const Calendar = () => {
                 writer={webtoon.author}
                 rating={webtoon.webtoon_data[0].rating || 0}
                 likeCount={webtoon.webtoon_data[0].like_count || 0}
-
               />
             </FeeBasedPaymentWrapper>
           </>
