@@ -7,6 +7,7 @@ import { _getListToBePaid, _getRecentlyPaidWebtoonList } from 'api/webtoon';
 import { CalendarWebtoon } from '@/types/webtoon';
 import Slider from 'react-slick';
 import Link from 'next/link';
+import ReactLoading from 'react-loading';
 
 const FeeBasedPaymentWrapper = styled.div`
   // background-color: #f3f3f3;
@@ -30,6 +31,10 @@ const FeeBasedPaymentWrapper = styled.div`
 
     color: #000000;
   }
+`;
+
+const Layout = styled.div`
+  display: flex;
 `;
 
 const BottomActionWrapper = styled.div`
@@ -183,6 +188,8 @@ const Calendar = () => {
   const [toBePaidList, setToBePaidList] = useState([]);
   const [recentlyPaidList, setRecentPaidList] = useState<Array<CalendarWebtoon>>([]);
 
+  const [page, setPage] = useState(0);
+
   const getListToBePaid = async () => {
     const result = await _getListToBePaid();
 
@@ -194,8 +201,16 @@ const Calendar = () => {
     }
   };
 
+  const getNextPage = () => {
+    setPage(page + 1);
+  };
+
   const getRecentlyPaidWebtoonList = async () => {
-    const result = await _getRecentlyPaidWebtoonList();
+    const params = {
+      page: page + 1
+    };
+
+    const result = await _getRecentlyPaidWebtoonList(params);
 
     if (result.data) {
       for (const webtoon of result.data.results) {
@@ -212,7 +227,11 @@ const Calendar = () => {
 
       console.log(setRecentPaidList);
 
-      setRecentPaidList(result.data.results);
+      const copyList = [...recentlyPaidList];
+      result.data.results.map((webtoon: any) => {
+        copyList.push(webtoon);
+      });
+      setRecentPaidList(copyList);
     }
   };
 
@@ -220,6 +239,10 @@ const Calendar = () => {
     getListToBePaid();
     getRecentlyPaidWebtoonList();
   }, []);
+
+  useEffect(() => {
+    getRecentlyPaidWebtoonList();
+  }, [page]);
 
   return (
     <>
@@ -263,7 +286,7 @@ const Calendar = () => {
       </Slider>
 
       <NavToggleWrapper>
-        <Link href="/calendar">
+        <Link href="/">
           <a>
             <NavItem className={'toggled'}>
               <p>유료화 일정</p>
@@ -281,29 +304,43 @@ const Calendar = () => {
       </NavToggleWrapper>
 
       <Wrapper>
-        {recentlyPaidList.map((webtoon, index) => (
+        {recentlyPaidList.length > 0 ? (
           <>
-            <FeeBasedPaymentWrapper key={index}>
-              <p className={'title'}>{webtoon.diffDate}일 전 유료화</p>
+            {recentlyPaidList.map((webtoon, index) => (
+              <>
+                <FeeBasedPaymentWrapper key={index}>
+                  <p className={'title'}>{webtoon.diffDate}일 전 유료화</p>
 
-              <CalendarWebtoonItem
-                key={index}
-                index={index}
-                name={webtoon.title}
-                dDay={webtoon.diffDate.toString()}
-                thumbnailUrl1={webtoon.thumbnail_first_layer}
-                thumbnailUrl2={webtoon.thumbnail_second_layer}
-                site={webtoon.platform}
-                writer={webtoon.author}
-                rating={webtoon.webtoon_data[0].rating || 0}
-                likeCount={webtoon.webtoon_data[0].like_count || 0}
-              />
-            </FeeBasedPaymentWrapper>
+                  <CalendarWebtoonItem
+                    key={index}
+                    index={index}
+                    name={webtoon.title}
+                    dDay={webtoon.diffDate.toString()}
+                    thumbnailUrl1={webtoon.thumbnail_first_layer}
+                    thumbnailUrl2={webtoon.thumbnail_second_layer}
+                    site={webtoon.platform}
+                    writer={webtoon.author}
+                    rating={webtoon.webtoon_data[0].rating || 0}
+                    likeCount={webtoon.webtoon_data[0].like_count || 0}
+                    isNaver={webtoon.platform === 'NAVER'}
+                    isKakao={webtoon.platform === 'KAKAO'}
+                  />
+                </FeeBasedPaymentWrapper>
+              </>
+            ))}
           </>
-        ))}
+        ) : (
+          <>
+            <Layout style={{ display: 'flex', justifyContent: 'center' }}>
+              <ReactLoading type="bubbles" color="#000" />
+
+              <div style={{ height: '500px' }}></div>
+            </Layout>
+          </>
+        )}
 
         <BottomActionWrapper>
-          <img style={{ width: '32px', height: '32px' }} src="/icons/ic-bottom-arrow.svg" />
+          <img onClick={getNextPage} className="pointer" style={{ width: '32px', height: '32px' }} src="/icons/ic-more-btn.svg" />
         </BottomActionWrapper>
       </Wrapper>
     </>

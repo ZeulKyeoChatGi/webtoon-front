@@ -1,3 +1,5 @@
+import { setComma } from '@/utils/comma';
+import Image from 'next/image';
 import styled from 'styled-components';
 
 interface webtoonInfoProp {
@@ -10,6 +12,8 @@ interface webtoonInfoProp {
   writer: string;
   rating: number;
   likeCount: number;
+  isNaver: boolean;
+  isKakao: boolean;
 }
 
 const Layout = styled.div`
@@ -56,7 +60,7 @@ const CalendarWebtoonWrapper = styled.div`
   }
 
   .content {
-    margin: 8px 0;
+    margin: 12px 0;
 
     display: flex;
     flex-direction: column;
@@ -66,6 +70,14 @@ const CalendarWebtoonWrapper = styled.div`
     .title_wrapper {
       width: 100%;
       justify-content: space-between;
+
+      .img-section {
+        margin-right: 16px;
+
+        img {
+          margin-left: 6px;
+        }
+      }
 
       .naver {
         width: 17px;
@@ -159,7 +171,8 @@ const CalendarWebtoonWrapper = styled.div`
     }
 
     .webtoon-writer {
-      margin-top: 24px;
+      margin-top: 16px;
+      height: 20px;
 
       font-style: normal;
       font-weight: 400;
@@ -208,7 +221,19 @@ const CalendarWebtoonWrapper = styled.div`
   }
 `;
 
-const CalendarWebtoonItem = ({ index, name, dDay, thumbnailUrl1, thumbnailUrl2, site, writer, rating, likeCount }: webtoonInfoProp) => {
+const CalendarWebtoonItem = ({
+  index,
+  name,
+  dDay,
+  thumbnailUrl1,
+  thumbnailUrl2,
+  site,
+  writer,
+  rating,
+  likeCount,
+  isNaver,
+  isKakao
+}: webtoonInfoProp) => {
   return (
     <>
       <CalendarWebtoonWrapper key={index}>
@@ -218,6 +243,11 @@ const CalendarWebtoonItem = ({ index, name, dDay, thumbnailUrl1, thumbnailUrl2, 
         <div className={'content'}>
           <Layout className="title_wrapper">
             <p className={'webtoon-title'}>{name}</p>
+
+            <div className="img-section">
+              {isNaver && <img src="/icons/ic-naver-w.svg" />}
+              {isKakao && <img src="/icons/ic-kakao-w.svg" />}
+            </div>
           </Layout>
 
           <Layout>
@@ -228,7 +258,7 @@ const CalendarWebtoonItem = ({ index, name, dDay, thumbnailUrl1, thumbnailUrl2, 
             {rating > 0 && (
               <>
                 <img src="/icons/ic-star.svg"></img>
-                <p className={'linked'}>{rating}</p>
+                <p className={'linked'}>{setComma(rating, false)}</p>
               </>
             )}
 
@@ -241,7 +271,7 @@ const CalendarWebtoonItem = ({ index, name, dDay, thumbnailUrl1, thumbnailUrl2, 
             {likeCount > 0 && (
               <>
                 <img src="/icons/ic-heart.svg"></img>
-                <p className={'linked'}>{likeCount}</p>
+                <p className={'linked'}>{setComma(likeCount, false)}</p>
               </>
             )}
           </Layout>

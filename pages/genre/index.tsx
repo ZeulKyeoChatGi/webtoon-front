@@ -223,6 +223,12 @@ const WebtoonCard = styled.div`
     transform: translate(-50%, 0);
   }
 
+  .img-platform {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+  }
+
   p.title {
     z-index: 10;
     font-style: normal;
@@ -364,7 +370,7 @@ const customStyles = {
     height: '30px',
     boxShadow: state.isFocused ? null : null,
     border: 'none',
-    zIndex: 100
+    zIndex: 1
   }),
 
   valueContainer: (provided: any, state: any) => ({
@@ -373,23 +379,26 @@ const customStyles = {
     padding: '0 6px',
     fontFamily: 'Pretendard',
     fontSize: '13px',
-    zIndex: 100
+    zIndex: 0
   }),
 
   input: (provided: any, state: any) => ({
     ...provided,
     margin: '0px',
-    fontFamily: 'Pretendard'
+    fontFamily: 'Pretendard',
+    zIndex: 0
   }),
 
   indicatorSeparator: (state: any) => ({
-    display: 'none'
+    display: 'none',
+    zIndex: 0
   }),
 
   indicatorsContainer: (provided: any, state: any) => ({
     ...provided,
     height: '30px',
-    fontSize: '13px'
+    fontSize: '13px',
+    zIndex: 0
   })
 };
 
@@ -463,7 +472,7 @@ const Calendar = () => {
 
     setFilters(copyArray);
 
-    setPage(0)
+    setPage(0);
   };
 
   // 서버에서 아이템을 가지고 오는 함수
@@ -522,7 +531,7 @@ const Calendar = () => {
 
   const handleChangeOrder = (e: any) => {
     setSelectedOrder(e.value);
-    setPage(0)
+    setPage(0);
   };
 
   useEffect(() => {
@@ -545,7 +554,7 @@ const Calendar = () => {
       {/* <CalendarInput placeholder="웹툰명을 검색해주세요." /> */}
 
       <NavToggleWrapper>
-        <Link href="/calendar">
+        <Link href="/">
           <a>
             <NavItem className={'normal'}>
               <p>유료화 일정</p>
@@ -584,7 +593,7 @@ const Calendar = () => {
         {webtoonList.length > 0 ? (
           <>
             {webtoonList.map((webtoon, index) => (
-              <WebtoonCard ref={ref} key={index} style={{ backgroundColor: webtoon.thumbnail_bg_color?.split(':')[1]! }}>
+              <WebtoonCard className="pointer" ref={ref} key={index} style={{ backgroundColor: webtoon.thumbnail_bg_color?.split(':')[1]! }}>
                 <img className="background" src={webtoon.thumbnail_first_layer} />
 
                 {webtoon.thumbnail_second_layer && (
@@ -592,6 +601,10 @@ const Calendar = () => {
                     <img className="background2" src={webtoon.thumbnail_second_layer} />
                   </>
                 )}
+
+                {webtoon.platform === 'NAVER' && <img className="img-platform" src="/icons/ic-naver-w.svg" />}
+                {webtoon.platform === 'KAKAO' && <img className="img-platform" src="/icons/ic-kakao-w.svg" />}
+
                 <p className="title">{webtoon.title}</p>
                 <p className="writer">{webtoon.author}</p>
                 <p className="description">{webtoon.description}</p>
