@@ -19,6 +19,16 @@ const WebtoonName = styled.div`
 const Thumbnail = styled.div`
   display: flex;
   justify-content: center;
+  position: relative;
+`;
+
+const TeamLabel = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
 `;
 
 const Info = styled.div`
@@ -105,6 +115,10 @@ const WebtoonDetail: React.VFC = () => {
       </ThumbnailWrapper>
       <Thumbnail>
         <img className="img" src="/images/temp/thumb_main.png" />
+        <TeamLabel>
+          <Image src="/icons/ic_naver.svg" alt="ic_naver" width={68} height={20} />
+          <Image src="/icons/ic_kakao.svg" alt="ic_kakao" width={68} height={20} />
+        </TeamLabel>
       </Thumbnail>
       <Info>
         <div>
