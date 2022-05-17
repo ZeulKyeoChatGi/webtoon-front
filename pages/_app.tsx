@@ -35,6 +35,7 @@ function MyApp({ Component, pageProps }: CustomAppProps) {
   return (
     <>
       <Head>
+        <title>오늘의 웹툰</title>
         <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
 
