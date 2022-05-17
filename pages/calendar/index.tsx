@@ -8,6 +8,7 @@ import { CalendarWebtoon } from '@/types/webtoon';
 import Slider from 'react-slick';
 import Link from 'next/link';
 import ReactLoading from 'react-loading';
+import { setComma } from '@/utils/comma';
 
 const FeeBasedPaymentWrapper = styled.div`
   // background-color: #f3f3f3;
@@ -190,13 +191,12 @@ const Calendar = () => {
 
   const [page, setPage] = useState(0);
 
+  const [sliderWebtoon, setSliderWebtoon] = useState<Array<CalendarWebtoon>>([]);
+
   const getListToBePaid = async () => {
     const result = await _getListToBePaid();
 
     if (result.data) {
-      console.log(result.data);
-      console.log(JSON.stringify(result.data.results));
-
       setToBePaidList(result.data.results);
     }
   };
@@ -223,15 +223,30 @@ const Calendar = () => {
 
           webtoon.diffDate = dateDays;
         }
-      }
 
-      console.log(setRecentPaidList);
+        const paidDate = webtoon.webtoon_data[0].paid_date;
+        const year = paidDate.substr(0, 4);
+        const month = paidDate.substr(5, 2);
+        const day = paidDate.substr(8, 2);
+
+        webtoon.paidYear = year;
+        webtoon.paidMonth = month;
+        webtoon.paidDay = day;
+
+        const cookiePrice = webtoon.webtoon_data[0].series_count * 240;
+        webtoon.cookiePrice = cookiePrice;
+      }
 
       const copyList = [...recentlyPaidList];
       result.data.results.map((webtoon: any) => {
         copyList.push(webtoon);
       });
+
       setRecentPaidList(copyList);
+
+      const copyList2 = [...copyList];
+
+      setSliderWebtoon(copyList2.splice(0, 2));
     }
   };
 
@@ -247,23 +262,30 @@ const Calendar = () => {
   return (
     <>
       <Slider {...settings}>
-        <div>
-          <div className="main-slider-wrapper">
-            <img className="img" src="/images/temp/thumb_main.png" />
+        {sliderWebtoon.map((webtoon, index) => (
+          <div key={index}>
+            <div style={{ background: webtoon.thumbnail_bg_color.split(':')[1] }} className="main-slider-wrapper">
+              <img className="img" src={webtoon.thumbnail_second_layer} />
 
-            <div className="background_shadow"></div>
+              <div className="background_shadow"></div>
 
-            <div className="save_info">
-              <p className="text_price">지금보면 최대 20,000원 절약!</p>
-              <p className="text_date">2022년 04월 08일 유료화</p>
-            </div>
+              <div className="save_info">
+                <p className="text_price">지금보면 최대 {setComma(webtoon.cookiePrice, false)}원 절약!</p>
+                <p className="text_date">
+                  {webtoon.paidYear}년 {webtoon.paidMonth}월 {webtoon.paidDay}일 유료화
+                </p>
+              </div>
 
-            <div className="save_info"> </div>
+              <div className="save_info"> </div>
 
-            <div className="webtoon_info">
-              <p className="webtoon_title">와이키키 뱀파이어</p>
+              <div className="webtoon_info">
+                <p className="webtoon_title">{webtoon.title}</p>
+              </div>
             </div>
           </div>
+        ))}
+        {/* <div>
+         
         </div>
         <div>
           <div className="main-slider-wrapper">
@@ -282,7 +304,7 @@ const Calendar = () => {
               <p className="webtoon_title">와이키키 뱀파이어</p>
             </div>
           </div>
-        </div>
+        </div> */}
       </Slider>
 
       <NavToggleWrapper>

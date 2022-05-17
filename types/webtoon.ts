@@ -18,6 +18,10 @@ export interface CalendarWebtoon {
   simple_description:     string;
   webtoon_url:            string;
   is_censored:            boolean;
+  paidYear:               string;
+  paidMonth:              string;
+  paidDay:                string;
+  cookiePrice:            number;
 }
 
 export interface WebtoonDatum {

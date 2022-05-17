@@ -1,6 +1,6 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import type { NextComponentType  } from 'next'
+import type { NextComponentType } from 'next';
 
 import Footer from '../components/Footer';
 import styled from 'styled-components';
@@ -20,10 +20,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useEffect } from 'react';
 
 import Link from 'next/link';
+import Head from 'next/head';
 
 type CustomAppProps = AppProps & {
-  Component: NextComponentType & {auth?: boolean} // add auth type
-}
+  Component: NextComponentType & { auth?: boolean }; // add auth type
+};
 
 function MyApp({ Component, pageProps }: CustomAppProps) {
   useEffect(() => {
@@ -33,6 +34,10 @@ function MyApp({ Component, pageProps }: CustomAppProps) {
 
   return (
     <>
+      <Head>
+        <link rel="shortcut icon" href="/favicon.ico" />
+      </Head>
+
       <div className="global-wrapper">
         <div className="header-wrapper">
           <Link href="/">

@@ -477,10 +477,6 @@ const Calendar = () => {
 
   // 서버에서 아이템을 가지고 오는 함수
   const getWebtoonListAll = useCallback(async () => {
-    console.log('getWebtoonListAll');
-
-    console.log(selectedCategory);
-
     const parmas = {
       genre: selectedCategory,
       order: selectedOrder,
@@ -525,8 +521,6 @@ const Calendar = () => {
     const selectCat = cat;
 
     setSelectedCategory(selectCat);
-
-    console.log('onChangeWebtoonCategory');
   };
 
   const handleChangeOrder = (e: any) => {
@@ -535,14 +529,10 @@ const Calendar = () => {
   };
 
   useEffect(() => {
-    console.log('useeffect selectedCategory');
-    console.log(selectedCategory);
-
     getWebtoonListAll();
   }, [getWebtoonListAll, selectedCategory, selectedOrder, filters]);
 
   useEffect(() => {
-    console.log(inView, loading);
     // 사용자가 마지막 요소를 보고 있고, 로딩 중이 아니라면
     if (inView && !loading) {
       setPage((prevState) => prevState + 1);
