@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+
+import _getWebtoonDetail from '@/api/webtoonId';
 
 const ThumbnailWrapper = styled.div`
   display: flex;
@@ -105,19 +109,22 @@ const Button = styled.div`
 `;
 
 const WebtoonDetail: React.VFC = () => {
-  return (
+  const router = useRouter();
+  const { webtoonId } = router.query;
+  const webtoonData = _getWebtoonDetail(webtoonId as string);
+  return webtoonData ? (
     <div>
       <ThumbnailWrapper>
         <div>
           <Image src="/icons/ic_left_arrow.svg" alt="arrow" width={12} height={20} />
         </div>
-        <WebtoonName>대학일기</WebtoonName>
+        <WebtoonName>{webtoonData?.title}</WebtoonName>
       </ThumbnailWrapper>
       <Thumbnail>
-        <img className="img" src="/images/temp/thumb_main.png" />
+        <img src={webtoonData?.thumbnail_first_layer} />
         <TeamLabel>
-          <Image src="/icons/ic_naver.svg" alt="ic_naver" width={68} height={20} />
-          <Image src="/icons/ic_kakao.svg" alt="ic_kakao" width={68} height={20} />
+          {webtoonData?.platform === 'NAVER' && <Image src="/icons/ic_naver.svg" alt="ic_naver" width={68} height={20} />}
+          {webtoonData?.platform === 'KAKAO' && <Image src="/icons/ic_kakao.svg" alt="ic_kakao" width={68} height={20} />}
         </TeamLabel>
       </Thumbnail>
       <Info>
@@ -136,36 +143,41 @@ const WebtoonDetail: React.VFC = () => {
         <Score>
           <div>
             <Image src="/icons/ic_star_black.svg" alt="star" width={13} height={13} />
-            4.9
+            {webtoonData?.webtoon_data[0].rating}
           </div>
           <ScoreDivider />
           <div>
             <Image src="/icons/ic_heart_black.svg" alt="star" width={13} height={12} />
-            44.9만
+            {webtoonData?.webtoon_data[0].like_count}
           </div>
         </Score>
-        <Label>연재중</Label>
+        <Label>{webtoonData?.webtoon_data[0].is_completed ? '연재 종료' : '연재중'}</Label>
         <WebtoonInfo>
           <WebtoonInfoType>작품소개</WebtoonInfoType>
-          <WebtoonInfoStory>로망이 꽃피는 캠퍼스는 없다. 극사실주의에 기반한 너무나 현실적인 우리의 대학일기</WebtoonInfoStory>
+          <WebtoonInfoStory>{webtoonData?.description}</WebtoonInfoStory>
         </WebtoonInfo>
         <WebtoonInfo>
           <WebtoonInfoType>글/그림</WebtoonInfoType>
-          <WebtoonInfoStory>자까</WebtoonInfoStory>
+          <WebtoonInfoStory>
+            {webtoonData?.author}
+            {webtoonData?.drawer && `/ ${webtoonData?.drawer}`}
+          </WebtoonInfoStory>
         </WebtoonInfo>
         <WebtoonInfo>
           <WebtoonInfoType>장르</WebtoonInfoType>
-          <WebtoonInfoStory>에피소드, 개그</WebtoonInfoStory>
+          <WebtoonInfoStory>{webtoonData?.origin_genre}</WebtoonInfoStory>
         </WebtoonInfo>
         <WebtoonInfo>
           <WebtoonInfoType>연령대</WebtoonInfoType>
           <WebtoonInfoStory>전체연령가</WebtoonInfoStory>
         </WebtoonInfo>
         <PaytoShow>2022년 3월 27일 유료화</PaytoShow>
-        <Button>바로 정주행 하기!</Button>
+        <Link href={webtoonData?.webtoon_url}>
+          <Button>바로 정주행 하기!</Button>
+        </Link>
       </Content>
     </div>
-  );
+  ) : null;
 };
 
 export default WebtoonDetail;

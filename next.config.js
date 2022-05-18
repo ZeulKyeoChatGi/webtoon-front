@@ -7,12 +7,15 @@ module.exports = withSass({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    domains: ['image-comic.pstatic.net']
+  },
   webpack: (config, { webpack }) => {
     // const prod = process.env.NODE_ENV === 'production';
-    const prod = false
+    const prod = false;
     const newConfig = {
       ...config,
-      mode: prod ? 'production' : 'development',
+      mode: prod ? 'production' : 'development'
     };
     if (prod) {
       newConfig.devtool = 'hidden-source-map';
@@ -23,10 +26,10 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: `http://192.168.0.9:8080/:path*`,
-      },
+        destination: `http://192.168.0.9:8080/:path*`
+      }
     ];
-  },
+  }
 };
 
-module.exports = withImages(nextConfig)
+module.exports = withImages(nextConfig);
