@@ -583,8 +583,8 @@ const Calendar = () => {
         {webtoonList.length > 0 ? (
           <>
             {webtoonList.map((webtoon, index) => (
-              <Link href={`/${webtoon.id}`}>
-                <WebtoonCard className="pointer" ref={ref} key={index} style={{ backgroundColor: webtoon.thumbnail_bg_color?.split(':')[1]! }}>
+              <Link href={`/${webtoon.id}`} key={webtoon.id}>
+                <WebtoonCard className="pointer" ref={ref} style={{ backgroundColor: webtoon.thumbnail_bg_color?.split(':')[1]! }}>
                   <img className="background" src={webtoon.thumbnail_first_layer} />
 
                   {webtoon.thumbnail_second_layer && (
