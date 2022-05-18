@@ -18,12 +18,16 @@ export interface CalendarWebtoon {
   simple_description:     string;
   webtoon_url:            string;
   is_censored:            boolean;
+  paidYear:               string;
+  paidMonth:              string;
+  paidDay:                string;
+  cookiePrice:            number;
 }
 
 export interface WebtoonDatum {
-  like_count:      null;
+  like_count:      number | null;
   view_count:      null;
-  rating:          null;
+  rating:          number|null;
   is_completed:    boolean;
   paid_status:     string;
   paid_date:       Date;

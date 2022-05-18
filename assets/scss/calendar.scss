@@ -1,0 +1,109 @@
+@media (min-width: 640px) {
+  .main-slider-wrapper {
+    .img {
+      width: 60%;
+    }
+  }
+}
+
+.main-slider-wrapper {
+  width: 100%;
+  height: 340px;
+  position: relative;
+  // background-color: #eee0f7;
+  // background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 40.1%);
+
+  img {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    width: 100%;
+  }
+
+  .background_shadow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0) 40.1%);
+  }
+
+  .save_info {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    position: absolute;
+    right: 16px;
+    top: 16px;
+
+    .text_price {
+      /* M/20px/bold */
+
+      font-family: 'Pretendard';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 140%;
+      /* identical to box height, or 28px */
+
+      display: flex;
+      align-items: center;
+
+      /* black/100 */
+
+      color: #2c3131;
+    }
+
+    .text_date {
+      font-family: 'Pretendard';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 150%;
+      /* identical to box height, or 24px */
+
+      display: flex;
+      align-items: center;
+      text-align: right;
+
+      /* black/100 */
+
+      color: #2c3131;
+
+      display: flex;
+      flex-flow: row-reverse;
+    }
+  }
+
+  .webtoon_title {
+  }
+
+  .webtoon_info {
+    position: absolute;
+    width: 137px;
+    height: 28px;
+    right: 16px;
+    bottom: 17px;
+
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p.webtoon_title {
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      /* identical to box height, or 143% */
+
+      display: flex;
+      align-items: center;
+      text-align: right;
+      text-transform: uppercase;
+
+      color: #ffffff;
+    }
+  }
+}

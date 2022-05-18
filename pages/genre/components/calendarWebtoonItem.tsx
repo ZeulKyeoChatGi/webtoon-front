@@ -1,4 +1,7 @@
+import { setComma } from '@/utils/comma';
+import Image from 'next/image';
 import styled from 'styled-components';
+import Link from 'next/link';
 
 interface webtoonInfoProp {
   index: number;
@@ -8,8 +11,11 @@ interface webtoonInfoProp {
   thumbnailUrl2: string;
   site: string;
   writer: string;
-  star: string;
-  liked: string;
+  rating: number;
+  likeCount: number;
+  isNaver: boolean;
+  isKakao: boolean;
+  webtoonId: number;
 }
 
 const Layout = styled.div`
@@ -56,7 +62,7 @@ const CalendarWebtoonWrapper = styled.div`
   }
 
   .content {
-    margin: 8px 0;
+    margin: 12px 0;
 
     display: flex;
     flex-direction: column;
@@ -66,6 +72,14 @@ const CalendarWebtoonWrapper = styled.div`
     .title_wrapper {
       width: 100%;
       justify-content: space-between;
+
+      .img-section {
+        margin-right: 16px;
+
+        img {
+          margin-left: 6px;
+        }
+      }
 
       .naver {
         width: 17px;
@@ -159,7 +173,8 @@ const CalendarWebtoonWrapper = styled.div`
     }
 
     .webtoon-writer {
-      margin-top: 24px;
+      margin-top: 16px;
+      height: 20px;
 
       font-style: normal;
       font-weight: 400;
@@ -208,40 +223,64 @@ const CalendarWebtoonWrapper = styled.div`
   }
 `;
 
-const CalendarWebtoonItem = ({ index, name, dDay, thumbnailUrl1, thumbnailUrl2, site, writer, star, liked }: webtoonInfoProp) => {
+const CalendarWebtoonItem = ({
+  index,
+  name,
+  dDay,
+  thumbnailUrl1,
+  thumbnailUrl2,
+  site,
+  writer,
+  rating,
+  likeCount,
+  isNaver,
+  isKakao,
+  webtoonId
+}: webtoonInfoProp) => {
   return (
     <>
       <CalendarWebtoonWrapper key={index}>
-        {/* <div className={'img'}></div> */}
-        {/* <div className="img-section"> */}
         <img className="background" src={thumbnailUrl1}></img>
         <img className="background2" src={thumbnailUrl2}></img>
-        {/* </div> */}
 
-        <div className={'content'}>
-          <Layout className="title_wrapper">
-            <p className={'webtoon-title'}>{name}</p>
+        <Link href={`/${webtoonId}`}>
+          <div className={'content'}>
+            <Layout className="title_wrapper">
+              <p className={'webtoon-title'}>{name}</p>
 
-            {/* <div style={{ display: 'flex' }}>
-              <div className="naver">
-                <p>N</p>
+              <div className="img-section">
+                {isNaver && <img src="/icons/ic-naver-w.svg" />}
+                {isKakao && <img src="/icons/ic-kakao-w.svg" />}
               </div>
-              <div className="kakao">
-                <p>K</p>
-              </div>
-            </div> */}
-          </Layout>
+            </Layout>
 
-          <Layout>
-            <p className={'webtoon-writer'}>작가이름</p>
-          </Layout>
+            <Layout>
+              <p className={'webtoon-writer'}>{writer}</p>
+            </Layout>
 
-          <Layout style={{ alignItems: 'center' }}>
-            <p className={'linked'}>4.9</p>
-            <div className={'divider'}></div>
-            <p className={'star'}>44.9만</p>
-          </Layout>
-        </div>
+            <Layout style={{ alignItems: 'center' }}>
+              {rating > 0 && (
+                <>
+                  <img src="/icons/ic-star.svg"></img>
+                  <p className={'linked'}>{setComma(rating, false)}</p>
+                </>
+              )}
+
+              {rating > 0 && likeCount > 0 && (
+                <>
+                  <div className={'divider'}></div>
+                </>
+              )}
+
+              {likeCount > 0 && (
+                <>
+                  <img src="/icons/ic-heart.svg"></img>
+                  <p className={'linked'}>{setComma(likeCount, false)}</p>
+                </>
+              )}
+            </Layout>
+          </div>
+        </Link>
       </CalendarWebtoonWrapper>
     </>
   );

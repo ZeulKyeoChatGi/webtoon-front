@@ -22,9 +22,9 @@ const _getListToBePaid = async () => {
   }
 };
 
-const _getRecentlyPaidWebtoonList = async () => {
+const _getRecentlyPaidWebtoonList = async (params: any) => {
   try {
-    const res = API.get('/list/recently-paid');
+    const res = API.get('/list/recently-paid', { params: params });
 
     return res;
   } catch (error: any) {
