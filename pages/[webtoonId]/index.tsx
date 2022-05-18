@@ -159,14 +159,13 @@ const WebtoonDetail: React.VFC = () => {
         <WebtoonInfo>
           <WebtoonInfoType>글/그림</WebtoonInfoType>
           <WebtoonInfoStory>
-            {webtoonData?.author} / {webtoonData?.drawer}
+            {webtoonData?.author}
+            {webtoonData?.drawer && `/ ${webtoonData?.drawer}`}
           </WebtoonInfoStory>
         </WebtoonInfo>
         <WebtoonInfo>
           <WebtoonInfoType>장르</WebtoonInfoType>
-          <WebtoonInfoStory>
-            {webtoonData?.origin_genre} {`, ${webtoonData?.zfind_genre}`}
-          </WebtoonInfoStory>
+          <WebtoonInfoStory>{webtoonData?.origin_genre}</WebtoonInfoStory>
         </WebtoonInfo>
         <WebtoonInfo>
           <WebtoonInfoType>연령대</WebtoonInfoType>

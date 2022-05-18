@@ -583,22 +583,24 @@ const Calendar = () => {
         {webtoonList.length > 0 ? (
           <>
             {webtoonList.map((webtoon, index) => (
-              <WebtoonCard className="pointer" ref={ref} key={index} style={{ backgroundColor: webtoon.thumbnail_bg_color?.split(':')[1]! }}>
-                <img className="background" src={webtoon.thumbnail_first_layer} />
+              <Link href={`/${webtoon.id}`}>
+                <WebtoonCard className="pointer" ref={ref} key={index} style={{ backgroundColor: webtoon.thumbnail_bg_color?.split(':')[1]! }}>
+                  <img className="background" src={webtoon.thumbnail_first_layer} />
 
-                {webtoon.thumbnail_second_layer && (
-                  <>
-                    <img className="background2" src={webtoon.thumbnail_second_layer} />
-                  </>
-                )}
+                  {webtoon.thumbnail_second_layer && (
+                    <>
+                      <img className="background2" src={webtoon.thumbnail_second_layer} />
+                    </>
+                  )}
 
-                {webtoon.platform === 'NAVER' && <img className="img-platform" src="/icons/ic-naver-w.svg" />}
-                {webtoon.platform === 'KAKAO' && <img className="img-platform" src="/icons/ic-kakao-w.svg" />}
+                  {webtoon.platform === 'NAVER' && <img className="img-platform" src="/icons/ic-naver-w.svg" />}
+                  {webtoon.platform === 'KAKAO' && <img className="img-platform" src="/icons/ic-kakao-w.svg" />}
 
-                <p className="title">{webtoon.title}</p>
-                <p className="writer">{webtoon.author}</p>
-                <p className="description">{webtoon.description}</p>
-              </WebtoonCard>
+                  <p className="title">{webtoon.title}</p>
+                  <p className="writer">{webtoon.author}</p>
+                  <p className="description">{webtoon.description}</p>
+                </WebtoonCard>
+              </Link>
             ))}
           </>
         ) : (
