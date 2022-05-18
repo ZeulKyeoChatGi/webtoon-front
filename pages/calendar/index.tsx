@@ -346,6 +346,7 @@ const Calendar = () => {
                     likeCount={webtoon.webtoon_data[0].like_count || 0}
                     isNaver={webtoon.platform === 'NAVER'}
                     isKakao={webtoon.platform === 'KAKAO'}
+                    webtoonId={webtoon.id}
                   />
                 </FeeBasedPaymentWrapper>
               </>
