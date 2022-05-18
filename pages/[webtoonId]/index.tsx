@@ -112,6 +112,8 @@ const WebtoonDetail: React.VFC = () => {
   const router = useRouter();
   const { webtoonId } = router.query;
   const webtoonData = _getWebtoonDetail(webtoonId as string);
+
+  console.log(webtoonData)
   return webtoonData ? (
     <div>
       <ThumbnailWrapper>
@@ -120,8 +122,9 @@ const WebtoonDetail: React.VFC = () => {
         </div>
         <WebtoonName>{webtoonData?.title}</WebtoonName>
       </ThumbnailWrapper>
-      <Thumbnail>
-        <img src={webtoonData?.thumbnail_first_layer} />
+      <Thumbnail style={{ height: '250px' }}>
+        <img style={{ height: '100%', position: 'absolute' }} src={webtoonData?.thumbnail_first_layer} />
+        <img style={{ height: '100%', zIndex: 1 }} src={webtoonData?.thumbnail_second_layer} />
         <TeamLabel>
           {webtoonData?.platform === 'NAVER' && <Image src="/icons/ic_naver.svg" alt="ic_naver" width={68} height={20} />}
           {webtoonData?.platform === 'KAKAO' && <Image src="/icons/ic_kakao.svg" alt="ic_kakao" width={68} height={20} />}
