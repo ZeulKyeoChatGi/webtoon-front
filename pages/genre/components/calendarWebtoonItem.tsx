@@ -262,7 +262,7 @@ const CalendarWebtoonItem = ({
               {rating > 0 && (
                 <>
                   <img src="/icons/ic-star.svg"></img>
-                  <p className={'linked'}>{setComma(rating, false)}</p>
+                  <p className={'linked'}>{rating}</p>
                 </>
               )}
 

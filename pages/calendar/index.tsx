@@ -263,26 +263,28 @@ const Calendar = () => {
     <>
       <Slider {...settings}>
         {sliderWebtoon.map((webtoon, index) => (
-          <div key={index}>
-            <div style={{ background: webtoon.thumbnail_bg_color.split(':')[1] }} className="main-slider-wrapper">
-              <img className="img" src={webtoon.thumbnail_second_layer} />
+          <Link href={`/${webtoon.id}`} key={index}>
+            <div>
+              <div style={{ background: webtoon.thumbnail_bg_color.split(':')[1] }} className="main-slider-wrapper">
+                <img className="img" src={webtoon.thumbnail_second_layer} />
 
-              <div className="background_shadow"></div>
+                <div className="background_shadow"></div>
 
-              <div className="save_info">
-                <p className="text_price">지금보면 최대 {setComma(webtoon.cookiePrice, false)}원 절약!</p>
-                <p className="text_date">
-                  {webtoon.paidYear}년 {webtoon.paidMonth}월 {webtoon.paidDay}일 유료화
-                </p>
-              </div>
+                <div className="save_info">
+                  <p className="text_price">지금보면 최대 {setComma(webtoon.cookiePrice, false)}원 절약!</p>
+                  <p className="text_date">
+                    {webtoon.paidYear}년 {webtoon.paidMonth}월 {webtoon.paidDay}일 유료화
+                  </p>
+                </div>
 
-              <div className="save_info"> </div>
+                <div className="save_info"> </div>
 
-              <div className="webtoon_info">
-                <p className="webtoon_title">{webtoon.title}</p>
+                <div className="webtoon_info">
+                  <p className="webtoon_title">{webtoon.title}</p>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
         {/* <div>
          
