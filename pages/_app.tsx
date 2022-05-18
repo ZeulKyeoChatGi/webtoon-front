@@ -1,6 +1,8 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import type { NextComponentType } from 'next';
+import { SWRConfig } from 'swr';
+
+import { fetcher } from '@/api/axios';
 
 import Footer from '../components/Footer';
 import styled from 'styled-components';
@@ -20,13 +22,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useEffect } from 'react';
 
 import Link from 'next/link';
-import Head from 'next/head';
 
-type CustomAppProps = AppProps & {
-  Component: NextComponentType & { auth?: boolean }; // add auth type
-};
-
-function MyApp({ Component, pageProps }: CustomAppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     // @ts-ignore
     window.Kakao.init('350229edb0e64261ecacf6fdcc508c57');
@@ -34,29 +31,26 @@ function MyApp({ Component, pageProps }: CustomAppProps) {
 
   return (
     <>
-      <Head>
-        <title>오늘의 웹툰</title>
-        <link rel="shortcut icon" href="/favicon.ico" />
-      </Head>
+      <SWRConfig value={{ fetcher }}>
+        <div className="global-wrapper">
+          <div className="header-wrapper">
+            <Link href="/">
+              <h1 className="logo pointer">오늘의 웹툰</h1>
+            </Link>
 
-      <div className="global-wrapper">
-        <div className="header-wrapper">
-          <Link href="/">
-            <h1 className="logo pointer">오늘의 웹툰</h1>
-          </Link>
+            <Link href="/search">
+              <a>
+                <img src="/icons/ic-search.svg" />
+              </a>
+            </Link>
+          </div>
 
-          <Link href="/search">
-            <a>
-              <img src="/icons/ic-search.svg" />
-            </a>
-          </Link>
+          <Component {...pageProps} />
+          <Footer />
+
+          <ToastContainer />
         </div>
-
-        <Component {...pageProps} />
-        <Footer />
-
-        <ToastContainer />
-      </div>
+      </SWRConfig>
     </>
   );
 }
