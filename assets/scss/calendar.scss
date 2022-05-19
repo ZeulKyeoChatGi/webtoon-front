@@ -80,7 +80,8 @@
 
   .webtoon_info {
     position: absolute;
-    width: 137px;
+    // width: 137px;
+    padding: 0 8px;
     height: 28px;
     right: 16px;
     bottom: 17px;
@@ -91,6 +92,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    img {
+      width: 12px;
+      height: 20px;
+      position: initial;
+      margin-left: 8px;
+    }
 
     p.webtoon_title {
       font-weight: 700;

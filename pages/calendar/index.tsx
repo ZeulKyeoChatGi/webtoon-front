@@ -246,7 +246,7 @@ const Calendar = () => {
 
       const copyList2 = [...copyList];
 
-      setSliderWebtoon(copyList2.splice(0, 2));
+      setSliderWebtoon(copyList2.splice(0, 3));
     }
   };
 
@@ -280,6 +280,16 @@ const Calendar = () => {
                 <div className="save_info"> </div>
 
                 <div className="webtoon_info">
+                  {webtoon.platform === 'KAKAO' ? (
+                    <>
+                      <img src="/icons/K.svg" />
+                    </>
+                  ) : (
+                    <>
+                      <img src="/icons/N.svg" />
+                    </>
+                  )}
+
                   <p className="webtoon_title">{webtoon.title}</p>
                 </div>
               </div>
