@@ -239,11 +239,11 @@ const CalendarWebtoonItem = ({
 }: webtoonInfoProp) => {
   return (
     <>
-      <CalendarWebtoonWrapper key={index}>
-        <img className="background" src={thumbnailUrl1}></img>
-        <img className="background2" src={thumbnailUrl2}></img>
+      <Link href={`/${webtoonId}`}>
+        <CalendarWebtoonWrapper key={index}>
+          {isKakao && <img className="background" src={thumbnailUrl2}></img>}
+          <img className="background2" src={thumbnailUrl1}></img>
 
-        <Link href={`/${webtoonId}`}>
           <div className={'content'}>
             <Layout className="title_wrapper">
               <p className={'webtoon-title'}>{name}</p>
@@ -280,8 +280,8 @@ const CalendarWebtoonItem = ({
               )}
             </Layout>
           </div>
-        </Link>
-      </CalendarWebtoonWrapper>
+        </CalendarWebtoonWrapper>
+      </Link>
     </>
   );
 };

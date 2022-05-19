@@ -244,7 +244,7 @@ const WebtoonCard = styled.div`
     color: #ffffff;
 
     margin-left: 12px;
-    margin-top: 104px;
+    margin-top: 120px;
   }
 
   p.writer {
@@ -254,6 +254,7 @@ const WebtoonCard = styled.div`
     font-size: 12px;
     line-height: 16px;
     /* identical to box height, or 133% */
+    margin-top: 4px;
 
     display: flex;
     align-items: center;
@@ -587,7 +588,7 @@ const Calendar = () => {
                 <WebtoonCard className="pointer" ref={ref} style={{ backgroundColor: webtoon.thumbnail_bg_color?.split(':')[1]! }}>
                   <img className="background" src={webtoon.thumbnail_first_layer} />
 
-                  {webtoon.thumbnail_second_layer && (
+                  {webtoon.thumbnail_second_layer && webtoon.platform === 'KAKAO' && (
                     <>
                       <img className="background2" src={webtoon.thumbnail_second_layer} />
                     </>
@@ -598,7 +599,7 @@ const Calendar = () => {
 
                   <p className="title">{webtoon.title}</p>
                   <p className="writer">{webtoon.author}</p>
-                  <p className="description">{webtoon.description}</p>
+                  {/* <p className="description">{webtoon.description}</p> */}
                 </WebtoonCard>
               </Link>
             ))}
