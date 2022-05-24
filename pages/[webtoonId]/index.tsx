@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import dayjs from 'dayjs';
 
 import _getWebtoonDetail from '@/api/webtoonId';
 
@@ -48,6 +49,7 @@ const TeamLabel = styled.div`
   position: absolute;
   bottom: 12px;
   right: 16px;
+  z-index: 10;
 `;
 
 const Info = styled.div`
@@ -66,7 +68,7 @@ const SaveMoney = styled.span`
 `;
 
 const Divider = styled.div`
-  border: 1px solid #c1c9d1;
+  border: 1px solid #f0f0f6;
 `;
 
 const Content = styled.div`
@@ -86,7 +88,8 @@ const ScoreDivider = styled.div`
 `;
 
 const WebtoonInfo = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 60px 1fr;
   margin-top: 14px;
 `;
 
@@ -100,10 +103,10 @@ const WebtoonInfoStory = styled.div`
 `;
 
 const PaytoShow = styled.div`
-  color: #ff5353;
-  text-align: center;
-  font-weight: 500;
-  margin-top: 32px;
+  color: white;
+  position: absolute;
+  font-size: 14px;
+  top: 8px;
 `;
 
 const Label = styled.span`
@@ -130,7 +133,6 @@ const WebtoonDetail: React.VFC = () => {
   const webtoonData = _getWebtoonDetail(webtoonId as string);
   const imageBgColor = webtoonData?.thumbnail_bg_color.split('#')[1];
 
-  console.log(webtoonData);
   return webtoonData ? (
     <div style={{ position: 'relative' }}>
       <title>{webtoonData?.title}</title>
@@ -139,6 +141,9 @@ const WebtoonDetail: React.VFC = () => {
           <Image src="/icons/ic_left_arrow.svg" alt="arrow" width={12} height={20} />
         </div>
         <WebtoonName>{webtoonData?.title}</WebtoonName>
+        <div>
+          <Image src="/icons/ic_share.svg" alt="arrow" width={24} height={24} />
+        </div>
       </ThumbnailWrapper>
       <Thumbnail>
         <img style={{ height: '100%', position: 'absolute' }} src={webtoonData?.thumbnail_first_layer} />
@@ -168,7 +173,9 @@ const WebtoonDetail: React.VFC = () => {
           </SaveMoneyText>
         </div>
       </Info>
-      <Divider />
+      <div style={{ padding: '0 16px' }}>
+        <Divider />
+      </div>
       <Content>
         <Score>
           {webtoonData?.webtoon_data[0].view_count && (
@@ -214,7 +221,10 @@ const WebtoonDetail: React.VFC = () => {
           <WebtoonInfoType>연령대</WebtoonInfoType>
           <WebtoonInfoStory>전체연령가</WebtoonInfoStory>
         </WebtoonInfo>
-        <PaytoShow>{webtoonData?.webtoon_data[0]?.paid_date} 유료화</PaytoShow>
+        <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
+          <Image src="/icons/ic_talk.svg" alt="arrow" width={180} height={43} />
+          <PaytoShow>{dayjs(webtoonData?.webtoon_data[0]?.paid_date).format('YYYY[년] MM[월] DD[일]')} 유료화</PaytoShow>
+        </div>
         <Link href={webtoonData?.webtoon_url}>
           <Button>바로 정주행 하기!</Button>
         </Link>
