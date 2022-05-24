@@ -19,31 +19,46 @@ import 'assets/scss/main.scss';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+
+  const [isHeaderShow, setIsHeaderShow] = useState(true);
+
   useEffect(() => {
     // @ts-ignore
     window.Kakao.init('350229edb0e64261ecacf6fdcc508c57');
   }, []);
 
+  useEffect(() => {
+    if (router.asPath === '/search') {
+      setIsHeaderShow(false);
+    } else {
+      setIsHeaderShow(true);
+    }
+  }, [router]);
+
   return (
     <>
       <SWRConfig value={{ fetcher }}>
         <div className="global-wrapper">
-          <div className="header-wrapper">
-            <Link href="/">
-              <h1 className="logo pointer">오늘의 웹툰</h1>
-            </Link>
+          {isHeaderShow && (
+            <div className="header-wrapper">
+              <Link href="/">
+                <h1 className="logo pointer">오늘의 웹툰</h1>
+              </Link>
 
-            <Link href="/search">
-              <a>
-                <img src="/icons/ic-search.svg" />
-              </a>
-            </Link>
-          </div>
+              <Link href="/search">
+                <a>
+                  <img src="/icons/ic-search.svg" />
+                </a>
+              </Link>
+            </div>
+          )}
 
           <Component {...pageProps} />
           <Footer />

@@ -4,6 +4,8 @@ import { useRef, useState } from 'react';
 
 import { ToastContainer, toast } from 'react-toastify';
 
+import { shareToFacebook, shareToTwitter, shareToKakao } from '@/utils/share';
+
 const Footer = () => {
   const router = useRouter();
 
@@ -27,11 +29,11 @@ const Footer = () => {
   };
 
   const handleShareFacebook = () => {
-    window.open('https://www.facebook.com/sharer/sharer.php?u=https://todaytoon.me/');
+    shareToFacebook()
   };
 
   const handleShareTwitter = () => {
-    window.open('https://www.twitter.com/intent/tweet?&url=https://todaytoon.me/');
+    shareToTwitter(`오늘 보면 웹툰가격원 아낄 수 있는 웹툰 알려드림`)
   };
 
   const handleClickServay = () => {
@@ -39,33 +41,12 @@ const Footer = () => {
   };
 
   const handleShareKakao = () => {
-    // @ts-ignore
-    Kakao.Link.sendDefault({
-      objectType: 'feed',
-      content: {
-        title: '오늘의웹툰 제목제목',
-        description: '오늘의 웹툰 내용 나타나는 부분',
-        imageUrl: 'http://k.kakaocdn.net/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png',
-        link: {
-          mobileWebUrl: 'https://todaytoon.me',
-          webUrl: 'https://todaytoon.me'
-        }
-      },
-      social: {
-        likeCount: 286,
-        commentCount: 45,
-        sharedCount: 845
-      },
-      buttons: [
-        {
-          title: '웹으로 보기',
-          link: {
-            mobileWebUrl: 'https://todaytoon.me',
-            webUrl: 'https://todaytoon.me'
-          }
-        }
-      ]
-    });
+    shareToKakao(
+      '내일이면 유료화되는 웹툰이 궁금하다면?',
+      '#오늘의웹툰 #웹툰정주행 #오늘까지_무료',
+      'https://shared-comic.pstatic.net/thumb/webtoon/703850/thumbnail/thumbnail_IMAG06_fb5b9cec-432d-49c6-8215-8c05d6c8494c.jpg',
+      'https://todaytoon.me'
+    );
   };
 
   const handleShareUrl = () => {

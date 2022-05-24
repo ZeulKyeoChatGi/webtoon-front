@@ -1,21 +1,13 @@
+import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import CalendarWebtoonItem from './components/calendarWebtoonItem';
-
-import { useInView } from 'react-intersection-observer';
-
-import { _getWebtoonList } from 'api/webtoon';
-import 'react-spring-bottom-sheet/dist/style.css';
-
-import SelectBox from 'components/SelectBox';
 import { BottomSheet } from 'react-spring-bottom-sheet';
 import { CategoryWebtoon } from 'types/webtoon';
-
-import Select from 'react-select';
-
 import ReactLoading from 'react-loading';
+import { useInView } from 'react-intersection-observer';
+import { _getWebtoonList } from 'api/webtoon';
+import styled from 'styled-components';
+import 'react-spring-bottom-sheet/dist/style.css';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 interface Filters {
   title: String;
@@ -23,155 +15,15 @@ interface Filters {
   isChecked: boolean;
 }
 
-const CalendarInput = styled.input`
-  width: 100%;
-  height: 48px;
-
-  margin-top: 16px;
-
-  border: 1px solid #000000;
-  box-sizing: border-box;
-  border-radius: 4px;
-
-  ::placeholder {
-    padding: 12px;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 24px;
-
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-
-    color: #c4c4c4;
-  }
-`;
-
-const MainWebttonWrapper = styled.div`
-  margin: 0 16px;
-
-  width: 328px;
-  height: 200px;
-  background-color: #e9eaee;
-
-  margin-top: 24px;
-  border-radius: 22px;
-
-  .title-wrapper {
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 15px;
-    margin: 12px 0 0 12px;
-    width: 85px;
-    height: 28px;
-
-    .logo {
-    }
-
-    .title {
-      font-style: normal;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 20px;
-
-      display: flex;
-      align-items: center;
-      text-transform: uppercase;
-      margin-left: 16px;
-
-      color: #000000;
-    }
-  }
-
-  .d-day {
-    margin-top: 98px;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 26px;
-    color: #000000;
-    margin-left: 16px;
-  }
-
-  .date {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 20px;
-    /* identical to box height, or 154% */
-
-    display: flex;
-    align-items: center;
-    text-align: right;
-    text-transform: uppercase;
-
-    margin-left: 16px;
-
-    color: #6e7781;
-  }
-`;
-
-const FeeBasedPaymentWrapper = styled.div`
-  background-color: #f3f3f3;
-
-  padding: 16px 16px 0 16px;
-  margin-top: 22px;
-
-  p.title {
-    font-style: normal;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 26px;
-    /* identical to box height, or 144% */
-
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-
-    color: #000000;
-  }
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  align-item: center;
-  flex-direction: column;
-`;
-
-const Chip = styled.div`
-  // width: 61px;
-  padding: 0 12px;
-  height: 32px;
-  left: 57px;
-  top: 0px;
-
-  background: #f1f1f5;
-  // border-radius: 16px;
-  margin-right: 8px;
-
-  cursor: pointer;
-
-  p {
-    width: max-content;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 20px;
-    /* identical to box height, or 143% */
-
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-
-    // color: #ffffff;
-  }
-`;
+const categories: any = {
+  all: '전체',
+  fantasy: '판타지',
+  pure: '순정',
+  action: '액션/무협',
+  drama: '드라마',
+  thrill: '공포/스릴러',
+  daily: '일상/개그'
+};
 
 const Layout = styled.div`
   display: flex;
@@ -353,99 +205,14 @@ const NavItem = styled.div`
   justify-content: center;
 `;
 
-const customStyles = {
-  menu: (base: any) => ({
-    ...base,
-    fontFamily: 'Pretendard',
-    fontSize: '13px',
-    color: '#2C3131',
-    zIndex: 100
-  }),
+const SearchGenre = () => {
+  const router = useRouter();
 
-  control: (provided: any, state: any) => ({
-    ...provided,
-    background: '#fff',
-    fontFamily: 'Pretendard',
-    fontSize: '13px',
-    color: '#2C3131',
-    minHeight: '30px',
-    height: '30px',
-    boxShadow: state.isFocused ? null : null,
-    border: 'none',
-    zIndex: 1
-  }),
-
-  valueContainer: (provided: any, state: any) => ({
-    ...provided,
-    height: '30px',
-    padding: '0 6px',
-    fontFamily: 'Pretendard',
-    fontSize: '13px',
-    zIndex: 0
-  }),
-
-  input: (provided: any, state: any) => ({
-    ...provided,
-    margin: '0px',
-    fontFamily: 'Pretendard',
-    zIndex: 0
-  }),
-
-  indicatorSeparator: (state: any) => ({
-    display: 'none',
-    zIndex: 0
-  }),
-
-  indicatorsContainer: (provided: any, state: any) => ({
-    ...provided,
-    height: '30px',
-    fontSize: '13px',
-    zIndex: 0
-  })
-};
-
-const Calendar = () => {
   const [ref, inView] = useInView();
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const categories = [
-    {
-      text: '전체',
-      value: ''
-    },
-    {
-      text: '판타지',
-      value: 'fantasy'
-    },
-    {
-      text: '순정',
-      value: 'pure'
-    },
-    {
-      text: '액션/무협',
-      value: 'action'
-    },
-    {
-      text: '드라마',
-      value: 'drama'
-    },
-    {
-      text: '공포/스릴러',
-      value: 'thrill'
-    },
-    {
-      text: '일상/개그',
-      value: 'daily'
-    }
-  ];
-
-  const options = [
-    { value: 'recent', label: '최신순' },
-    { value: 'old', label: '오랜된 순' },
-    { value: 'money', label: '절약금액 순' }
-  ];
-
+  const [open, setOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState('recent');
 
   const [filters, setFilters] = useState<Array<Filters>>([
@@ -455,7 +222,14 @@ const Calendar = () => {
     { title: '완결작품', value: 'completed', isChecked: false }
   ]);
 
-  const [open, setOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+  const [webtoonList, setWebtoonList] = useState<Array<CategoryWebtoon>>([]);
+
+  const handleClickRouteBack = () => {
+    // router.back();
+    router.push('/search');
+  };
 
   const onDismiss = () => {
     setOpen(false);
@@ -463,24 +237,12 @@ const Calendar = () => {
     getWebtoonListAll();
   };
 
-  const [selectedCategory, setSelectedCategory] = useState('');
-
-  const [webtoonList, setWebtoonList] = useState<Array<CategoryWebtoon>>([]);
-
-  const handleClickFilter = (index: number) => {
-    const copyArray = [...filters];
-
-    copyArray[index].isChecked = !copyArray[index].isChecked;
-
-    setFilters(copyArray);
-
-    setPage(0);
-  };
-
   // 서버에서 아이템을 가지고 오는 함수
   const getWebtoonListAll = useCallback(async () => {
+    const genre = selectedCategory === 'all' ? '' : selectedCategory
+
     const parmas = {
-      genre: selectedCategory,
+      genre: genre,
       order: selectedOrder,
       filter: '',
       page: page + 1
@@ -515,24 +277,24 @@ const Calendar = () => {
     setWebtoonList(tempWebtoonList);
   }, [filters, page, selectedCategory, selectedOrder]);
 
-  // const getWebtoonListAll = async () => {
+  const handleClickFilter = (index: number) => {
+    const copyArray = [...filters];
 
-  // };
+    copyArray[index].isChecked = !copyArray[index].isChecked;
 
-  const onChangeWebtoonCategory = (cat: string) => {
-    const selectCat = cat;
+    setFilters(copyArray);
 
-    setSelectedCategory(selectCat);
-  };
-
-  const handleChangeOrder = (e: any) => {
-    setSelectedOrder(e.value);
     setPage(0);
   };
 
   useEffect(() => {
-    getWebtoonListAll();
-  }, [getWebtoonListAll, selectedCategory, selectedOrder, filters]);
+    // getWebtoonListAll();
+    console.log(selectedCategory);
+  }, [selectedCategory, selectedOrder, filters]);
+
+  useEffect(() => {
+    setSelectedCategory(String(router.query.genre));
+  }, [router]);
 
   useEffect(() => {
     // 사용자가 마지막 요소를 보고 있고, 로딩 중이 아니라면
@@ -543,45 +305,21 @@ const Calendar = () => {
 
   return (
     <>
-      {/* <CalendarInput placeholder="웹툰명을 검색해주세요." /> */}
+      <div className="search-genre-container">
+        <div className="toolbar">
+          <img onClick={handleClickRouteBack} src="/icons/ic_search_arrow_back.svg" />
+        </div>
 
-      <NavToggleWrapper>
-        <Link href="/">
-          <a>
-            <NavItem className={'normal'}>
-              <p>유료화 일정</p>
-            </NavItem>
-          </a>
-        </Link>
-
-        <Link href="/genre">
-          <a>
-            <NavItem className={'toggled'}>
-              <p>장르별 보기</p>
-            </NavItem>
-          </a>
-        </Link>
-      </NavToggleWrapper>
-
-      <Wrapper>
-        <Layout className="category_scroll" style={{ overflowX: 'auto', height: '64px', marginLeft: '19px' }}>
-          {categories.map((cat, index) => (
-            <Chip onClick={() => onChangeWebtoonCategory(cat.value)} className={selectedCategory === cat.value ? 'selected' : ''} key={index}>
-              <p>{cat.text}</p>
-            </Chip>
-          ))}
-        </Layout>
-
-        <Divider />
-
-        <div className="category_filter_container">
-          {/* <SelectBox /> */}
-
-          <Select onChange={handleChangeOrder} options={options} styles={customStyles} value={options.filter((obj) => obj.value === selectedOrder)} />
+        <div className="title-content">
+          <div>
+            <p className="title">{categories[selectedCategory]}</p>
+          </div>
 
           <img src="/icons/ic_filter.svg" onClick={() => setOpen(true)} />
         </div>
+      </div>
 
+      <div className="search-genre-webtoon-container">
         {webtoonList.length > 0 ? (
           <>
             {webtoonList.map((webtoon, index) => (
@@ -600,7 +338,6 @@ const Calendar = () => {
 
                   <p className="title">{webtoon.title}</p>
                   <p className="writer">{webtoon.author}</p>
-                  {/* <p className="description">{webtoon.description}</p> */}
                 </WebtoonCard>
               </Link>
             ))}
@@ -614,7 +351,7 @@ const Calendar = () => {
             </Layout>
           </>
         )}
-      </Wrapper>
+      </div>
 
       <BottomSheet
         open={open}
@@ -643,4 +380,4 @@ const Calendar = () => {
   );
 };
 
-export default Calendar;
+export default SearchGenre;
