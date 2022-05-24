@@ -1,6 +1,6 @@
 import API from './axios';
 
-const _getWebtoonListAll = async (params: any) => {
+const _getWebtoonList = async (params: any) => {
   try {
     const res = API.get('/list', {
       params: params
@@ -32,4 +32,4 @@ const _getRecentlyPaidWebtoonList = async (params: any) => {
   }
 };
 
-export { _getWebtoonListAll, _getListToBePaid, _getRecentlyPaidWebtoonList };
+export { _getWebtoonList, _getListToBePaid, _getRecentlyPaidWebtoonList };

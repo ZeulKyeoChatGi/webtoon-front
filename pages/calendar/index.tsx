@@ -9,6 +9,7 @@ import Slider from 'react-slick';
 import Link from 'next/link';
 import ReactLoading from 'react-loading';
 import { setComma } from '@/utils/comma';
+import { useRouter } from 'next/router';
 
 const FeeBasedPaymentWrapper = styled.div`
   // background-color: #f3f3f3;
@@ -185,7 +186,14 @@ const settings = {
   slidesToScroll: 1
 };
 
+const PRESS_TIME_UNTIL_DRAG_MS = 250
+
 const Calendar = () => {
+  const router = useRouter();
+
+  const [isDragging, setDragging] = useState(false)
+
+
   const [toBePaidList, setToBePaidList] = useState([]);
   const [recentlyPaidList, setRecentPaidList] = useState<Array<CalendarWebtoon>>([]);
 
@@ -203,6 +211,21 @@ const Calendar = () => {
 
   const getNextPage = () => {
     setPage(page + 1);
+  };
+
+  const onClickSlider = (event: any) => {
+    console.log(event.type);
+    if (event.type === 'mousemove' || event.type === 'touchmove') {
+      // setIsDragging(true);
+    }
+
+    if (event.type === 'mouseup' || event.type === 'touchend') {
+      setTimeout(() => {
+        // setIsDragging(false);
+      }, 100);
+    }
+
+    // router.push(`/${webtoon.id}`)
   };
 
   const getRecentlyPaidWebtoonList = async () => {
@@ -252,7 +275,7 @@ const Calendar = () => {
 
   useEffect(() => {
     getListToBePaid();
-    getRecentlyPaidWebtoonList();
+    // getRecentlyPaidWebtoonList();
   }, []);
 
   useEffect(() => {
@@ -263,41 +286,39 @@ const Calendar = () => {
     <>
       <Slider {...settings}>
         {sliderWebtoon.map((webtoon, index) => (
-          <Link href={`/${webtoon.id}`} key={index}>
-            <div>
-              <div style={{ background: webtoon.thumbnail_bg_color.split(':')[1] }} className="main-slider-wrapper">
-                <img className="img" src={webtoon.thumbnail_second_layer} />
+          <div onDrag={onClickSlider} onClick={onClickSlider} key={index}>
+            <div style={{ background: webtoon.thumbnail_bg_color.split(':')[1] }} className="main-slider-wrapper">
+              <img className="img" src={webtoon.thumbnail_second_layer} />
 
-                <div className="background_shadow"></div>
+              <div className="background_shadow"></div>
 
-                <div className="save_info">
-                  <p className="text_price">지금보면 최대 {setComma(webtoon.cookiePrice, false)}원 절약!</p>
-                  <p className="text_date">
-                    {webtoon.paidYear}년 {webtoon.paidMonth}월 {webtoon.paidDay}일 유료화
-                  </p>
-                </div>
+              <div className="save_info">
+                <p className="text_price">지금보면 최대 {setComma(webtoon.cookiePrice, false)}원 절약!</p>
+                <p className="text_date">
+                  {webtoon.paidYear}년 {webtoon.paidMonth}월 {webtoon.paidDay}일 유료화
+                </p>
+              </div>
 
-                <div className="save_info"> </div>
+              <div className="save_info"> </div>
 
-                <div className="webtoon_info">
-                  {webtoon.platform === 'KAKAO' ? (
-                    <>
-                      <img src="/icons/K.svg" />
-                    </>
-                  ) : (
-                    <>
-                      <img src="/icons/N.svg" />
-                    </>
-                  )}
+              <div className="webtoon_info">
+                {webtoon.platform === 'KAKAO' ? (
+                  <>
+                    <img src="/icons/K.svg" />
+                  </>
+                ) : (
+                  <>
+                    <img src="/icons/N.svg" />
+                  </>
+                )}
 
-                  <p className="webtoon_title">{webtoon.title}</p>
-                </div>
+                <p className="webtoon_title">{webtoon.title}</p>
               </div>
             </div>
-          </Link>
+          </div>
         ))}
         {/* <div>
-         
+
         </div>
         <div>
           <div className="main-slider-wrapper">

@@ -1,10 +1,51 @@
 import { useRouter } from 'next/router';
+import { _getWebtoonList } from 'api/webtoon';
+import { useState } from 'react';
+import Link from 'next/link';
+import { CategoryWebtoon } from '@/types/webtoon';
+import styled from 'styled-components';
+import ReactLoading from 'react-loading';
+
+const Layout = styled.div`
+  display: flex;
+`;
 
 const Search = () => {
   const router = useRouter();
 
+  const [webtoonList, setWebtoonList] = useState<Array<any>>([]);
+
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchSetTime, setSearchSetTime] = useState<any>();
+
+  const [isSearching, setIsSearching] = useState(false);
+
   const handleClickRouteBack = () => {
     router.back();
+  };
+
+  const onChangeSearchKeyword = (e: any) => {
+    setSearchKeyword(e.target.value);
+    setIsSearching(true);
+    clearTimeout(searchSetTime);
+
+    setSearchSetTime(
+      setTimeout(() => {
+        console.log(e.target.value);
+        setIsSearching(false);
+        getWebtoonList(e.target.value);
+      }, 800)
+    );
+  };
+
+  const getWebtoonList = async (target: string) => {
+    const param = {
+      search: target
+    };
+
+    const res = await _getWebtoonList(param);
+
+    setWebtoonList(res.data);
   };
 
   return (
@@ -21,9 +62,97 @@ const Search = () => {
         </p>
 
         <div className="search_bar">
-          <input placeholder='웹툰명을 검색해주세요.' />
+          <input onChange={onChangeSearchKeyword} placeholder="웹툰명을 검색해주세요." />
           <img onClick={handleClickRouteBack} src="/icons/ic-search.svg" />
         </div>
+
+        <div style={{ width: '100%', height: '8px', backgroundColor: '#F7F7FB', marginTop: '24px' }}></div>
+
+        {isSearching ? (
+          <>
+            <Layout style={{ display: 'flex', justifyContent: 'center' }}>
+              <ReactLoading type="bubbles" color="#000" />
+
+              <div style={{ height: '500px' }}></div>
+            </Layout>
+          </>
+        ) : (
+          <>
+            {webtoonList.length > 0 ? (
+              <>
+                {webtoonList.map((webtoon, index) => (
+                  <div className="serached-item" key={webtoon.id}>
+                    <img src="/icons/ic-search-gray.svg" />
+                    <p>{webtoon.title}</p>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <>
+                {searchKeyword === '' ? (
+                  <div className="genre-container">
+                    <div className="webtoon-genre-layout">
+                      <Link href="/search/all">
+                        <div className="webtoon-item bg-item-1">
+                          <div className="bg-gradient"></div>
+                          <img src="/images/genre_all_1.png" />
+                          <img src="/images/genre_all_2.png" />
+                          <p>전체</p>
+                        </div>
+                      </Link>
+
+                      <Link href="/search/daily">
+                        <div className="webtoon-item bg-item-2">
+                          <div className="bg-gradient"></div>
+                          <img src="/images/genre_gag_1.png" />
+                          <p>일상/개그</p>
+                        </div>
+                      </Link>
+
+                      <Link href="/search/fantasy">
+                        <div className="webtoon-item bg-item-3">
+                          <div className="bg-gradient"></div>
+                          <img src="/images/genre_fantasy_1.png" />
+                          <p>판타지</p>
+                        </div>
+                      </Link>
+
+                      <Link href="/search/pure">
+                        <div className="webtoon-item bg-item-4">
+                          <div className="bg-gradient"></div>
+                          <img src="/images/genre_romance_1.png" />
+                          <p>순정</p>
+                        </div>
+                      </Link>
+
+                      <Link href="/search/drama">
+                        <div className="webtoon-item bg-item-5">
+                          <div className="bg-gradient"></div>
+                          <img src="/images/genre_drama_1.png" />
+                          <p>드라마</p>
+                        </div>
+                      </Link>
+
+                      <Link href="/search/thrill">
+                        <div className="webtoon-item bg-item-6">
+                          <div className="bg-gradient"></div>
+                          <img src="/images/genre_triller_1.png" />
+                          <p>공포/스릴러</p>
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="empty-list">
+                      <p>검색결과가 없습니다.</p>
+                    </div>
+                  </>
+                )}
+              </>
+            )}
+          </>
+        )}
       </div>
     </>
   );
