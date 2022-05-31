@@ -8,6 +8,7 @@ import { _getWebtoonList } from 'api/webtoon';
 import styled from 'styled-components';
 import 'react-spring-bottom-sheet/dist/style.css';
 import Link from 'next/link';
+import { setComma } from '@/utils/comma';
 
 interface Filters {
   title: String;
@@ -208,9 +209,13 @@ const NavItem = styled.div`
 const SearchGenre = () => {
   const router = useRouter();
 
-  const [ref, inView] = useInView();
+  const { ref, inView, entry } = useInView({
+    threshold: 0.9
+  });
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  const [totalCount, setTotalCount] = useState(0)
 
   const [open, setOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState('recent');
@@ -272,6 +277,7 @@ const SearchGenre = () => {
       tempWebtoonList.push(webtoon);
     });
 
+    setTotalCount(result.data.count)
     setWebtoonList(tempWebtoonList);
   }, [filters, page, selectedCategory, selectedOrder]);
 
@@ -289,7 +295,7 @@ const SearchGenre = () => {
     if (selectedCategory) {
       getWebtoonListAll();
     }
-  }, [selectedCategory, selectedOrder, filters]);
+  }, [getWebtoonListAll, selectedCategory, selectedOrder, filters]);
 
   useEffect(() => {
     setSelectedCategory(String(router.query.genre));
@@ -313,7 +319,7 @@ const SearchGenre = () => {
           <div className="flex align-end">
             <p className="title">{categories[selectedCategory]}</p>
 
-            <span className="count">{webtoonList.length}개</span>
+            <span className="count">{setComma(totalCount)}개</span>
           </div>
 
           <img src="/icons/ic_filter.svg" onClick={() => setOpen(true)} />

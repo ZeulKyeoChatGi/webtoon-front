@@ -5,15 +5,17 @@ import Link from 'next/link';
 import dayjs from 'dayjs';
 
 import _getWebtoonDetail from '@/api/webtoonId';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { setComma } from '@/utils/comma';
+import { shareToFacebook, shareToKakao, shareToTwitter } from '@/utils/share';
+import { toast } from 'react-toastify';
 
 const ThumbnailWrapper = styled.div`
   display: flex;
   padding: 16px;
   position: absolute;
   width: 100%;
-  z-index: 999;
+  z-index: 99;
   top: -1px;
   align-items: center;
   margin-bottom: 8px;
@@ -154,6 +156,50 @@ const WebtoonDetail: React.VFC = () => {
   const [saveMoney, setSaveMoney] = useState(0);
   const [diffDate, setDiffDate] = useState(0);
 
+  const [isShareModal, setIsShareModal] = useState(false);
+  const outSection = useRef(null);
+  const closeModal = () => {
+    setIsShareModal(false);
+  };
+
+  const handleShareFacebook = () => {
+    shareToFacebook();
+  };
+
+  const handleShareTwitter = () => {
+    shareToTwitter(`오늘 보면 웹툰가격원 아낄 수 있는 웹툰 알려드림`);
+  };
+
+  const handleShareKakao = () => {
+    shareToKakao(
+      '내일이면 유료화되는 웹툰이 궁금하다면?',
+      '#오늘의웹툰 #웹툰정주행 #오늘까지_무료',
+      'https://shared-comic.pstatic.net/thumb/webtoon/703850/thumbnail/thumbnail_IMAG06_fb5b9cec-432d-49c6-8215-8c05d6c8494c.jpg',
+      'https://todaytoon.me'
+    );
+  };
+
+  const handleShareUrl = () => {
+    const url = 'https://todaytoon.me';
+
+    const t = document.createElement('textarea');
+    document.body.appendChild(t);
+    t.value = url;
+    t.select();
+    document.execCommand('copy');
+    document.body.removeChild(t);
+
+    toast('클립보드에 복사되었습니다.', {
+      position: 'bottom-center',
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined
+    });
+  };
+
   useEffect(() => {
     if (webtoonData) {
       console.log(webtoonData);
@@ -178,7 +224,7 @@ const WebtoonDetail: React.VFC = () => {
         </div>
         <WebtoonName>{webtoonData?.title}</WebtoonName>
         <div>
-          <Image src="/icons/ic_share.svg" alt="arrow" width={24} height={24} />
+          <Image onClick={() => setIsShareModal(true)} src="/icons/ic_share.svg" alt="arrow" width={24} height={24} />
         </div>
       </ThumbnailWrapper>
       <Thumbnail>
@@ -280,6 +326,37 @@ const WebtoonDetail: React.VFC = () => {
           </Link>
         </div>
       </Content>
+
+      {isShareModal && (
+        <div
+          className="share-modal-wrapper"
+          ref={outSection}
+          onClick={(e) => {
+            if (outSection.current === e.target) {
+              closeModal();
+            }
+          }}
+        >
+          <div className="modal_content">
+            <div className="title">
+              <p>서비스 친구에게 소개하기</p>
+
+              <img onClick={closeModal} className="btn_close pointer" src="/icons/ic_close.svg" />
+            </div>
+
+            <div className="content">
+              <p>오늘의 웹툰을 친구들에게 공유하세요!</p>
+            </div>
+
+            <div className="modal_actions">
+              <img className="pointer" onClick={handleShareFacebook} src="/icons/ic-share-facebook.svg" />
+              <img className="pointer" onClick={handleShareKakao} src="/icons/ic-share-kakao.svg" />
+              <img className="pointer" onClick={handleShareTwitter} src="/icons/ic-share-twitter.svg" />
+              <img className="pointer" onClick={handleShareUrl} src="/icons/ic-share-url.svg" />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   ) : null;
 };

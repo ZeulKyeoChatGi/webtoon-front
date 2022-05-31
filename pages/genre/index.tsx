@@ -405,7 +405,14 @@ const customStyles = {
 };
 
 const Calendar = () => {
-  const [ref, inView] = useInView();
+  // const [ref, inView] = useInView();
+
+  const { ref, inView, entry } = useInView({
+    /* Optional options */
+    threshold: 0.9,
+  });
+
+
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -460,7 +467,6 @@ const Calendar = () => {
   const onDismiss = () => {
     setOpen(false);
     setPage(0);
-    getWebtoonListAll();
   };
 
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -515,14 +521,11 @@ const Calendar = () => {
     setWebtoonList(tempWebtoonList);
   }, [filters, page, selectedCategory, selectedOrder]);
 
-  // const getWebtoonListAll = async () => {
-
-  // };
-
   const onChangeWebtoonCategory = (cat: string) => {
     const selectCat = cat;
 
     setSelectedCategory(selectCat);
+    setPage(0)
   };
 
   const handleChangeOrder = (e: any) => {
