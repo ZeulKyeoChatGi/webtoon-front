@@ -227,19 +227,17 @@ const SearchGenre = () => {
   const [webtoonList, setWebtoonList] = useState<Array<CategoryWebtoon>>([]);
 
   const handleClickRouteBack = () => {
-    // router.back();
-    router.push('/search');
+    router.back();
   };
 
   const onDismiss = () => {
     setOpen(false);
     setPage(0);
-    getWebtoonListAll();
   };
 
   // 서버에서 아이템을 가지고 오는 함수
   const getWebtoonListAll = useCallback(async () => {
-    const genre = selectedCategory === 'all' ? '' : selectedCategory
+    const genre = selectedCategory === 'all' ? '' : selectedCategory;
 
     const parmas = {
       genre: genre,
@@ -288,8 +286,9 @@ const SearchGenre = () => {
   };
 
   useEffect(() => {
-    // getWebtoonListAll();
-    console.log(selectedCategory);
+    if (selectedCategory) {
+      getWebtoonListAll();
+    }
   }, [selectedCategory, selectedOrder, filters]);
 
   useEffect(() => {
@@ -311,8 +310,10 @@ const SearchGenre = () => {
         </div>
 
         <div className="title-content">
-          <div>
+          <div className="flex align-end">
             <p className="title">{categories[selectedCategory]}</p>
+
+            <span className="count">{webtoonList.length}개</span>
           </div>
 
           <img src="/icons/ic_filter.svg" onClick={() => setOpen(true)} />

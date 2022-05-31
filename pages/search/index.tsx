@@ -45,7 +45,7 @@ const Search = () => {
 
     const res = await _getWebtoonList(param);
 
-    setWebtoonList(res.data);
+    setWebtoonList(res.data.results);
   };
 
   return (
@@ -81,10 +81,12 @@ const Search = () => {
             {webtoonList.length > 0 ? (
               <>
                 {webtoonList.map((webtoon, index) => (
-                  <div className="serached-item" key={webtoon.id}>
-                    <img src="/icons/ic-search-gray.svg" />
-                    <p>{webtoon.title}</p>
-                  </div>
+                  <Link href={`/${webtoon.id}`} key={webtoon.id}>
+                    <div className="serached-item">
+                      <img src="/icons/ic-search-gray.svg" />
+                      <p>{webtoon.title}</p>
+                    </div>
+                  </Link>
                 ))}
               </>
             ) : (

@@ -186,13 +186,14 @@ const settings = {
   slidesToScroll: 1
 };
 
-const PRESS_TIME_UNTIL_DRAG_MS = 250
+const PRESS_TIME_UNTIL_DRAG_MS = 250;
 
 const Calendar = () => {
   const router = useRouter();
 
-  const [isDragging, setDragging] = useState(false)
+  const [isDragging, setDragging] = useState(false);
 
+  const [isApiLoading, setIsApiLoading] = useState(false);
 
   const [toBePaidList, setToBePaidList] = useState([]);
   const [recentlyPaidList, setRecentPaidList] = useState<Array<CalendarWebtoon>>([]);
@@ -214,7 +215,6 @@ const Calendar = () => {
   };
 
   const onClickSlider = (event: any) => {
-    console.log(event.type);
     if (event.type === 'mousemove' || event.type === 'touchmove') {
       // setIsDragging(true);
     }
@@ -229,6 +229,8 @@ const Calendar = () => {
   };
 
   const getRecentlyPaidWebtoonList = async () => {
+    setIsApiLoading(true);
+
     const params = {
       page: page + 1
     };
@@ -267,11 +269,24 @@ const Calendar = () => {
 
       setRecentPaidList(copyList);
 
-      const copyList2 = [...copyList];
+      const copyList2 = [];
 
-      setSliderWebtoon(copyList2.splice(0, 3));
+      for (const webtoon of copyList) {
+        console.log(webtoon.diffDate);
+        if (webtoon.diffDate < 0) {
+          copyList2.push(webtoon);
+        }
+      }
+
+      setSliderWebtoon(copyList2);
     }
+
+    setIsApiLoading(false);
   };
+
+  useEffect(() => {
+    console.log(isApiLoading);
+  }, [isApiLoading]);
 
   useEffect(() => {
     getListToBePaid();
@@ -284,40 +299,58 @@ const Calendar = () => {
 
   return (
     <>
-      <Slider {...settings}>
-        {sliderWebtoon.map((webtoon, index) => (
-          <div onDrag={onClickSlider} onClick={onClickSlider} key={index}>
-            <div style={{ background: webtoon.thumbnail_bg_color.split(':')[1] }} className="main-slider-wrapper">
-              <img className="img" src={webtoon.thumbnail_second_layer} />
+      {sliderWebtoon.length > 0 ? (
+        <>
+          <Slider {...settings}>
+            {sliderWebtoon.map((webtoon, index) => (
+              <div onDrag={onClickSlider} onClick={onClickSlider} key={index}>
+                <div style={{ background: webtoon.thumbnail_bg_color.split(':')[1] }} className="main-slider-wrapper">
+                  <img className="img" src={webtoon.thumbnail_second_layer} />
 
-              <div className="background_shadow"></div>
+                  <div className="background_shadow"></div>
 
-              <div className="save_info">
-                <p className="text_price">지금보면 최대 {setComma(webtoon.cookiePrice, false)}원 절약!</p>
-                <p className="text_date">
-                  {webtoon.paidYear}년 {webtoon.paidMonth}월 {webtoon.paidDay}일 유료화
-                </p>
+                  <div className="save_info">
+                    <p className="text_price">지금보면 최대 {setComma(webtoon.cookiePrice)}원 절약!</p>
+
+                    {webtoon.diffDate === 0 ? (
+                      <p className="text_date">오늘 유료화 예정</p>
+                    ) : (
+                      <p className="text_date">
+                        {webtoon.paidYear}년 {webtoon.paidMonth}월 {webtoon.paidDay}일 유료화
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="save_info"> </div>
+
+                  <div className="webtoon_info">
+                    {webtoon.platform === 'KAKAO' ? (
+                      <>
+                        <img src="/icons/K.svg" />
+                      </>
+                    ) : (
+                      <>
+                        <img src="/icons/N.svg" />
+                      </>
+                    )}
+
+                    <p className="webtoon_title">{webtoon.title}</p>
+                  </div>
+                </div>
               </div>
+            ))}
+          </Slider>
+        </>
+      ) : (
+        <>
+          <div className="main-slider-empty">
+            <p>유료화 일정인 웹툰이 없어요!</p>
 
-              <div className="save_info"> </div>
-
-              <div className="webtoon_info">
-                {webtoon.platform === 'KAKAO' ? (
-                  <>
-                    <img src="/icons/K.svg" />
-                  </>
-                ) : (
-                  <>
-                    <img src="/icons/N.svg" />
-                  </>
-                )}
-
-                <p className="webtoon_title">{webtoon.title}</p>
-              </div>
-            </div>
+            <img src="/icons/ic-slider-empty.svg" />
           </div>
-        ))}
-        {/* <div>
+        </>
+      )}
+      {/* <div>
 
         </div>
         <div>
@@ -338,7 +371,6 @@ const Calendar = () => {
             </div>
           </div>
         </div> */}
-      </Slider>
 
       <NavToggleWrapper>
         <Link href="/">
@@ -359,7 +391,7 @@ const Calendar = () => {
       </NavToggleWrapper>
 
       <Wrapper>
-        {recentlyPaidList.length > 0 ? (
+        {!isApiLoading ? (
           <>
             {recentlyPaidList.map((webtoon, index) => (
               <>

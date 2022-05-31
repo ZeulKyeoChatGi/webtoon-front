@@ -275,7 +275,7 @@ const CalendarWebtoonItem = ({
               {likeCount > 0 && (
                 <>
                   <img src="/icons/ic-heart.svg"></img>
-                  <p className={'linked'}>{setComma(likeCount, false)}</p>
+                  <p className={'linked'}>{setComma(likeCount)}</p>
                 </>
               )}
             </Layout>

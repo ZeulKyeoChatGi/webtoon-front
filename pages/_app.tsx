@@ -35,7 +35,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   useEffect(() => {
-    if (router.asPath === '/search') {
+    if (router.asPath.includes('/search')) {
       setIsHeaderShow(false);
     } else {
       setIsHeaderShow(true);

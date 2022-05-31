@@ -442,7 +442,7 @@ const Calendar = () => {
 
   const options = [
     { value: 'recent', label: '최신순' },
-    { value: 'old', label: '오랜된 순' },
+    { value: 'old', label: '오래된 순' },
     { value: 'money', label: '절약금액 순' }
   ];
 

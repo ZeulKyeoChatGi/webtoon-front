@@ -4,20 +4,11 @@
  * @param {String} n
  * @param {Boolean} isMinus - 활성화 여부
  */
-const setComma = (n: string | number, isMinus: boolean) => {
+const setComma = (n: string | number) => {
   if (n === 0 || n === '0') {
     return _setComma(String(n).replace(/[^- 0-9]/g, ''));
   } else {
-    if (isMinus) {
-      return _setComma(
-        String(n)
-          .replace(/[^- 0-9]/g, '')
-          .replace(/(^0+)/, '')
-          .replace(/(^-+)0{0,}/g, '-')
-      );
-    } else {
-      return _setComma(String(n).replace(/\D/g, '').replace(/(^0+)/, ''));
-    }
+    return _setComma(String(n).replace(/\D/g, '').replace(/(^0+)/, ''));
   }
 };
 

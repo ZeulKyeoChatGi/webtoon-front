@@ -3,7 +3,7 @@ import { useRef } from 'react';
 
 const OPTIONS = [
   { value: 'recent', name: '최신순' },
-  { value: 'old', name: '오랜된 순' },
+  { value: 'old', name: '오래된 순' },
   { value: 'money', name: '절약금액 순' }
 ];
 

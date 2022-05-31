@@ -5,6 +5,8 @@ import Link from 'next/link';
 import dayjs from 'dayjs';
 
 import _getWebtoonDetail from '@/api/webtoonId';
+import { useEffect, useState } from 'react';
+import { setComma } from '@/utils/comma';
 
 const ThumbnailWrapper = styled.div`
   display: flex;
@@ -100,6 +102,23 @@ const WebtoonInfoType = styled.div`
 
 const WebtoonInfoStory = styled.div`
   padding-left: 8px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  p {
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    color: #2c3131;
+  }
+
+  p:first-line {
+    line-height: 100% !important;
+  }
 `;
 
 const PaytoShow = styled.div`
@@ -132,6 +151,23 @@ const WebtoonDetail: React.VFC = () => {
   const { webtoonId } = router.query;
   const webtoonData = _getWebtoonDetail(webtoonId as string);
   const imageBgColor = webtoonData?.thumbnail_bg_color.split('#')[1];
+  const [saveMoney, setSaveMoney] = useState(0);
+  const [diffDate, setDiffDate] = useState(0);
+
+  useEffect(() => {
+    if (webtoonData) {
+      console.log(webtoonData);
+      setSaveMoney(webtoonData.webtoon_data[0].series_count * 120);
+
+      const nowDate = new Date();
+      const toDate = webtoonData.webtoon_data[0].paid_date;
+
+      const diffDate = nowDate.getTime() - new Date(toDate).getTime();
+      const dateDays = Math.round(diffDate / (1000 * 3600 * 24));
+
+      setDiffDate(dateDays);
+    }
+  }, [webtoonData]);
 
   return webtoonData ? (
     <div style={{ position: 'relative' }}>
@@ -162,17 +198,19 @@ const WebtoonDetail: React.VFC = () => {
           {webtoonData?.platform === 'KAKAO' && <Image src="/icons/ic_kakao.svg" alt="ic_kakao" width={68} height={20} />}
         </TeamLabel>
       </Thumbnail>
-      <Info>
-        <div>
-          <Image src="/icons/ic_pig.svg" alt="empty" width={48} height={54} />
-        </div>
-        <div>
-          <SaveMoneyText>
-            지금보면 <br />
-            최대 <SaveMoney>47,000원</SaveMoney>을 아낄 수 있어요!
-          </SaveMoneyText>
-        </div>
-      </Info>
+      {webtoonData?.webtoon_data[0].is_completed && diffDate < 0 && (
+        <Info>
+          <div>
+            <Image src="/icons/ic_pig.svg" alt="empty" width={48} height={54} />
+          </div>
+          <div>
+            <SaveMoneyText>
+              지금보면 <br />
+              최대 <SaveMoney>{setComma(saveMoney)}원</SaveMoney>을 아낄 수 있어요!
+            </SaveMoneyText>
+          </div>
+        </Info>
+      )}
       <div style={{ padding: '0 16px' }}>
         <Divider />
       </div>
@@ -182,7 +220,7 @@ const WebtoonDetail: React.VFC = () => {
             <>
               <div style={{ display: 'flex', color: '#FF6262', gap: '4px' }}>
                 <Image src="/icons/ic_eye_red.svg" alt="eye" width={13} height={13} />
-                {webtoonData.webtoon_data[0].view_count}
+                {setComma(webtoonData.webtoon_data[0].view_count)}
               </div>
               <ScoreDivider />
             </>
@@ -191,43 +229,56 @@ const WebtoonDetail: React.VFC = () => {
             <>
               <div style={{ display: 'flex', color: '#FF6262', gap: '4px' }}>
                 <Image src="/icons/ic-star.svg" alt="star" width={13} height={13} />
-                {webtoonData?.webtoon_data[0].rating}
+                {setComma(webtoonData?.webtoon_data[0].rating)}
               </div>
               <ScoreDivider />
             </>
           )}
           <div style={{ display: 'flex', color: '#FF6262', gap: '4px' }}>
             <Image src="/icons/ic-heart.svg" alt="star" width={13} height={12} />
-            {webtoonData?.webtoon_data[0].like_count}
+            {setComma(webtoonData?.webtoon_data[0].like_count)}
           </div>
         </Score>
 
         <WebtoonInfo>
           <WebtoonInfoType>작품소개</WebtoonInfoType>
-          <WebtoonInfoStory>{webtoonData?.description}</WebtoonInfoStory>
+          <WebtoonInfoStory>
+            <p>{webtoonData?.description}</p>
+          </WebtoonInfoStory>
         </WebtoonInfo>
         <WebtoonInfo>
           <WebtoonInfoType>글/그림</WebtoonInfoType>
           <WebtoonInfoStory>
-            {webtoonData?.author}
-            {webtoonData?.drawer && ` / ${webtoonData?.drawer}`}
+            <p>
+              {webtoonData?.author}
+              {webtoonData?.drawer && ` / ${webtoonData?.drawer}`}
+            </p>
           </WebtoonInfoStory>
         </WebtoonInfo>
         <WebtoonInfo>
           <WebtoonInfoType>장르</WebtoonInfoType>
-          <WebtoonInfoStory>{webtoonData?.origin_genre}</WebtoonInfoStory>
+          <WebtoonInfoStory>
+            <p>{webtoonData?.origin_genre}</p>
+          </WebtoonInfoStory>
         </WebtoonInfo>
         <WebtoonInfo>
           <WebtoonInfoType>연령대</WebtoonInfoType>
-          <WebtoonInfoStory>전체연령가</WebtoonInfoStory>
+          <WebtoonInfoStory>
+            <p>전체연령가</p>
+          </WebtoonInfoStory>
         </WebtoonInfo>
-        <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
-          <Image src="/icons/ic_talk.svg" alt="arrow" width={180} height={43} />
-          <PaytoShow>{dayjs(webtoonData?.webtoon_data[0]?.paid_date).format('YYYY[년] MM[월] DD[일]')} 유료화</PaytoShow>
+        {!!webtoonData?.webtoon_data[0]?.paid_date && diffDate < 0 && (
+          <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
+            <Image src="/icons/ic_talk.svg" alt="arrow" width={180} height={43} />
+            <PaytoShow>{dayjs(webtoonData?.webtoon_data[0]?.paid_date).format('YYYY[년] MM[월] DD[일]')} 유료화</PaytoShow>
+          </div>
+        )}
+
+        <div style={{ marginTop: diffDate > 0 ? '153px' : '' }}>
+          <Link href={webtoonData?.webtoon_url}>
+            <Button>바로 정주행 하기!</Button>
+          </Link>
         </div>
-        <Link href={webtoonData?.webtoon_url}>
-          <Button>바로 정주행 하기!</Button>
-        </Link>
       </Content>
     </div>
   ) : null;

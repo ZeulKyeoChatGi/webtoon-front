@@ -115,3 +115,32 @@
     }
   }
 }
+
+.main-slider-empty {
+  height: 340px;
+  position: relative;
+
+  p {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+
+    display: flex;
+    align-items: center;
+
+    /* black/100 */
+
+    color: #2c3131;
+
+    padding-top: 75px;
+    justify-content: center;
+  }
+
+  img {
+    position: absolute;
+    right: 21.74px;
+    top: 171px;
+  }
+}
