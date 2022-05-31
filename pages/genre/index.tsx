@@ -409,9 +409,8 @@ const Calendar = () => {
 
   const { ref, inView, entry } = useInView({
     /* Optional options */
-    threshold: 0.9,
+    threshold: 0.9
   });
-
 
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -525,7 +524,7 @@ const Calendar = () => {
     const selectCat = cat;
 
     setSelectedCategory(selectCat);
-    setPage(0)
+    setPage(0);
   };
 
   const handleChangeOrder = (e: any) => {
@@ -580,7 +579,13 @@ const Calendar = () => {
         <div className="category_filter_container">
           {/* <SelectBox /> */}
 
-          <Select onChange={handleChangeOrder} options={options} styles={customStyles} value={options.filter((obj) => obj.value === selectedOrder)} />
+          <Select
+            onChange={handleChangeOrder}
+            options={options}
+            styles={customStyles}
+            isSearchable={false}
+            value={options.filter((obj) => obj.value === selectedOrder)}
+          />
 
           <img src="/icons/ic_filter.svg" onClick={() => setOpen(true)} />
         </div>

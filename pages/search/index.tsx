@@ -78,7 +78,7 @@ const Search = () => {
           </>
         ) : (
           <>
-            {webtoonList.length > 0 ? (
+            {webtoonList.length > 0 && searchKeyword !== '' ? (
               <>
                 {webtoonList.map((webtoon, index) => (
                   <Link href={`/${webtoon.id}`} key={webtoon.id}>
