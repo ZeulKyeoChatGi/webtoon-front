@@ -195,7 +195,7 @@ const Calendar = () => {
 
   const [isApiLoading, setIsApiLoading] = useState(false);
 
-  const [toBePaidList, setToBePaidList] = useState([]);
+  const [toBePaidList, setToBePaidList] = useState<Array<CalendarWebtoon>>([]);
   const [recentlyPaidList, setRecentPaidList] = useState<Array<CalendarWebtoon>>([]);
 
   const [page, setPage] = useState(0);
@@ -206,7 +206,40 @@ const Calendar = () => {
     const result = await _getListToBePaid();
 
     if (result.data) {
+      for (const [idx, webtoon] of result.data.results.entries()) {
+        const nowDate = new Date();
+        const toDate = webtoon.webtoon_data[0].paid_date;
+
+        const diffDate = nowDate.getTime() - new Date(toDate).getTime();
+        const dateDays = Math.round(diffDate / (1000 * 3600 * 24));
+
+        webtoon.diffDate = dateDays;
+
+        const paidDate = webtoon.webtoon_data[0].paid_date;
+        const year = paidDate.substr(0, 4);
+        const month = paidDate.substr(5, 2);
+        const day = paidDate.substr(8, 2);
+
+        webtoon.paidYear = year;
+        webtoon.paidMonth = month;
+        webtoon.paidDay = day;
+
+        const cookiePrice = webtoon.webtoon_data[0].series_count * 240;
+        webtoon.cookiePrice = cookiePrice;
+
+        if (idx > 0) {
+          if (result.data.results[idx - 1].diffDate === webtoon.diffDate) {
+            webtoon.isSameDiffDate = true;
+          } else {
+            webtoon.isSameDiffDate = false;
+          }
+        }
+      }
+
       setToBePaidList(result.data.results);
+
+      const copyList2 = [...result.data.results];
+      setSliderWebtoon(copyList2.splice(0, 3));
     }
   };
 
@@ -238,7 +271,7 @@ const Calendar = () => {
     const result = await _getRecentlyPaidWebtoonList(params);
 
     if (result.data) {
-      for (const webtoon of result.data.results) {
+      for (const [idx, webtoon] of result.data.results.entries()) {
         const nowDate = new Date();
         const toDate = webtoon.webtoon_data[0].paid_date;
 
@@ -260,6 +293,16 @@ const Calendar = () => {
 
         const cookiePrice = webtoon.webtoon_data[0].series_count * 240;
         webtoon.cookiePrice = cookiePrice;
+
+        if (idx > 0) {
+          if (result.data.results[idx - 1].diffDate === webtoon.diffDate) {
+            webtoon.isSameDiffDate = true;
+          } else {
+            webtoon.isSameDiffDate = false;
+          }
+        }
+
+        console.log(webtoon);
       }
 
       const copyList = [...recentlyPaidList];
@@ -268,17 +311,6 @@ const Calendar = () => {
       });
 
       setRecentPaidList(copyList);
-
-      const copyList2 = [];
-
-      for (const webtoon of copyList) {
-        console.log(webtoon.diffDate);
-        if (webtoon.diffDate < 0) {
-          copyList2.push(webtoon);
-        }
-      }
-
-      setSliderWebtoon(copyList2);
     }
 
     setIsApiLoading(false);
@@ -393,10 +425,34 @@ const Calendar = () => {
       <Wrapper>
         {!isApiLoading ? (
           <>
+            {toBePaidList.map((webtoon, index) => (
+              <>
+                <FeeBasedPaymentWrapper style={{ margin: webtoon.isSameDiffDate && '0' }} key={index}>
+                  {!webtoon.isSameDiffDate && <p className={'title'}>{webtoon.diffDate * -1}일 뒤에 유료화</p>}
+
+                  <CalendarWebtoonItem
+                    key={index}
+                    index={index}
+                    name={webtoon.title}
+                    dDay={webtoon.diffDate.toString()}
+                    thumbnailUrl1={webtoon.thumbnail_first_layer}
+                    thumbnailUrl2={webtoon.thumbnail_second_layer}
+                    site={webtoon.platform}
+                    writer={webtoon.author}
+                    rating={webtoon.webtoon_data[0].rating || 0}
+                    likeCount={webtoon.webtoon_data[0].like_count || 0}
+                    isNaver={webtoon.platform === 'NAVER'}
+                    isKakao={webtoon.platform === 'KAKAO'}
+                    webtoonId={webtoon.id}
+                  />
+                </FeeBasedPaymentWrapper>
+              </>
+            ))}
+
             {recentlyPaidList.map((webtoon, index) => (
               <>
-                <FeeBasedPaymentWrapper key={index}>
-                  <p className={'title'}>{webtoon.diffDate}일 전 유료화</p>
+                <FeeBasedPaymentWrapper style={{ margin: webtoon.isSameDiffDate && '0' }} key={index}>
+                  {!webtoon.isSameDiffDate && <p className={'title'}>{webtoon.diffDate}일 전 유료화</p>}
 
                   <CalendarWebtoonItem
                     key={index}
