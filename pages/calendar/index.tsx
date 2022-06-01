@@ -427,7 +427,7 @@ const Calendar = () => {
           <>
             {toBePaidList.map((webtoon, index) => (
               <>
-                <FeeBasedPaymentWrapper style={{ margin: webtoon.isSameDiffDate && '0' }} key={index}>
+                <FeeBasedPaymentWrapper style={{ marginTop: webtoon.isSameDiffDate ? '0' : '22px' }} key={index}>
                   {!webtoon.isSameDiffDate && <p className={'title'}>{webtoon.diffDate * -1}일 뒤에 유료화</p>}
 
                   <CalendarWebtoonItem
@@ -451,7 +451,7 @@ const Calendar = () => {
 
             {recentlyPaidList.map((webtoon, index) => (
               <>
-                <FeeBasedPaymentWrapper style={{ margin: webtoon.isSameDiffDate && '0' }} key={index}>
+                <FeeBasedPaymentWrapper style={{ marginTop: webtoon.isSameDiffDate ? '0' : '22px' }} key={index}>
                   {!webtoon.isSameDiffDate && <p className={'title'}>{webtoon.diffDate}일 전 유료화</p>}
 
                   <CalendarWebtoonItem
