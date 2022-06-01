@@ -240,47 +240,49 @@ const CalendarWebtoonItem = ({
   return (
     <>
       <Link href={`/${webtoonId}`}>
-        <CalendarWebtoonWrapper key={index}>
-          {isKakao && <img className="background" src={thumbnailUrl2}></img>}
-          <img className="background2" src={thumbnailUrl1}></img>
+        <a className="pointer">
+          <CalendarWebtoonWrapper key={index}>
+            {isKakao && <img className="background" src={thumbnailUrl2}></img>}
+            <img className="background2" src={thumbnailUrl1}></img>
 
-          <div className={'content'}>
-            <Layout className="title_wrapper">
-              <p className={'webtoon-title'}>{name}</p>
+            <div className={'content'}>
+              <Layout className="title_wrapper">
+                <p className={'webtoon-title'}>{name}</p>
 
-              <div className="img-section">
-                {isNaver && <img src="/icons/ic-naver-w.svg" />}
-                {isKakao && <img src="/icons/ic-kakao-w.svg" />}
-              </div>
-            </Layout>
+                <div className="img-section">
+                  {isNaver && <img src="/icons/ic-naver-w.svg" />}
+                  {isKakao && <img src="/icons/ic-kakao-w.svg" />}
+                </div>
+              </Layout>
 
-            <Layout>
-              <p className={'webtoon-writer'}>{writer}</p>
-            </Layout>
+              <Layout>
+                <p className={'webtoon-writer'}>{writer}</p>
+              </Layout>
 
-            <Layout style={{ alignItems: 'center' }}>
-              {rating > 0 && (
-                <>
-                  <img src="/icons/ic-star.svg"></img>
-                  <p className={'linked'}>{rating}</p>
-                </>
-              )}
+              <Layout style={{ alignItems: 'center' }}>
+                {rating > 0 && (
+                  <>
+                    <img src="/icons/ic-star.svg"></img>
+                    <p className={'linked'}>{rating}</p>
+                  </>
+                )}
 
-              {rating > 0 && likeCount > 0 && (
-                <>
-                  <div className={'divider'}></div>
-                </>
-              )}
+                {rating > 0 && likeCount > 0 && (
+                  <>
+                    <div className={'divider'}></div>
+                  </>
+                )}
 
-              {likeCount > 0 && (
-                <>
-                  <img src="/icons/ic-heart.svg"></img>
-                  <p className={'linked'}>{setComma(likeCount)}</p>
-                </>
-              )}
-            </Layout>
-          </div>
-        </CalendarWebtoonWrapper>
+                {likeCount > 0 && (
+                  <>
+                    <img src="/icons/ic-heart.svg"></img>
+                    <p className={'linked'}>{setComma(likeCount)}</p>
+                  </>
+                )}
+              </Layout>
+            </div>
+          </CalendarWebtoonWrapper>
+        </a>
       </Link>
     </>
   );

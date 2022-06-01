@@ -220,11 +220,11 @@ const WebtoonDetail: React.VFC = () => {
       <title>{webtoonData?.title}</title>
       <ThumbnailWrapper>
         <div onClick={() => router.back()}>
-          <Image src="/icons/ic_left_arrow.svg" alt="arrow" width={12} height={20} />
+          <Image src="/icons/ic_left_arrow.svg" alt="arrow" className="pointer" width={12} height={20} />
         </div>
         <WebtoonName>{webtoonData?.title}</WebtoonName>
         <div>
-          <Image onClick={() => setIsShareModal(true)} src="/icons/ic_share.svg" alt="arrow" width={24} height={24} />
+          <Image onClick={() => setIsShareModal(true)} className="pointer" src="/icons/ic_share.svg" alt="arrow" width={24} height={24} />
         </div>
       </ThumbnailWrapper>
       <Thumbnail>
@@ -322,7 +322,9 @@ const WebtoonDetail: React.VFC = () => {
 
         <div style={{ marginTop: diffDate > 0 ? '153px' : '' }}>
           <Link href={webtoonData?.webtoon_url}>
-            <Button>바로 정주행 하기!</Button>
+            <a className="pointer">
+              <Button>바로 정주행 하기!</Button>
+            </a>
           </Link>
         </div>
       </Content>

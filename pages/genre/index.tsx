@@ -372,7 +372,8 @@ const customStyles = {
     height: '30px',
     boxShadow: state.isFocused ? null : null,
     border: 'none',
-    zIndex: 1
+    zIndex: 1,
+    cursor: 'pointer'
   }),
 
   valueContainer: (provided: any, state: any) => ({
@@ -585,9 +586,10 @@ const Calendar = () => {
             styles={customStyles}
             isSearchable={false}
             value={options.filter((obj) => obj.value === selectedOrder)}
+            className="pointer"
           />
 
-          <img src="/icons/ic_filter.svg" onClick={() => setOpen(true)} />
+          <img src="/icons/ic_filter.svg" className="pointer" onClick={() => setOpen(true)} />
         </div>
 
         {webtoonList.length > 0 ? (
