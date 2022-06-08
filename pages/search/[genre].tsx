@@ -215,10 +215,11 @@ const SearchGenre = () => {
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const [totalCount, setTotalCount] = useState(0)
+  const [totalCount, setTotalCount] = useState(0);
 
   const [open, setOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState('recent');
+  const [isInit, setIsInit] = useState(false);
 
   const [filters, setFilters] = useState<Array<Filters>>([
     { title: '네이버 웹툰', value: 'naver', isChecked: false },
@@ -277,9 +278,32 @@ const SearchGenre = () => {
       tempWebtoonList.push(webtoon);
     });
 
-    setTotalCount(result.data.count)
+    setTotalCount(result.data.count);
     setWebtoonList(tempWebtoonList);
   }, [filters, page, selectedCategory, selectedOrder]);
+
+  const setSessionStorage = () => {
+    console.log(window.scrollY);
+
+    // s : sessionStorage 값 설정
+
+    // session_obj.totalReturnData = totalReturnData;
+    // session_obj.path_name = path_name;
+    // session_obj.sort = formData.sort;
+    // setJSONSessionStorage('session_obj', session_obj); //세션 스토리지에 저장
+
+    const sessionObj = {
+      data: webtoonList,
+      scroll: window.scrollY,
+      selectedOrder: selectedOrder,
+      selectedCategory: selectedCategory,
+      page: page,
+      filters: filters
+    };
+
+    sessionStorage.setItem('searchwebtoonlist', JSON.stringify(sessionObj));
+    // e : sessionStorage 값 설정
+  };
 
   const handleClickFilter = (index: number) => {
     const copyArray = [...filters];
@@ -292,7 +316,7 @@ const SearchGenre = () => {
   };
 
   useEffect(() => {
-    if (selectedCategory) {
+    if (isInit && selectedCategory) {
       getWebtoonListAll();
     }
   }, [getWebtoonListAll, selectedCategory, selectedOrder, filters]);
@@ -307,6 +331,37 @@ const SearchGenre = () => {
       setPage((prevState) => prevState + 1);
     }
   }, [inView, loading]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    let webtoonList = sessionStorage.getItem('searchwebtoonlist');
+
+    // console.log(webtoonList);
+    // console.log(JSON.parse(webtoonList))
+
+    if (webtoonList) {
+      console.log(JSON.parse(webtoonList).page);
+
+      setWebtoonList(JSON.parse(webtoonList).data);
+      setPage(JSON.parse(webtoonList).page);
+      setFilters(JSON.parse(webtoonList).filters);
+      setSelectedOrder(JSON.parse(webtoonList).selectedOrder);
+      setSelectedCategory(JSON.parse(webtoonList).selectedCategory);
+
+      console.log(JSON.parse(webtoonList).selectedOrder);
+
+      setTimeout(() => {
+        window.scrollTo({ top: JSON.parse(webtoonList!).scroll, left: 0 });
+        setIsInit(true);
+      }, 0);
+
+      sessionStorage.removeItem('searchwebtoonlist');
+    } else {
+      getWebtoonListAll();
+      setIsInit(true);
+    }
+  }, []);
 
   return (
     <>
@@ -331,21 +386,23 @@ const SearchGenre = () => {
           <>
             {webtoonList.map((webtoon, index) => (
               <Link href={`/${webtoon.id}`} key={webtoon.id}>
-                <WebtoonCard className="pointer" ref={ref} style={{ backgroundColor: webtoon.thumbnail_bg_color?.split(':')[1]! }}>
-                  <img className="background" src={webtoon.thumbnail_first_layer} />
+                <a onClick={setSessionStorage}>
+                  <WebtoonCard className="pointer" ref={ref} style={{ backgroundColor: webtoon.thumbnail_bg_color?.split(':')[1]! }}>
+                    <img className="background" src={webtoon.thumbnail_first_layer} />
 
-                  {webtoon.thumbnail_second_layer && webtoon.platform === 'KAKAO' && (
-                    <>
-                      <img className="background2" src={webtoon.thumbnail_second_layer} />
-                    </>
-                  )}
+                    {webtoon.thumbnail_second_layer && webtoon.platform === 'KAKAO' && (
+                      <>
+                        <img className="background2" src={webtoon.thumbnail_second_layer} />
+                      </>
+                    )}
 
-                  {webtoon.platform === 'NAVER' && <img className="img-platform" src="/icons/ic-naver-w.svg" />}
-                  {webtoon.platform === 'KAKAO' && <img className="img-platform" src="/icons/ic-kakao-w.svg" />}
+                    {webtoon.platform === 'NAVER' && <img className="img-platform" src="/icons/ic-naver-w.svg" />}
+                    {webtoon.platform === 'KAKAO' && <img className="img-platform" src="/icons/ic-kakao-w.svg" />}
 
-                  <p className="title">{webtoon.title}</p>
-                  <p className="writer">{webtoon.author}</p>
-                </WebtoonCard>
+                    <p className="title">{webtoon.title}</p>
+                    <p className="writer">{webtoon.author}</p>
+                  </WebtoonCard>
+                </a>
               </Link>
             ))}
           </>

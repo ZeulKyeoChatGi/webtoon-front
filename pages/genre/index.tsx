@@ -588,15 +588,15 @@ const Calendar = () => {
       setWebtoonList(JSON.parse(webtoonList).data);
       setPage(JSON.parse(webtoonList).page);
       setFilters(JSON.parse(webtoonList).filters);
-      setSelectedOrder(JSON.parse(webtoonList).selectedOrder)
-      setSelectedCategory(JSON.parse(webtoonList).selectedCategory)
+      setSelectedOrder(JSON.parse(webtoonList).selectedOrder);
+      setSelectedCategory(JSON.parse(webtoonList).selectedCategory);
 
-      console.log(JSON.parse(webtoonList).selectedOrder)
+      console.log(JSON.parse(webtoonList).selectedOrder);
 
       setTimeout(() => {
         window.scrollTo({ top: JSON.parse(webtoonList!).scroll, left: 0 });
-      setIsInit(true);
-    }, 10);
+        setIsInit(true);
+      }, 0);
 
       sessionStorage.removeItem('webtoonlist');
     } else {
