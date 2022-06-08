@@ -298,7 +298,8 @@ const SearchGenre = () => {
       selectedOrder: selectedOrder,
       selectedCategory: selectedCategory,
       page: page,
-      filters: filters
+      filters: filters,
+      totalCount: totalCount
     };
 
     sessionStorage.setItem('searchwebtoonlist', JSON.stringify(sessionObj));
@@ -321,9 +322,7 @@ const SearchGenre = () => {
     }
   }, [getWebtoonListAll, selectedCategory, selectedOrder, filters]);
 
-  useEffect(() => {
-    setSelectedCategory(String(router.query.genre));
-  }, [router]);
+  useEffect(() => {}, [router]);
 
   useEffect(() => {
     // 사용자가 마지막 요소를 보고 있고, 로딩 중이 아니라면
@@ -348,6 +347,7 @@ const SearchGenre = () => {
       setFilters(JSON.parse(webtoonList).filters);
       setSelectedOrder(JSON.parse(webtoonList).selectedOrder);
       setSelectedCategory(JSON.parse(webtoonList).selectedCategory);
+      setTotalCount(JSON.parse(webtoonList).totalCount)
 
       console.log(JSON.parse(webtoonList).selectedOrder);
 
@@ -358,10 +358,10 @@ const SearchGenre = () => {
 
       sessionStorage.removeItem('searchwebtoonlist');
     } else {
-      getWebtoonListAll();
+      setSelectedCategory(String(router.query.genre));
       setIsInit(true);
     }
-  }, []);
+  }, [router]);
 
   return (
     <>
