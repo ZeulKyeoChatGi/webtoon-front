@@ -10,6 +10,7 @@ import Link from 'next/link';
 import ReactLoading from 'react-loading';
 import { setComma } from '@/utils/comma';
 import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
 
 const FeeBasedPaymentWrapper = styled.div`
   // background-color: #f3f3f3;
@@ -188,7 +189,7 @@ const settings = {
 
 const PRESS_TIME_UNTIL_DRAG_MS = 250;
 
-const Calendar = () => {
+const Calendar = ({ data }: any) => {
   const router = useRouter();
 
   const [isDragging, setDragging] = useState(false);
@@ -203,7 +204,11 @@ const Calendar = () => {
   const [sliderWebtoon, setSliderWebtoon] = useState<Array<CalendarWebtoon>>([]);
 
   const getListToBePaid = async () => {
-    const result = await _getListToBePaid();
+    const result = {
+      data: data
+    }
+
+    console.log(result.data)
 
     if (result.data) {
       for (const [idx, webtoon] of result.data.results.entries()) {
@@ -301,8 +306,6 @@ const Calendar = () => {
             webtoon.isSameDiffDate = false;
           }
         }
-
-        console.log(webtoon);
       }
 
       const copyList = [...recentlyPaidList];
@@ -322,8 +325,11 @@ const Calendar = () => {
 
   useEffect(() => {
     getListToBePaid();
+
     // getRecentlyPaidWebtoonList();
   }, []);
+
+  
 
   useEffect(() => {
     getRecentlyPaidWebtoonList();
@@ -489,6 +495,30 @@ const Calendar = () => {
       </Wrapper>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const res = await _getListToBePaid();
+  // const data = await res.json();
+
+  console.log(1111111111);
+
+  console.log(context);
+  console.log(await _getListToBePaid());
+
+  // data 없을 땐 리턴값을 달리함
+  // if (!data) {
+  //   return {
+  //     redirect: {
+  //       destination: '/',
+  //       permanent: false
+  //     }
+  //   };
+  // }
+  console.log(res.data);
+
+  //pageProps로 넘길 데이터
+  return { props: { data: res } };
 };
 
 export default Calendar;
