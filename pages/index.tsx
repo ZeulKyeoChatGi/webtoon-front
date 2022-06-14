@@ -189,7 +189,7 @@ const settings = {
 
 const PRESS_TIME_UNTIL_DRAG_MS = 250;
 
-const Calendar = ({ data }: any) => {
+const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
   const router = useRouter();
 
   const [isDragging, setDragging] = useState(false);
@@ -218,7 +218,11 @@ const Calendar = ({ data }: any) => {
         const diffDate = nowDate.getTime() - new Date(toDate).getTime();
         const dateDays = Math.round(diffDate / (1000 * 3600 * 24));
 
-        webtoon.diffDate = dateDays;
+        if (dateDays === 0) {
+          webtoon.diffDate = -1;
+        } else {
+          webtoon.diffDate = dateDays;
+        }
 
         const paidDate = webtoon.webtoon_data[0].paid_date;
         const year = paidDate.substr(0, 4);
@@ -241,7 +245,9 @@ const Calendar = ({ data }: any) => {
         }
       }
 
-      setToBePaidList(result.data.results);
+      if (!isEmptyPaidWebtoon) {
+        setToBePaidList(result.data.results);
+      }
 
       const copyList2 = [...result.data.results];
       setSliderWebtoon(copyList2.splice(0, 3));
@@ -284,7 +290,11 @@ const Calendar = ({ data }: any) => {
           const diffDate = nowDate.getTime() - new Date(toDate).getTime();
           const dateDays = Math.round(diffDate / (1000 * 3600 * 24));
 
-          webtoon.diffDate = dateDays;
+          if (dateDays === 0) {
+            webtoon.diffDate = 1;
+          } else {
+            webtoon.diffDate = dateDays;
+          }
         }
 
         const paidDate = webtoon.webtoon_data[0].paid_date;
@@ -501,7 +511,13 @@ const Calendar = ({ data }: any) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const res = await _getListToBePaid();
-  return { props: { data: res.data } };
+  const res2 = await _getRecentlyPaidWebtoonList({ page: 1 });
+
+  if (res.data.results.length <= 0) {
+    return { props: { data: res2.data, isEmptyPaidWebtoon: true } };
+  }
+
+  return { props: { data: res.data, isEmptyPaidWebtoon: false } };
 };
 
 export default Calendar;
