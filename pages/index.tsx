@@ -10,7 +10,7 @@ import Link from 'next/link';
 import ReactLoading from 'react-loading';
 import { setComma } from '@/utils/comma';
 import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, GetStaticProps } from 'next';
 
 const FeeBasedPaymentWrapper = styled.div`
   // background-color: #f3f3f3;
@@ -203,10 +203,14 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
 
   const [sliderWebtoon, setSliderWebtoon] = useState<Array<CalendarWebtoon>>([]);
 
+  const [dataloaded, setDataloaded] = useState(false)
+
   const getListToBePaid = async () => {
     const result = {
       data: data
     };
+
+    setDataloaded(true)
 
     console.log(result.data);
 
@@ -345,57 +349,66 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
 
   return (
     <>
-      {sliderWebtoon.length > 0 ? (
+      {dataloaded ? (
         <>
-          <Slider {...settings}>
-            {sliderWebtoon.map((webtoon, index) => (
-              <div onDrag={onClickSlider} onClick={onClickSlider} key={index}>
-                <div style={{ background: webtoon.thumbnail_bg_color.split(':')[1] }} className="main-slider-wrapper">
-                  <img className="img" src={webtoon.thumbnail_second_layer} />
+          {sliderWebtoon.length > 0 ? (
+            <>
+              <Slider {...settings}>
+                {sliderWebtoon.map((webtoon, index) => (
+                  <div onDrag={onClickSlider} onClick={onClickSlider} key={index}>
+                    <div style={{ background: webtoon.thumbnail_bg_color.split(':')[1] }} className="main-slider-wrapper">
+                      <img className="img" src={webtoon.thumbnail_second_layer} />
 
-                  <div className="background_shadow"></div>
+                      <div className="background_shadow"></div>
 
-                  <div className="save_info">
-                    <p className="text_price">지금보면 최대 {setComma(webtoon.cookiePrice)}원 절약!</p>
+                      <div className="save_info">
+                        <p className="text_price">지금보면 최대 {setComma(webtoon.cookiePrice)}원 절약!</p>
 
-                    {webtoon.diffDate === 0 ? (
-                      <p className="text_date">오늘 유료화 예정</p>
-                    ) : (
-                      <p className="text_date">
-                        {webtoon.paidYear}년 {webtoon.paidMonth}월 {webtoon.paidDay}일 유료화
-                      </p>
-                    )}
+                        {webtoon.diffDate === 0 ? (
+                          <p className="text_date">오늘 유료화 예정</p>
+                        ) : (
+                          <p className="text_date">
+                            {webtoon.paidYear}년 {webtoon.paidMonth}월 {webtoon.paidDay}일 유료화
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="save_info"> </div>
+
+                      <div className="webtoon_info">
+                        {webtoon.platform === 'KAKAO' ? (
+                          <>
+                            <img src="/icons/K.svg" />
+                          </>
+                        ) : (
+                          <>
+                            <img src="/icons/N.svg" />
+                          </>
+                        )}
+
+                        <p className="webtoon_title">{webtoon.title}</p>
+                      </div>
+                    </div>
                   </div>
+                ))}
+              </Slider>
+            </>
+          ) : (
+            <>
+              <div className="main-slider-empty">
+                <p>유료화 일정인 웹툰이 없어요!</p>
 
-                  <div className="save_info"> </div>
-
-                  <div className="webtoon_info">
-                    {webtoon.platform === 'KAKAO' ? (
-                      <>
-                        <img src="/icons/K.svg" />
-                      </>
-                    ) : (
-                      <>
-                        <img src="/icons/N.svg" />
-                      </>
-                    )}
-
-                    <p className="webtoon_title">{webtoon.title}</p>
-                  </div>
-                </div>
+                <img src="/icons/ic-slider-empty.svg" />
               </div>
-            ))}
-          </Slider>
+            </>
+          )}
         </>
       ) : (
         <>
-          <div className="main-slider-empty">
-            <p>유료화 일정인 웹툰이 없어요!</p>
-
-            <img src="/icons/ic-slider-empty.svg" />
-          </div>
+        <div style={{height: '500px'}}></div>
         </>
       )}
+
       {/* <div>
 
         </div>
@@ -509,15 +522,16 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
+  // export const getServerSideProps: GetServerSideProps = async (context) => {
   const res = await _getListToBePaid();
   const res2 = await _getRecentlyPaidWebtoonList({ page: 1 });
 
   if (res.data.results.length <= 0) {
-    return { props: { data: res2.data, isEmptyPaidWebtoon: true } };
+    return { props: { data: res2.data, isEmptyPaidWebtoon: true, fallback: 'blocking' } };
   }
 
-  return { props: { data: res.data, isEmptyPaidWebtoon: false } };
+  return { props: { data: res.data, isEmptyPaidWebtoon: false, fallback: 'blocking' } };
 };
 
 export default Calendar;
