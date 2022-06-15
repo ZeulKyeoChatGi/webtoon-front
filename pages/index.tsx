@@ -196,6 +196,8 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
 
   const [isApiLoading, setIsApiLoading] = useState(false);
 
+  const [isLastPage, setIsLastPage] = useState(false);
+
   const [toBePaidList, setToBePaidList] = useState<Array<CalendarWebtoon>>([]);
   const [recentlyPaidList, setRecentPaidList] = useState<Array<CalendarWebtoon>>([]);
 
@@ -203,14 +205,14 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
 
   const [sliderWebtoon, setSliderWebtoon] = useState<Array<CalendarWebtoon>>([]);
 
-  const [dataloaded, setDataloaded] = useState(false)
+  const [dataloaded, setDataloaded] = useState(false);
 
   const getListToBePaid = async () => {
     const result = {
       data: data
     };
 
-    setDataloaded(true)
+    setDataloaded(true);
 
     console.log(result.data);
 
@@ -285,7 +287,11 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
 
     const result = await _getRecentlyPaidWebtoonList(params);
 
-    if (result.data) {
+    console.log(result.data);
+
+    if (result) {
+      if (result.data.next === null) setIsLastPage(true);
+
       for (const [idx, webtoon] of result.data.results.entries()) {
         const nowDate = new Date();
         const toDate = webtoon.webtoon_data[0].paid_date;
@@ -405,7 +411,7 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
         </>
       ) : (
         <>
-        <div style={{height: '500px'}}></div>
+          <div style={{ height: '500px' }}></div>
         </>
       )}
 
@@ -450,7 +456,7 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
       </NavToggleWrapper>
 
       <Wrapper>
-        {!isApiLoading ? (
+        {toBePaidList.length >= 0 && recentlyPaidList.length >= 0 ? (
           <>
             {toBePaidList.map((webtoon, index) => (
               <>
@@ -503,6 +509,14 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
                 </FeeBasedPaymentWrapper>
               </>
             ))}
+
+            {isApiLoading && (
+              <>
+                <Layout style={{ display: 'flex', justifyContent: 'center' }}>
+                  <ReactLoading type="bubbles" color="#000" />
+                </Layout>
+              </>
+            )}
           </>
         ) : (
           <>
@@ -515,7 +529,11 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
         )}
 
         <BottomActionWrapper>
-          <img onClick={getNextPage} className="pointer" style={{ width: '32px', height: '32px' }} src="/icons/ic-more-btn.svg" />
+          {!isLastPage ? (
+            <img onClick={getNextPage} className="pointer" style={{ width: '32px', height: '32px' }} src="/icons/ic-more-btn.svg" />
+          ) : (
+            <div style={{ height: '90px' }}></div>
+          )}
         </BottomActionWrapper>
       </Wrapper>
     </>
