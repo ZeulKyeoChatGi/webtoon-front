@@ -206,9 +206,9 @@ const Calendar = ({ data }: any) => {
   const getListToBePaid = async () => {
     const result = {
       data: data
-    }
+    };
 
-    console.log(result.data)
+    console.log(result.data);
 
     if (result.data) {
       for (const [idx, webtoon] of result.data.results.entries()) {
@@ -229,7 +229,7 @@ const Calendar = ({ data }: any) => {
         webtoon.paidMonth = month;
         webtoon.paidDay = day;
 
-        const cookiePrice = webtoon.webtoon_data[0].series_count * 240;
+        const cookiePrice = webtoon.webtoon_data[0].series_count * 200;
         webtoon.cookiePrice = cookiePrice;
 
         if (idx > 0) {
@@ -296,7 +296,7 @@ const Calendar = ({ data }: any) => {
         webtoon.paidMonth = month;
         webtoon.paidDay = day;
 
-        const cookiePrice = webtoon.webtoon_data[0].series_count * 240;
+        const cookiePrice = webtoon.webtoon_data[0].series_count * 200;
         webtoon.cookiePrice = cookiePrice;
 
         if (idx > 0) {
@@ -328,8 +328,6 @@ const Calendar = ({ data }: any) => {
 
     // getRecentlyPaidWebtoonList();
   }, []);
-
-  
 
   useEffect(() => {
     getRecentlyPaidWebtoonList();

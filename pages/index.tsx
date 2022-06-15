@@ -233,7 +233,7 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
         webtoon.paidMonth = month;
         webtoon.paidDay = day;
 
-        const cookiePrice = webtoon.webtoon_data[0].series_count * 240;
+        const cookiePrice = webtoon.webtoon_data[0].series_count * 200;
         webtoon.cookiePrice = cookiePrice;
 
         if (idx > 0) {
@@ -306,7 +306,7 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
         webtoon.paidMonth = month;
         webtoon.paidDay = day;
 
-        const cookiePrice = webtoon.webtoon_data[0].series_count * 240;
+        const cookiePrice = webtoon.webtoon_data[0].series_count * 200;
         webtoon.cookiePrice = cookiePrice;
 
         if (idx > 0) {
