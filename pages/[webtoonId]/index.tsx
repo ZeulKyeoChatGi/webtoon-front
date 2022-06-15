@@ -156,6 +156,8 @@ const WebtoonDetail: React.VFC = () => {
   const [saveMoney, setSaveMoney] = useState(0);
   const [diffDate, setDiffDate] = useState(0);
 
+  const [isShowDesc, setIsShowDesc] = useState(false)
+
   const [isShareModal, setIsShareModal] = useState(false);
   const outSection = useRef(null);
   const closeModal = () => {
@@ -199,6 +201,10 @@ const WebtoonDetail: React.VFC = () => {
       progress: undefined
     });
   };
+
+  const showDesc = () => {
+    setIsShowDesc(true)
+  }
 
   useEffect(() => {
     if (webtoonData) {
@@ -288,8 +294,8 @@ const WebtoonDetail: React.VFC = () => {
 
         <WebtoonInfo>
           <WebtoonInfoType>작품소개</WebtoonInfoType>
-          <WebtoonInfoStory>
-            <p>{webtoonData?.description}</p>
+          <WebtoonInfoStory className={isShowDesc ? 'webtoon-desc' : 'pointer'}>
+            <p onClick={showDesc}>{webtoonData?.description}</p>
           </WebtoonInfoStory>
         </WebtoonInfo>
         <WebtoonInfo>
