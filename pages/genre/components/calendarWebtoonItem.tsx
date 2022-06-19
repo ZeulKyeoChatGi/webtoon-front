@@ -9,7 +9,7 @@ interface webtoonInfoProp {
   dDay: string;
   thumbnailUrl1: string;
   thumbnailUrl2: string;
-  backgroundColor: string;
+  backgroundColor?: string;
   site: string;
   writer: string;
   rating: number;
@@ -17,7 +17,7 @@ interface webtoonInfoProp {
   isNaver: boolean;
   isKakao: boolean;
   webtoonId: number;
-  widthDiff: string | undefined;
+  widthDiff?: string | undefined;
 }
 
 const Layout = styled.div`
