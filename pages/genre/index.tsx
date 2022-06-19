@@ -211,7 +211,7 @@ const WebtoonCard = styled.div`
   }
 
   img.background2 {
-    z-index: 1;
+    z-index: -1;
     position: absolute;
     overflow: hidden;
     height: 100%;
