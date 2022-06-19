@@ -278,6 +278,8 @@ const SearchGenre = () => {
       tempWebtoonList.push(webtoon);
     });
 
+    console.log(tempWebtoonList)
+
     setTotalCount(result.data.count);
     setWebtoonList(tempWebtoonList);
   }, [filters, page, selectedCategory, selectedOrder]);
@@ -347,7 +349,7 @@ const SearchGenre = () => {
       setFilters(JSON.parse(webtoonList).filters);
       setSelectedOrder(JSON.parse(webtoonList).selectedOrder);
       setSelectedCategory(JSON.parse(webtoonList).selectedCategory);
-      setTotalCount(JSON.parse(webtoonList).totalCount)
+      setTotalCount(JSON.parse(webtoonList).totalCount);
 
       console.log(JSON.parse(webtoonList).selectedOrder);
 
@@ -390,7 +392,7 @@ const SearchGenre = () => {
                   <WebtoonCard className="pointer" ref={ref} style={{ backgroundColor: webtoon.thumbnail_bg_color?.split(':')[1]! }}>
                     <img className="background" src={webtoon.thumbnail_first_layer} />
 
-                    {webtoon.thumbnail_second_layer && webtoon.platform === 'KAKAO' && (
+                    {webtoon.thumbnail_second_layer && (
                       <>
                         <img className="background2" src={webtoon.thumbnail_second_layer} />
                       </>

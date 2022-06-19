@@ -1,7 +1,12 @@
 @media (min-width: 640px) {
   .main-slider-wrapper {
     .img {
-      width: 60%;
+      width: 60% !important;
+    }
+
+    .img2 {
+      width: 60% !important;
+
     }
   }
 }
@@ -10,15 +15,24 @@
   width: 100%;
   height: 340px;
   position: relative;
-  // background-color: #eee0f7;
-  // background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 40.1%);
+  overflow: hidden;
 
-  img {
+  .img {
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 0%);
     width: 100%;
+    z-index: 1;
+  }
+
+  .img2 {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    width: 100%;
+    z-index: 2;
   }
 
   .background_shadow {
@@ -26,6 +40,7 @@
     width: 100%;
     height: 100%;
     background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0) 40.1%);
+    z-index: 5;
   }
 
   .save_info {
@@ -35,10 +50,11 @@
     position: absolute;
     right: 16px;
     top: 16px;
+    z-index: 7;
 
     .text_price {
       /* M/20px/bold */
-
+      justify-content: flex-end;
       font-family: 'Pretendard';
       font-style: normal;
       font-weight: 700;
@@ -92,12 +108,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 10;
 
     img {
       width: 12px;
       height: 20px;
-      position: initial;
-      margin-left: 8px;
+      position: static;
+      margin-left: 2px;
+      margin-right: 7px;
     }
 
     p.webtoon_title {
@@ -143,4 +161,22 @@
     right: 21.74px;
     top: 171px;
   }
+}
+
+
+p.webtoon-list-title {
+  margin-bottom: 4px;
+  padding: 16px 16px 0 16px;
+
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 26px;
+  /* identical to box height, or 144% */
+
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+
+  color: #000000;
 }

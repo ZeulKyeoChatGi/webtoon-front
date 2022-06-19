@@ -211,7 +211,7 @@ const WebtoonCard = styled.div`
   }
 
   img.background2 {
-    z-index: -1;
+    z-index: 1;
     position: absolute;
     overflow: hidden;
     height: 100%;
@@ -520,6 +520,9 @@ const Calendar = () => {
       tempWebtoonList.push(webtoon);
     });
 
+
+    console.log(tempWebtoonList)
+
     setWebtoonList(tempWebtoonList);
   }, [filters, page, selectedCategory, selectedOrder]);
 
@@ -661,7 +664,7 @@ const Calendar = () => {
                   <WebtoonCard className="pointer" ref={ref} style={{ backgroundColor: webtoon.thumbnail_bg_color?.split(':')[1]! }}>
                     <img className="background" src={webtoon.thumbnail_first_layer} />
 
-                    {webtoon.thumbnail_second_layer && webtoon.platform === 'KAKAO' && (
+                    {webtoon.thumbnail_second_layer && (
                       <>
                         <img className="background2" src={webtoon.thumbnail_second_layer} />
                       </>

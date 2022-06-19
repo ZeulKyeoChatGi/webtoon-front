@@ -9,6 +9,7 @@ interface webtoonInfoProp {
   dDay: string;
   thumbnailUrl1: string;
   thumbnailUrl2: string;
+  backgroundColor: string;
   site: string;
   writer: string;
   rating: number;
@@ -16,6 +17,7 @@ interface webtoonInfoProp {
   isNaver: boolean;
   isKakao: boolean;
   webtoonId: number;
+  widthDiff: string | undefined;
 }
 
 const Layout = styled.div`
@@ -38,31 +40,45 @@ const CalendarWebtoonWrapper = styled.div`
   position: relative;
   overflow: hidden;
 
-  .img-section {
-  }
-
-  img.background {
-    min-width: 80px;
-    margin: 8px 16px 8px 8px;
-    position: absolute;
+  .main-img-section {
+    position: relative;
     width: 80px;
-    overflow: hidden;
-    height: 80px;
-    object-fit: cover;
-    object-position: top;
-  }
-
-  img.background2 {
-    z-index: 1;
     min-width: 80px;
-    height: 80px;
+    overflow: hidden;
 
-    // background: #abb4bf;
-    margin: 8px 16px 8px 8px;
+    img.background-color {
+      z-index: 0;
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: red;
+      margin: 8px 16px 8px 8px;
+    }
+
+    img.background {
+      z-index: 2;
+      min-width: 80px;
+      margin: 8px 16px 8px 8px;
+      position: absolute;
+      /* width: 80px; */
+      overflow: hidden;
+      height: 80px;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    img.background2 {
+      z-index: 1;
+      min-width: 80px;
+      height: 80px;
+      margin: 8px 16px 8px 0px;
+      position: absolute;
+    }
   }
 
   .content {
     margin: 12px 0;
+    margin-left: 24px;
 
     display: flex;
     flex-direction: column;
@@ -229,21 +245,26 @@ const CalendarWebtoonItem = ({
   dDay,
   thumbnailUrl1,
   thumbnailUrl2,
+  backgroundColor,
   site,
   writer,
   rating,
   likeCount,
   isNaver,
   isKakao,
-  webtoonId
+  webtoonId,
+  widthDiff
 }: webtoonInfoProp) => {
   return (
     <>
       <Link href={`/${webtoonId}`}>
         <a className="pointer">
           <CalendarWebtoonWrapper key={index}>
-            {isKakao && <img className="background" src={thumbnailUrl2}></img>}
-            <img className="background2" src={thumbnailUrl1}></img>
+            <div className="main-img-section">
+              <div className="background-color"></div>
+              {thumbnailUrl1 && <img className="background2" src={thumbnailUrl1}></img>}
+              {thumbnailUrl2 && <img className="background" src={thumbnailUrl2} style={{ marginLeft: widthDiff }}></img>}
+            </div>
 
             <div className={'content'}>
               <Layout className="title_wrapper">

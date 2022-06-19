@@ -32,6 +32,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     // @ts-ignore
     window.Kakao.init('350229edb0e64261ecacf6fdcc508c57');
+
+    window.onbeforeunload = function () {
+      window.scrollTo(0, 0);
+    };
   }, []);
 
   useEffect(() => {

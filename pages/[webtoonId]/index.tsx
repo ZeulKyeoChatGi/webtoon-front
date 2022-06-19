@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import dayjs from 'dayjs';
@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 import { setComma } from '@/utils/comma';
 import { shareToFacebook, shareToKakao, shareToTwitter } from '@/utils/share';
 import { toast } from 'react-toastify';
+import { setDefaultResultOrder } from 'dns';
 
 const ThumbnailWrapper = styled.div`
   display: flex;
@@ -156,7 +157,7 @@ const WebtoonDetail: React.VFC = () => {
   const [saveMoney, setSaveMoney] = useState(0);
   const [diffDate, setDiffDate] = useState(0);
 
-  const [isShowDesc, setIsShowDesc] = useState(false)
+  const [isShowDesc, setIsShowDesc] = useState(false);
 
   const [isShareModal, setIsShareModal] = useState(false);
   const outSection = useRef(null);
@@ -203,8 +204,8 @@ const WebtoonDetail: React.VFC = () => {
   };
 
   const showDesc = () => {
-    setIsShowDesc(true)
-  }
+    setIsShowDesc(true);
+  };
 
   useEffect(() => {
     if (webtoonData) {
@@ -218,6 +219,14 @@ const WebtoonDetail: React.VFC = () => {
       const dateDays = Math.round(diffDate / (1000 * 3600 * 24));
 
       setDiffDate(dateDays);
+
+      const _img1 = new Image();
+      _img1.src = webtoonData.thumbnail_first_layer;
+
+      const _img2 = new Image();
+      _img2.src = webtoonData.thumbnail_second_layer;
+
+      webtoonData.diffWidth = (_img2.width - _img1.width) * -1 + 'px';
     }
   }, [webtoonData]);
 
@@ -226,34 +235,37 @@ const WebtoonDetail: React.VFC = () => {
       <title>{webtoonData?.title}</title>
       <ThumbnailWrapper>
         <div onClick={() => router.back()}>
-          <Image src="/icons/ic_left_arrow.svg" alt="arrow" className="pointer" width={12} height={20} />
+          <img src="/icons/ic_left_arrow.svg" alt="arrow" className="pointer" width={12} height={20} />
         </div>
         <WebtoonName>{webtoonData?.title}</WebtoonName>
         <div>
-          <Image onClick={() => setIsShareModal(true)} className="pointer" src="/icons/ic_share.svg" alt="arrow" width={24} height={24} />
+          <img onClick={() => setIsShareModal(true)} className="pointer" src="/icons/ic_share.svg" alt="arrow" width={24} height={24} />
         </div>
       </ThumbnailWrapper>
       <Thumbnail>
-        <img style={{ height: '100%', position: 'absolute' }} src={webtoonData?.thumbnail_first_layer} />
+        <img style={{ height: '100%', position: 'absolute', zIndex: 1 }} src={webtoonData?.thumbnail_first_layer} />
+        <img style={{ height: '100%', position: 'absolute', marginLeft: webtoonData?.diffWidth, zIndex: 2 }} src={webtoonData?.thumbnail_second_layer} />
+
         {webtoonData?.platform === 'NAVER' ? (
           <div style={{ width: '100%', height: '100%', backgroundColor: `#${imageBgColor}` }} />
         ) : (
-          <img style={{ height: '100%', zIndex: 1 }} src={webtoonData?.thumbnail_second_layer} />
+          <img style={{ height: '100%', zIndex: 2 }} src={webtoonData?.thumbnail_second_layer} />
         )}
+
         <TeamLabel>
           {webtoonData?.webtoon_data[0].is_completed ? (
-            <Image src="/icons/ic_complete_status.svg" alt="ic_complete_status" width={48} height={20} />
+            <img src="/icons/ic_complete_status.svg" alt="ic_complete_status" width={48} height={20} />
           ) : (
-            <Image src="/icons/ic_proceed_status.svg" alt="ic_proceed_status" width={48} height={20} />
+            <img src="/icons/ic_proceed_status.svg" alt="ic_proceed_status" width={48} height={20} />
           )}
-          {webtoonData?.platform === 'NAVER' && <Image src="/icons/ic_naver.svg" alt="ic_naver" width={68} height={20} />}
-          {webtoonData?.platform === 'KAKAO' && <Image src="/icons/ic_kakao.svg" alt="ic_kakao" width={68} height={20} />}
+          {webtoonData?.platform === 'NAVER' && <img src="/icons/ic_naver.svg" alt="ic_naver" width={68} height={20} />}
+          {webtoonData?.platform === 'KAKAO' && <img src="/icons/ic_kakao.svg" alt="ic_kakao" width={68} height={20} />}
         </TeamLabel>
       </Thumbnail>
       {webtoonData?.webtoon_data[0].is_completed && diffDate < 0 && (
         <Info>
           <div>
-            <Image src="/icons/ic_pig.svg" alt="empty" width={48} height={54} />
+            <img src="/icons/ic_pig.svg" alt="empty" width={48} height={54} />
           </div>
           <div>
             <SaveMoneyText>
@@ -271,7 +283,7 @@ const WebtoonDetail: React.VFC = () => {
           {webtoonData?.webtoon_data[0].view_count && (
             <>
               <div style={{ display: 'flex', color: '#FF6262', gap: '4px' }}>
-                <Image src="/icons/ic_eye_red.svg" alt="eye" width={13} height={13} />
+                <img src="/icons/ic_eye_red.svg" alt="eye" width={13} height={13} />
                 {setComma(webtoonData.webtoon_data[0].view_count)}
               </div>
               <ScoreDivider />
@@ -280,14 +292,14 @@ const WebtoonDetail: React.VFC = () => {
           {webtoonData?.webtoon_data[0].rating && (
             <>
               <div style={{ display: 'flex', color: '#FF6262', gap: '4px' }}>
-                <Image src="/icons/ic-star.svg" alt="star" width={13} height={13} />
+                <img src="/icons/ic-star.svg" alt="star" width={13} height={13} />
                 {setComma(webtoonData?.webtoon_data[0].rating)}
               </div>
               <ScoreDivider />
             </>
           )}
           <div style={{ display: 'flex', color: '#FF6262', gap: '4px' }}>
-            <Image src="/icons/ic-heart.svg" alt="star" width={13} height={12} />
+            <img src="/icons/ic-heart.svg" alt="star" width={13} height={12} />
             {setComma(webtoonData?.webtoon_data[0].like_count)}
           </div>
         </Score>
@@ -321,7 +333,7 @@ const WebtoonDetail: React.VFC = () => {
         </WebtoonInfo>
         {!!webtoonData?.webtoon_data[0]?.paid_date && diffDate < 0 && (
           <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
-            <Image src="/icons/ic_talk.svg" alt="arrow" width={180} height={43} />
+            <img src="/icons/ic_talk.svg" alt="arrow" width={180} height={43} />
             <PaytoShow>{dayjs(webtoonData?.webtoon_data[0]?.paid_date).format('YYYY[년] MM[월] DD[일]')} 유료화</PaytoShow>
           </div>
         )}

@@ -181,7 +181,7 @@ const settings = {
   dotsClass: 'slick-dots slick-thumb',
   infinite: true,
   speed: 500,
-  autoplay: true,
+  // autoplay: true,
   autoplaySpeed: 4000,
   slidesToShow: 1,
   slidesToScroll: 1
@@ -213,8 +213,6 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
     };
 
     setDataloaded(true);
-
-    console.log(result.data);
 
     if (result.data) {
       for (const [idx, webtoon] of result.data.results.entries()) {
@@ -255,8 +253,20 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
         setToBePaidList(result.data.results);
       }
 
-      const copyList2 = [...result.data.results];
-      setSliderWebtoon(copyList2.splice(0, 3));
+      let copyList2 = [...result.data.results];
+      copyList2 = copyList2.splice(0, 3);
+
+      for (const img of copyList2) {
+        const _img1 = new Image();
+        _img1.src = img.thumbnail_first_layer;
+
+        const _img2 = new Image();
+        _img2.src = img.thumbnail_second_layer;
+
+        img.widthDiff = (_img2.width - _img1.width) * -1 + 'px';
+      }
+
+      setSliderWebtoon(copyList2);
     }
   };
 
@@ -286,8 +296,6 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
     };
 
     const result = await _getRecentlyPaidWebtoonList(params);
-
-    console.log(result.data);
 
     if (result) {
       if (result.data.next === null) setIsLastPage(true);
@@ -326,22 +334,30 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
             webtoon.isSameDiffDate = false;
           }
         }
+
+        const _img1 = new Image();
+        _img1.src = webtoon.thumbnail_first_layer;
+
+        const _img2 = new Image();
+        _img2.src = webtoon.thumbnail_second_layer;
+
+        webtoon.widthDiff = ((_img2.width - _img1.width) * -1) / 3 + 'px';
       }
+
+      console.log(result.data.results);
 
       const copyList = [...recentlyPaidList];
       result.data.results.map((webtoon: any) => {
         copyList.push(webtoon);
       });
 
+      console.log(copyList);
+
       setRecentPaidList(copyList);
     }
 
     setIsApiLoading(false);
   };
-
-  useEffect(() => {
-    console.log(isApiLoading);
-  }, [isApiLoading]);
 
   useEffect(() => {
     getListToBePaid();
@@ -363,20 +379,31 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
                 {sliderWebtoon.map((webtoon, index) => (
                   <div onDrag={onClickSlider} onClick={onClickSlider} key={index}>
                     <div style={{ background: webtoon.thumbnail_bg_color.split(':')[1] }} className="main-slider-wrapper">
-                      <img className="img" src={webtoon.thumbnail_second_layer} />
+                      <img className="img" src={webtoon.thumbnail_first_layer} />
+                      <img className="img2" src={webtoon.thumbnail_second_layer} style={{ marginLeft: webtoon.widthDiff }} />
 
                       <div className="background_shadow"></div>
 
                       <div className="save_info">
-                        <p className="text_price">지금보면 최대 {setComma(webtoon.cookiePrice)}원 절약!</p>
+                        {webtoon.diffDate > 0 ? (
+                          <p className="text_price">최근 유료화 됐어요</p>
+                        ) : (
+                          <p className="text_price">지금보면 최대 {setComma(webtoon.cookiePrice)}원 절약!</p>
+                        )}
 
-                        {webtoon.diffDate === 0 ? (
+                        {/* {webtoon.diffDate === 0 ? (
                           <p className="text_date">오늘 유료화 예정</p>
                         ) : (
                           <p className="text_date">
                             {webtoon.paidYear}년 {webtoon.paidMonth}월 {webtoon.paidDay}일 유료화
                           </p>
-                        )}
+                        )} */}
+
+                        {webtoon.diffDate === 0 && <p className="text_date">오늘 유료화 예정</p>}
+
+                        <p className="text_date">
+                          {webtoon.paidYear}년 {webtoon.paidMonth}월 {webtoon.paidDay}일 유료화
+                        </p>
                       </div>
 
                       <div className="save_info"> </div>
@@ -474,6 +501,7 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
                     dDay={webtoon.diffDate.toString()}
                     thumbnailUrl1={webtoon.thumbnail_first_layer}
                     thumbnailUrl2={webtoon.thumbnail_second_layer}
+                    backgroundColor={webtoon.thumbnail_bg_color}
                     site={webtoon.platform}
                     writer={webtoon.author}
                     rating={webtoon.webtoon_data[0].rating || 0}
@@ -481,16 +509,16 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
                     isNaver={webtoon.platform === 'NAVER'}
                     isKakao={webtoon.platform === 'KAKAO'}
                     webtoonId={webtoon.id}
+                    widthDiff={webtoon.widthDiff}
                   />
                 </FeeBasedPaymentWrapper>
               </>
             ))}
 
+            {<p className={'webtoon-list-title'}>최근 유료화 된 작품</p>}
             {recentlyPaidList.map((webtoon, index) => (
               <>
-                <FeeBasedPaymentWrapper style={{ marginTop: webtoon.isSameDiffDate ? '0' : '22px' }} key={index}>
-                  {!webtoon.isSameDiffDate && <p className={'title'}>{webtoon.diffDate}일 전 유료화</p>}
-
+                <FeeBasedPaymentWrapper style={{ marginTop: webtoon.isSameDiffDate ? '0' : '0' }} key={index}>
                   <CalendarWebtoonItem
                     key={index}
                     index={index}
@@ -498,6 +526,7 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
                     dDay={webtoon.diffDate.toString()}
                     thumbnailUrl1={webtoon.thumbnail_first_layer}
                     thumbnailUrl2={webtoon.thumbnail_second_layer}
+                    backgroundColor={webtoon.thumbnail_bg_color}
                     site={webtoon.platform}
                     writer={webtoon.author}
                     rating={webtoon.webtoon_data[0].rating || 0}
@@ -505,6 +534,7 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
                     isNaver={webtoon.platform === 'NAVER'}
                     isKakao={webtoon.platform === 'KAKAO'}
                     webtoonId={webtoon.id}
+                    widthDiff={webtoon.widthDiff}
                   />
                 </FeeBasedPaymentWrapper>
               </>

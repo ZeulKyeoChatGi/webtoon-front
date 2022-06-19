@@ -23,6 +23,7 @@ export interface CalendarWebtoon {
   paidDay:                string;
   cookiePrice:            number;
   isSameDiffDate:         boolean;
+  widthDiff?:             string;
 }
 
 export interface WebtoonDatum {
