@@ -212,6 +212,8 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
       data: data
     };
 
+    const newToBePaidWebtoons = []
+
     setDataloaded(true);
 
     if (result.data) {

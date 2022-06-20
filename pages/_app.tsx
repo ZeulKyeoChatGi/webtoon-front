@@ -23,6 +23,7 @@ import { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -49,6 +50,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <SWRConfig value={{ fetcher }}>
+        <Head>
+          <script async src="https://www.googleoptimize.com/optimize.js?id=OPT-TGCBRJD"></script>
+        </Head>
         <div className="global-wrapper">
           {isHeaderShow && (
             <div className="header-wrapper">

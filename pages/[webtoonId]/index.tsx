@@ -170,16 +170,27 @@ const WebtoonDetail: React.VFC = () => {
   };
 
   const handleShareTwitter = () => {
-    shareToTwitter(`오늘 보면 웹툰가격원 아낄 수 있는 웹툰 알려드림`);
+    if (diffDate > 0) {
+      shareToTwitter(`이 웹툰 재질 걍 미쳤음 꼭 보세요`, `https://todaytoon.me/${webtoonId}`);
+    } else {
+      shareToTwitter(`오늘 보면 ${setComma(saveMoney)}원 아낄 수 있는 웹툰 알려드림`, `https://todaytoon.me/${webtoonId}`);
+    }
+
+    console.log(diffDate);
   };
 
   const handleShareKakao = () => {
-    shareToKakao(
-      '내일이면 유료화되는 웹툰이 궁금하다면?',
-      '#오늘의웹툰 #웹툰정주행 #오늘까지_무료',
-      'https://shared-comic.pstatic.net/thumb/webtoon/703850/thumbnail/thumbnail_IMAG06_fb5b9cec-432d-49c6-8215-8c05d6c8494c.jpg',
-      'https://todaytoon.me'
-    );
+    let title = '';
+    let content = `#오늘의웹툰 #웹툰정주행 #오늘까지_무료`;
+    console.log(webtoonData.thumbnail_second_layer);
+
+    if (diffDate > 0) {
+      title = '이 웹툰, 오늘 봐야 더 재밌어요!';
+    } else {
+      title = `이 웹툰, 오늘 봐야 ${setComma(saveMoney)}원 아낄 수 있어요!`;
+    }
+
+    shareToKakao(title, content, webtoonData.thumbnail_second_layer, `https://todaytoon.me/${webtoonId}`);
   };
 
   const handleShareUrl = () => {
@@ -213,7 +224,7 @@ const WebtoonDetail: React.VFC = () => {
       setSaveMoney(webtoonData.webtoon_data[0].series_count * 100);
 
       const nowDate = new Date();
-      const toDate = webtoonData.webtoon_data[0].paid_date;
+      const toDate = webtoonData.webtoon_data[0].ended_at || webtoonData.webtoon_data[0].paid_date;
 
       const diffDate = nowDate.getTime() - new Date(toDate).getTime();
       const dateDays = Math.round(diffDate / (1000 * 3600 * 24));
@@ -244,7 +255,10 @@ const WebtoonDetail: React.VFC = () => {
       </ThumbnailWrapper>
       <Thumbnail>
         <img style={{ height: '100%', position: 'absolute', zIndex: 1 }} src={webtoonData?.thumbnail_first_layer} />
-        <img style={{ height: '100%', position: 'absolute', marginLeft: webtoonData?.diffWidth, zIndex: 2 }} src={webtoonData?.thumbnail_second_layer} />
+        <img
+          style={{ height: '100%', position: 'absolute', marginLeft: webtoonData?.diffWidth, zIndex: 2 }}
+          src={webtoonData?.thumbnail_second_layer}
+        />
 
         {webtoonData?.platform === 'NAVER' ? (
           <div style={{ width: '100%', height: '100%', backgroundColor: `#${imageBgColor}` }} />

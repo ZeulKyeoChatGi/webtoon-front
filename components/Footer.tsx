@@ -29,11 +29,11 @@ const Footer = () => {
   };
 
   const handleShareFacebook = () => {
-    shareToFacebook()
+    shareToFacebook();
   };
 
   const handleShareTwitter = () => {
-    shareToTwitter(`오늘 보면 웹툰가격원 아낄 수 있는 웹툰 알려드림`)
+    shareToTwitter(`오늘 보면 웹툰가격원 아낄 수 있는 웹툰 알려드림`, 'https://todaytoon.me');
   };
 
   const handleClickServay = () => {
