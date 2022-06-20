@@ -41,7 +41,9 @@ const Footer = () => {
   };
 
   const handleShareKakao = () => {
-    if (document.querySelector('.b-test') === null) {
+    console.log(document.querySelector('b-test'));
+    console.log(document.querySelector('.b-test'));
+    if (document.querySelector('b-test') === null) {
       shareToKakao(
         '내일이면 유료화되는 웹툰이 궁금하다면?',
         '#오늘의웹툰 #웹툰정주행 #오늘까지_무료',
