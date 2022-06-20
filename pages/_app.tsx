@@ -54,8 +54,8 @@ function MyApp({ Component, pageProps }: AppProps) {
           <title>오늘의 웹툰</title>
 
           <script async src="https://www.googleoptimize.com/optimize.js?id=OPT-TGCBRJD"></script>
-
         </Head>
+
         <div className="global-wrapper">
           {isHeaderShow && (
             <div className="header-wrapper">

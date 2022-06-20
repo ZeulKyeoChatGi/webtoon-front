@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -41,12 +41,21 @@ const Footer = () => {
   };
 
   const handleShareKakao = () => {
-    shareToKakao(
-      '내일이면 유료화되는 웹툰이 궁금하다면?',
-      '#오늘의웹툰 #웹툰정주행 #오늘까지_무료',
-      'https://shared-comic.pstatic.net/thumb/webtoon/703850/thumbnail/thumbnail_IMAG06_fb5b9cec-432d-49c6-8215-8c05d6c8494c.jpg',
-      'https://todaytoon.me'
-    );
+    if (document.querySelector('.b-test') === null) {
+      shareToKakao(
+        '내일이면 유료화되는 웹툰이 궁금하다면?',
+        '#오늘의웹툰 #웹툰정주행 #오늘까지_무료',
+        'https://shared-comic.pstatic.net/thumb/webtoon/703850/thumbnail/thumbnail_IMAG06_fb5b9cec-432d-49c6-8215-8c05d6c8494c.jpg',
+        'https://todaytoon.me'
+      );
+    } else {
+      shareToKakao(
+        '지금 봐야 무료인 웹툰이 궁금하다면?',
+        '#오늘의웹툰 #웹툰정주행 #오늘까지_무료',
+        'https://shared-comic.pstatic.net/thumb/webtoon/703850/thumbnail/thumbnail_IMAG06_fb5b9cec-432d-49c6-8215-8c05d6c8494c.jpg',
+        'https://todaytoon.me'
+      );
+    }
   };
 
   const handleShareUrl = () => {
