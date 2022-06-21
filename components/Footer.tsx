@@ -41,6 +41,11 @@ const Footer = () => {
   };
 
   const handleShareKakao = () => {
+    
+
+    console.log( document.getElementsByClassName('b-test').length);
+    console.log( document.getElementsByClassName('.b-test').length);
+
     console.log(document.querySelector('b-test'));
     console.log(document.querySelector('.b-test'));
     
