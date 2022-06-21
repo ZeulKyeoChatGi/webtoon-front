@@ -56,8 +56,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           <script async src="https://www.googleoptimize.com/optimize.js?id=OPT-TGCBRJD"></script>
         </Head>
 
-        <div className="b-test"></div>
-
         <div className="global-wrapper">
           {isHeaderShow && (
             <div className="header-wrapper">
