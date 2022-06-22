@@ -256,14 +256,12 @@ const WebtoonDetail: React.VFC = () => {
       <Thumbnail>
         <img style={{ height: '100%', position: 'absolute', zIndex: 1 }} src={webtoonData?.thumbnail_first_layer} />
         <img
-          style={{ height: '100%', position: 'absolute', marginLeft: webtoonData?.diffWidth, zIndex: 2 }}
+          style={{ height: '100%', position: 'absolute', zIndex: 2, marginLeft: webtoonData?.platform === 'NAVER' ?  webtoonData?.diffWidth : '0' }}
           src={webtoonData?.thumbnail_second_layer}
         />
 
-        {webtoonData?.platform === 'NAVER' ? (
+        {webtoonData?.platform === 'NAVER' && (
           <div style={{ width: '100%', height: '100%', backgroundColor: `#${imageBgColor}` }} />
-        ) : (
-          <img style={{ height: '100%', zIndex: 2 }} src={webtoonData?.thumbnail_second_layer} />
         )}
 
         <TeamLabel>
@@ -345,6 +343,7 @@ const WebtoonDetail: React.VFC = () => {
             <p>전체연령가</p>
           </WebtoonInfoStory>
         </WebtoonInfo>
+
         {!!webtoonData?.webtoon_data[0]?.paid_date && diffDate < 0 && (
           <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
             <img src="/icons/ic_talk.svg" alt="arrow" width={180} height={43} />
