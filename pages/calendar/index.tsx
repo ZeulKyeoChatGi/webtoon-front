@@ -445,6 +445,7 @@ const Calendar = ({ data }: any) => {
                     writer={webtoon.author}
                     rating={webtoon.webtoon_data[0].rating || 0}
                     likeCount={webtoon.webtoon_data[0].like_count || 0}
+                    is_censored={webtoon.is_censored}
                     isNaver={webtoon.platform === 'NAVER'}
                     isKakao={webtoon.platform === 'KAKAO'}
                     webtoonId={webtoon.id}
@@ -469,6 +470,7 @@ const Calendar = ({ data }: any) => {
                     writer={webtoon.author}
                     rating={webtoon.webtoon_data[0].rating || 0}
                     likeCount={webtoon.webtoon_data[0].like_count || 0}
+                    is_censored={webtoon.is_censored}
                     isNaver={webtoon.platform === 'NAVER'}
                     isKakao={webtoon.platform === 'KAKAO'}
                     webtoonId={webtoon.id}
