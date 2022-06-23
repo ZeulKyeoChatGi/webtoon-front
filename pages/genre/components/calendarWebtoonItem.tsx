@@ -16,6 +16,7 @@ interface webtoonInfoProp {
   likeCount: number;
   isNaver: boolean;
   isKakao: boolean;
+  is_censored: boolean;
   webtoonId: number;
   widthDiff?: string | undefined;
 }
@@ -56,9 +57,11 @@ const CalendarWebtoonWrapper = styled.div`
     }
 
     img.background {
+      width: 80px;
+
       z-index: 2;
       min-width: 80px;
-      margin: 8px 16px 8px 8px;
+      margin: 8px 16px 8px 0px;
       position: absolute;
       /* width: 80px; */
       overflow: hidden;
@@ -252,6 +255,7 @@ const CalendarWebtoonItem = ({
   likeCount,
   isNaver,
   isKakao,
+  is_censored,
   webtoonId,
   widthDiff
 }: webtoonInfoProp) => {
@@ -260,7 +264,10 @@ const CalendarWebtoonItem = ({
       <Link href={`/${webtoonId}`}>
         <a className="pointer">
           <CalendarWebtoonWrapper key={index}>
-            <div className="main-img-section">
+            {is_censored && (
+              <img src="/icons/ic-censored.svg" alt="" style={{ position: 'absolute', marginTop: '13px', marginLeft: '5px', zIndex: '100' }} />
+            )}
+            <div className={`main-img-section ${is_censored ? 'blur' : ''}`}>
               <div className="background-color"></div>
               {thumbnailUrl1 && <img className="background2" src={thumbnailUrl1}></img>}
               {thumbnailUrl2 && <img className="background" src={thumbnailUrl2} style={{ marginLeft: widthDiff }}></img>}

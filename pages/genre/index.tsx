@@ -192,8 +192,14 @@ const WebtoonCard = styled.div`
   position: relative;
   overflow: hidden;
   z-index: 3;
-
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.025) 0%, rgba(0, 0, 0, 0) 0.01%, rgba(0, 0, 0, 0.2) 100%), #abb4bf;
+
+  .blur {
+    filter: blur(3px);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
 
   img.background {
     z-index: -1;
@@ -520,8 +526,7 @@ const Calendar = () => {
       tempWebtoonList.push(webtoon);
     });
 
-
-    console.log(tempWebtoonList)
+    console.log(tempWebtoonList);
 
     setWebtoonList(tempWebtoonList);
   }, [filters, page, selectedCategory, selectedOrder]);
@@ -662,18 +667,23 @@ const Calendar = () => {
               <Link href={`/${webtoon.id}`} key={webtoon.id}>
                 <a onClick={setSessionStorage}>
                   <WebtoonCard className="pointer" ref={ref} style={{ backgroundColor: webtoon.thumbnail_bg_color?.split(':')[1]! }}>
-                    <img className="background" src={webtoon.thumbnail_first_layer} />
+                    <div className={webtoon.is_censored ? 'blur' : ''}>
+                      <img className="background" src={webtoon.thumbnail_first_layer} />
 
-                    {webtoon.thumbnail_second_layer && (
-                      <>
-                        <img className="background2" src={webtoon.thumbnail_second_layer} />
-                      </>
-                    )}
+                      {webtoon.thumbnail_second_layer && (
+                        <>
+                          <img className="background2" src={webtoon.thumbnail_second_layer} />
+                        </>
+                      )}
+                    </div>
 
                     {webtoon.platform === 'NAVER' && <img className="img-platform" src="/icons/ic-naver-w.svg" />}
                     {webtoon.platform === 'KAKAO' && <img className="img-platform" src="/icons/ic-kakao-w.svg" />}
 
-                    <p className="title">{webtoon.title}</p>
+                    <p className="title">
+                      {webtoon.is_censored && <img style={{ marginRight: '4px' }} src="/icons/ic-censored.svg" />}
+                      {webtoon.title}
+                    </p>
                     <p className="writer">{webtoon.author}</p>
                     {/* <p className="description">{webtoon.description}</p> */}
                   </WebtoonCard>

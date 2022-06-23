@@ -212,7 +212,7 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
       data: data
     };
 
-    const newToBePaidWebtoons = []
+    const newToBePaidWebtoons = [];
 
     setDataloaded(true);
 
@@ -265,7 +265,9 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
         const _img2 = new Image();
         _img2.src = img.thumbnail_second_layer;
 
-        img.widthDiff = (_img2.width - _img1.width) * -1 + 'px';
+        if (img.platform === 'NAVER') {
+          img.widthDiff = (_img2.width - _img1.width) * -1 + 'px';
+        }
       }
 
       setSliderWebtoon(copyList2);
@@ -343,7 +345,9 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
         const _img2 = new Image();
         _img2.src = webtoon.thumbnail_second_layer;
 
-        webtoon.widthDiff = ((_img2.width - _img1.width) * -1) / 3 + 'px';
+        if (webtoon.platform === 'NAVER') {
+          webtoon.widthDiff = ((_img2.width - _img1.width) * -1) / 3 + 'px';
+        }
       }
 
       console.log(result.data.results);
@@ -510,6 +514,7 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
                     likeCount={webtoon.webtoon_data[0].like_count || 0}
                     isNaver={webtoon.platform === 'NAVER'}
                     isKakao={webtoon.platform === 'KAKAO'}
+                    is_censored={webtoon.is_censored}
                     webtoonId={webtoon.id}
                     widthDiff={webtoon.widthDiff}
                   />
@@ -535,6 +540,7 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
                     likeCount={webtoon.webtoon_data[0].like_count || 0}
                     isNaver={webtoon.platform === 'NAVER'}
                     isKakao={webtoon.platform === 'KAKAO'}
+                    is_censored={webtoon.is_censored}
                     webtoonId={webtoon.id}
                     widthDiff={webtoon.widthDiff}
                   />

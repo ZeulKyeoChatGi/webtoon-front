@@ -248,21 +248,23 @@ const WebtoonDetail: React.VFC = () => {
         <div onClick={() => router.back()}>
           <img src="/icons/ic_left_arrow.svg" alt="arrow" className="pointer" width={12} height={20} />
         </div>
-        <WebtoonName>{webtoonData?.title}</WebtoonName>
+        <WebtoonName>
+          {webtoonData?.is_censored && <img style={{ marginRight: '9px' }} src="/icons/ic-censored.svg" />}
+          {webtoonData?.title}
+        </WebtoonName>
         <div>
           <img onClick={() => setIsShareModal(true)} className="pointer" src="/icons/ic_share.svg" alt="arrow" width={24} height={24} />
         </div>
       </ThumbnailWrapper>
       <Thumbnail>
-        <img style={{ height: '100%', position: 'absolute', zIndex: 1 }} src={webtoonData?.thumbnail_first_layer} />
-        <img
-          style={{ height: '100%', position: 'absolute', zIndex: 2, marginLeft: webtoonData?.platform === 'NAVER' ?  webtoonData?.diffWidth : '0' }}
-          src={webtoonData?.thumbnail_second_layer}
-        />
-
-        {webtoonData?.platform === 'NAVER' && (
-          <div style={{ width: '100%', height: '100%', backgroundColor: `#${imageBgColor}` }} />
-        )}
+        <div className={`webtoon-detail-image-wrapper ${webtoonData?.is_censored ? 'blur' : ''}`}>
+          <img style={{ height: '100%', position: 'absolute', zIndex: 1 }} src={webtoonData?.thumbnail_first_layer} />
+          <img
+            style={{ height: '100%', position: 'absolute', zIndex: 2, marginLeft: webtoonData?.platform === 'NAVER' ? webtoonData?.diffWidth : '0' }}
+            src={webtoonData?.thumbnail_second_layer}
+          />
+          {webtoonData?.platform === 'NAVER' && <div style={{ width: '100%', height: '100%', backgroundColor: `#${imageBgColor}` }} />}
+        </div>
 
         <TeamLabel>
           {webtoonData?.webtoon_data[0].is_completed ? (
@@ -339,9 +341,7 @@ const WebtoonDetail: React.VFC = () => {
         </WebtoonInfo>
         <WebtoonInfo>
           <WebtoonInfoType>연령대</WebtoonInfoType>
-          <WebtoonInfoStory>
-            <p>전체연령가</p>
-          </WebtoonInfoStory>
+          <WebtoonInfoStory>{webtoonData?.is_censored ? <p>19세 이용가</p> : <p>전체연령가</p>}</WebtoonInfoStory>
         </WebtoonInfo>
 
         {!!webtoonData?.webtoon_data[0]?.paid_date && diffDate < 0 && (

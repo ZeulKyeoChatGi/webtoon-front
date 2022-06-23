@@ -64,3 +64,13 @@
 .webtoon-desc {
   display: block !important;
 }
+
+.webtoon-detail-image-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.blur {
+  filter: blur(3px);
+}
