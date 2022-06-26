@@ -71,7 +71,10 @@ function MyApp({ Component, pageProps }: AppProps) {
             </div>
           )}
 
-          <Component {...pageProps} />
+          <div style={{ flex: 1 }}>
+            <Component style={{ flex: 1 }} {...pageProps} />
+          </div>
+
           <Footer />
 
           <ToastContainer />

@@ -4,7 +4,7 @@ import CalendarWebtoonItem from './components/calendarWebtoonItem';
 
 import { useInView } from 'react-intersection-observer';
 
-import { _getWebtoonList } from 'api/webtoon';
+import { _getListToBePaid, _getWebtoonList } from 'api/webtoon';
 import 'react-spring-bottom-sheet/dist/style.css';
 
 import SelectBox from 'components/SelectBox';
@@ -455,11 +455,11 @@ const Calendar = () => {
     }
   ];
 
-  const options = [
+  const [options, setOptions] = useState([
     { value: 'recent', label: '최신순' },
     { value: 'old', label: '오래된 순' },
     { value: 'money', label: '절약금액 순' }
-  ];
+  ]);
 
   const [selectedOrder, setSelectedOrder] = useState('recent');
 
@@ -566,6 +566,14 @@ const Calendar = () => {
     setPage(0);
   };
 
+  const checkPaidWebtoonFilter = async () => {
+    const res = await _getListToBePaid();
+
+    if (res.data.count === 0) {
+      setOptions(options.splice(0, 2))
+    }
+  };
+
   useEffect(() => {
     console.log(page, selectedCategory, selectedOrder, filters);
 
@@ -611,6 +619,8 @@ const Calendar = () => {
       getWebtoonListAll();
       setIsInit(true);
     }
+
+    checkPaidWebtoonFilter();
   }, []);
 
   return (

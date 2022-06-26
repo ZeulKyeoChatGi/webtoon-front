@@ -256,9 +256,37 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
       }
 
       let copyList2 = [...result.data.results];
-      copyList2 = copyList2.splice(0, 3);
 
-      for (const img of copyList2) {
+      const _kakaoWebtoonList = copyList2.filter((x) => x.platform === 'KAKAO');
+      const _naverWebtoonList = copyList2.filter((x) => x.platform === 'NAVER');
+
+      let paidWebtoonList = [];
+
+      let kakaoList = [];
+      let naverList = [];
+
+      for (const img of _kakaoWebtoonList) {
+        if (kakaoList.length <= 0) {
+          kakaoList.push(img);
+        } else if (kakaoList[0].webtoon_data[0].paid_date === img.webtoon_data[0].paid_date) {
+          kakaoList.push(img);
+        }
+      }
+
+      for (const img of _naverWebtoonList) {
+        if (naverList.length <= 0) {
+          naverList.push(img);
+        } else if (naverList[0].webtoon_data[0].paid_date === img.webtoon_data[0].paid_date) {
+          naverList.push(img);
+        }
+      }
+
+      paidWebtoonList = kakaoList.concat(naverList);
+
+      paidWebtoonList = paidWebtoonList.sort(() => Math.random() - 0.5);
+      paidWebtoonList = paidWebtoonList.splice(0, 3);
+
+      for (const img of paidWebtoonList) {
         const _img1 = new Image();
         _img1.src = img.thumbnail_first_layer;
 
@@ -270,7 +298,7 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
         }
       }
 
-      setSliderWebtoon(copyList2);
+      setSliderWebtoon(paidWebtoonList);
     }
   };
 
@@ -350,14 +378,10 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
         }
       }
 
-      console.log(result.data.results);
-
       const copyList = [...recentlyPaidList];
       result.data.results.map((webtoon: any) => {
         copyList.push(webtoon);
       });
-
-      console.log(copyList);
 
       setRecentPaidList(copyList);
     }
