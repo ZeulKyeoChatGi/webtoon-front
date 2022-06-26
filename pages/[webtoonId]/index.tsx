@@ -175,14 +175,11 @@ const WebtoonDetail: React.VFC = () => {
     } else {
       shareToTwitter(`오늘 보면 ${setComma(saveMoney)}원 아낄 수 있는 웹툰 알려드림`, `https://todaytoon.me/${webtoonId}`);
     }
-
-    console.log(diffDate);
   };
 
   const handleShareKakao = () => {
     let title = '';
     let content = `#오늘의웹툰 #웹툰정주행 #오늘까지_무료`;
-    console.log(webtoonData.thumbnail_second_layer);
 
     if (diffDate > 0) {
       title = '이 웹툰, 오늘 봐야 더 재밌어요!';
@@ -220,11 +217,10 @@ const WebtoonDetail: React.VFC = () => {
 
   useEffect(() => {
     if (webtoonData) {
-      console.log(webtoonData);
       setSaveMoney(webtoonData.webtoon_data[0].series_count * 100);
 
       const nowDate = new Date();
-      const toDate = webtoonData.webtoon_data[0].ended_at || webtoonData.webtoon_data[0].paid_date;
+      const toDate = webtoonData.webtoon_data[0].paid_date;
 
       const diffDate = nowDate.getTime() - new Date(toDate).getTime();
       const dateDays = Math.round(diffDate / (1000 * 3600 * 24));
@@ -344,19 +340,21 @@ const WebtoonDetail: React.VFC = () => {
           <WebtoonInfoStory>{webtoonData?.is_censored ? <p>19세 이용가</p> : <p>전체연령가</p>}</WebtoonInfoStory>
         </WebtoonInfo>
 
-        {!!webtoonData?.webtoon_data[0]?.paid_date && diffDate < 0 && (
+        {!!webtoonData?.webtoon_data[0]?.paid_date && diffDate < 0 ? (
           <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
             <img src="/icons/ic_talk.svg" alt="arrow" width={180} height={43} />
             <PaytoShow>{dayjs(webtoonData?.webtoon_data[0]?.paid_date).format('YYYY[년] MM[월] DD[일]')} 유료화</PaytoShow>
           </div>
+        ) : (
+          <></>
         )}
 
         <div style={{ marginTop: diffDate > 0 ? '153px' : '' }}>
-          <Link href={webtoonData?.webtoon_url}>
+          <a href={webtoonData?.webtoon_url} target="_blank" rel="noreferrer">
             <a className="pointer">
               <Button>바로 정주행 하기!</Button>
             </a>
-          </Link>
+          </a>
         </div>
       </Content>
 
