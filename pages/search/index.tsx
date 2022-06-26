@@ -6,6 +6,8 @@ import { CategoryWebtoon } from '@/types/webtoon';
 import styled from 'styled-components';
 import ReactLoading from 'react-loading';
 
+import thumbnailWebtoon from 'assets/webtoon.json';
+
 const Layout = styled.div`
   display: flex;
 `;
@@ -55,7 +57,7 @@ const Search = () => {
       const width = (window.innerWidth - 44) / 2;
 
       if (width < 298) {
-        console.log(width)
+        console.log(width);
         setImageWidth(width);
       } else {
         setImageWidth(298);
@@ -114,18 +116,35 @@ const Search = () => {
                     <div className="webtoon-genre-layout">
                       <div className="flex">
                         <Link href="/search/all">
-                          <div className="webtoon-item bg-item-1" style={{ width: imageWidth + 'px', height: imageWidth + 'px' }}>
+                          <div
+                            className="webtoon-item bg-item-1"
+                            style={{
+                              width: imageWidth + 'px',
+                              height: imageWidth + 'px',
+                              backgroundColor: thumbnailWebtoon.all[0].thumbnail_bg_color
+                            }}
+                          >
                             <div className="bg-gradient"></div>
-                            <img src="/images/genre_all_1.png" />
-                            <img src="/images/genre_all_2.png" />
+                            <img src={`${thumbnailWebtoon.all[0].thumbnail_first_layer}`} alt="" />
+                            <img src={`${thumbnailWebtoon.all[0].thumbnail_second_layer}`} alt="" />
+
                             <p>전체</p>
                           </div>
                         </Link>
 
                         <Link href="/search/daily">
-                          <div className="webtoon-item bg-item-2" style={{ width: imageWidth + 'px', height: imageWidth + 'px' }}>
+                          <div
+                            className="webtoon-item bg-item-2"
+                            style={{
+                              width: imageWidth + 'px',
+                              height: imageWidth + 'px',
+                              backgroundColor: thumbnailWebtoon.daily[0].thumbnail_bg_color
+                            }}
+                          >
                             <div className="bg-gradient"></div>
-                            <img src="/images/genre_gag_1.png" />
+                            <img src={`${thumbnailWebtoon.daily[0].thumbnail_first_layer}`} alt="" />
+                            <img src={`${thumbnailWebtoon.daily[0].thumbnail_second_layer}`} alt="" />
+
                             <p>일상/개그</p>
                           </div>
                         </Link>
@@ -133,35 +152,90 @@ const Search = () => {
 
                       <div className="flex">
                         <Link href="/search/fantasy">
-                          <div className="webtoon-item bg-item-3" style={{ width: imageWidth + 'px', height: imageWidth + 'px' }}>
+                          <div
+                            className="webtoon-item bg-item-3"
+                            style={{
+                              width: imageWidth + 'px',
+                              height: imageWidth + 'px',
+                              backgroundColor: thumbnailWebtoon.fantasy[0].thumbnail_bg_color
+                            }}
+                          >
                             <div className="bg-gradient"></div>
-                            <img src="/images/genre_fantasy_1.png" />
+                            <img src={`${thumbnailWebtoon.fantasy[0].thumbnail_first_layer}`} alt="" />
+                            <img src={`${thumbnailWebtoon.fantasy[0].thumbnail_second_layer}`} alt="" />
+
                             <p>판타지</p>
                           </div>
                         </Link>
 
-                        <Link href="/search/pure">
-                          <div className="webtoon-item bg-item-4" style={{ width: imageWidth + 'px', height: imageWidth + 'px' }}>
+                        <Link href="/search/action">
+                          <div
+                            className="webtoon-item bg-item-4"
+                            style={{
+                              width: imageWidth + 'px',
+                              height: imageWidth + 'px',
+                              backgroundColor: thumbnailWebtoon.action[0].thumbnail_bg_color
+                            }}
+                          >
                             <div className="bg-gradient"></div>
-                            <img src="/images/genre_romance_1.png" />
-                            <p>순정</p>
+                            <img src={`${thumbnailWebtoon.action[0].thumbnail_first_layer}`} alt="" />
+                            <img src={`${thumbnailWebtoon.action[0].thumbnail_second_layer}`} alt="" />
+
+                            <p>액션</p>
                           </div>
                         </Link>
                       </div>
 
                       <div className="flex">
-                        <Link href="/search/drama">
-                          <div className="webtoon-item bg-item-5" style={{ width: imageWidth + 'px', height: imageWidth + 'px' }}>
+                        <Link href="/search/pure">
+                          <div
+                            className="webtoon-item bg-item-5"
+                            style={{
+                              width: imageWidth + 'px',
+                              height: imageWidth + 'px',
+                              backgroundColor: thumbnailWebtoon.pure[0].thumbnail_bg_color
+                            }}
+                          >
                             <div className="bg-gradient"></div>
-                            <img src="/images/genre_drama_1.png" />
-                            <p>드라마</p>
+                            <img src={`${thumbnailWebtoon.pure[0].thumbnail_first_layer}`} alt="" />
+                            <img src={`${thumbnailWebtoon.pure[0].thumbnail_second_layer}`} alt="" />
+
+                            <p>순정</p>
                           </div>
                         </Link>
 
-                        <Link href="/search/thrill">
-                          <div className="webtoon-item bg-item-6" style={{ width: imageWidth + 'px', height: imageWidth + 'px' }}>
+                        <Link href="/search/drama">
+                          <div
+                            className="webtoon-item bg-item-6"
+                            style={{
+                              width: imageWidth + 'px',
+                              height: imageWidth + 'px',
+                              backgroundColor: thumbnailWebtoon.drama[0].thumbnail_bg_color
+                            }}
+                          >
                             <div className="bg-gradient"></div>
-                            <img src="/images/genre_triller_1.png" />
+                            <img src={`${thumbnailWebtoon.drama[0].thumbnail_first_layer}`} alt="" />
+                            <img src={`${thumbnailWebtoon.drama[0].thumbnail_second_layer}`} alt="" />
+
+                            <p>드라마</p>
+                          </div>
+                        </Link>
+                      </div>
+
+                      <div className="flex">
+                        <Link href="/search/thrill">
+                          <div
+                            className="webtoon-item bg-item-5"
+                            style={{
+                              width: imageWidth + 'px',
+                              height: imageWidth + 'px',
+                              backgroundColor: thumbnailWebtoon.thrill[0].thumbnail_bg_color
+                            }}
+                          >
+                            <div className="bg-gradient"></div>
+                            <img src={`${thumbnailWebtoon.thrill[0].thumbnail_first_layer}`} alt="" />
+                            <img src={`${thumbnailWebtoon.thrill[0].thumbnail_second_layer}`} alt="" />
+
                             <p>공포/스릴러</p>
                           </div>
                         </Link>
