@@ -17,6 +17,8 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import 'assets/scss/main.scss';
 
+import * as gtag from '../lib/gtag';
+
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { useEffect, useState } from 'react';

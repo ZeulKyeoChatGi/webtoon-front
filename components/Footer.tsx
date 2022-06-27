@@ -41,14 +41,12 @@ const Footer = () => {
   };
 
   const handleShareKakao = () => {
-    
-
-    console.log( document.getElementsByClassName('b-test').length);
-    console.log( document.getElementsByClassName('.b-test').length);
+    console.log(document.getElementsByClassName('b-test').length);
+    console.log(document.getElementsByClassName('.b-test').length);
 
     console.log(document.querySelector('b-test'));
     console.log(document.querySelector('.b-test'));
-    
+
     if (document.querySelector('.b-test') === null) {
       shareToKakao(
         '내일이면 유료화되는 웹툰이 궁금하다면?',
