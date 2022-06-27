@@ -602,11 +602,14 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  // export const getServerSideProps: GetServerSideProps = async (context) => {
+// export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const res = await _getListToBePaid();
   const res2 = await _getRecentlyPaidWebtoonList({ page: 1 });
 
+  console.log(res.data.results)
+  console.log(res2.data.results)
+  
   if (res.data.results.length <= 0) {
     return { props: { data: res2.data, isEmptyPaidWebtoon: true, fallback: 'blocking' } };
   }
