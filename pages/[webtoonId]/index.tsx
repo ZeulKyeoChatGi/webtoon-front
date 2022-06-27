@@ -88,7 +88,9 @@ const Score = styled.div`
 
 const ScoreDivider = styled.div`
   height: 12px;
-  border: 1px solid #ff6262;
+  // border: 1px solid #ff6262;
+  background-color: #ff6262;
+  width: 1px;
   margin: 0 8px 0 8px;
 `;
 
@@ -140,6 +142,11 @@ const Label = styled.span`
 `;
 
 const Button = styled.div`
+  position: absolute;
+  width: 100%;
+  bottom: 34px;
+  width: calc(100% - 32px);
+
   display: flex;
   flex: 1;
   background-color: #2c3131;
@@ -170,24 +177,16 @@ const WebtoonDetail: React.VFC = () => {
   };
 
   const handleShareTwitter = () => {
-    if (diffDate > 0) {
-      shareToTwitter(`이 웹툰 재질 걍 미쳤음 꼭 보세요`, `https://todaytoon.me/${webtoonId}`);
-    } else {
-      shareToTwitter(`오늘 보면 ${setComma(saveMoney)}원 아낄 수 있는 웹툰 알려드림`, `https://todaytoon.me/${webtoonId}`);
-    }
+    shareToTwitter(`오늘 보면 웹툰가격원 아낄 수 있는 웹툰 알려드림`);
   };
 
   const handleShareKakao = () => {
-    let title = '';
-    let content = `#오늘의웹툰 #웹툰정주행 #오늘까지_무료`;
-
-    if (diffDate > 0) {
-      title = '이 웹툰, 오늘 봐야 더 재밌어요!';
-    } else {
-      title = `이 웹툰, 오늘 봐야 ${setComma(saveMoney)}원 아낄 수 있어요!`;
-    }
-
-    shareToKakao(title, content, webtoonData.thumbnail_second_layer, `https://todaytoon.me/${webtoonId}`);
+    shareToKakao(
+      '내일이면 유료화되는 웹툰이 궁금하다면?',
+      '#오늘의웹툰 #웹툰정주행 #오늘까지_무료',
+      'https://shared-comic.pstatic.net/thumb/webtoon/703850/thumbnail/thumbnail_IMAG06_fb5b9cec-432d-49c6-8215-8c05d6c8494c.jpg',
+      'https://todaytoon.me'
+    );
   };
 
   const handleShareUrl = () => {
@@ -217,6 +216,7 @@ const WebtoonDetail: React.VFC = () => {
 
   useEffect(() => {
     if (webtoonData) {
+      console.log(webtoonData);
       setSaveMoney(webtoonData.webtoon_data[0].series_count * 100);
 
       const nowDate = new Date();
@@ -238,29 +238,29 @@ const WebtoonDetail: React.VFC = () => {
   }, [webtoonData]);
 
   return webtoonData ? (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative', height: '100%' }}>
       <title>{webtoonData?.title}</title>
       <ThumbnailWrapper>
         <div onClick={() => router.back()}>
           <img src="/icons/ic_left_arrow.svg" alt="arrow" className="pointer" width={12} height={20} />
         </div>
-        <WebtoonName>
-          {webtoonData?.is_censored && <img style={{ marginRight: '9px' }} src="/icons/ic-censored.svg" />}
-          {webtoonData?.title}
-        </WebtoonName>
+        <WebtoonName>{webtoonData?.title}</WebtoonName>
         <div>
           <img onClick={() => setIsShareModal(true)} className="pointer" src="/icons/ic_share.svg" alt="arrow" width={24} height={24} />
         </div>
       </ThumbnailWrapper>
       <Thumbnail>
-        <div className={`webtoon-detail-image-wrapper ${webtoonData?.is_censored ? 'blur' : ''}`}>
-          <img style={{ height: '100%', position: 'absolute', zIndex: 1 }} src={webtoonData?.thumbnail_first_layer} />
-          <img
-            style={{ height: '100%', position: 'absolute', zIndex: 2, marginLeft: webtoonData?.platform === 'NAVER' ? webtoonData?.diffWidth : '0' }}
-            src={webtoonData?.thumbnail_second_layer}
-          />
-          {webtoonData?.platform === 'NAVER' && <div style={{ width: '100%', height: '100%', backgroundColor: `#${imageBgColor}` }} />}
-        </div>
+        <img style={{ height: '100%', position: 'absolute', zIndex: 1 }} src={webtoonData?.thumbnail_first_layer} />
+        <img
+          style={{ height: '100%', position: 'absolute', marginLeft: webtoonData?.diffWidth, zIndex: 2 }}
+          src={webtoonData?.thumbnail_second_layer}
+        />
+
+        {webtoonData?.platform === 'NAVER' ? (
+          <div style={{ width: '100%', height: '100%', backgroundColor: `#${imageBgColor}` }} />
+        ) : (
+          <img style={{ height: '100%', zIndex: 2 }} src={webtoonData?.thumbnail_second_layer} />
+        )}
 
         <TeamLabel>
           {webtoonData?.webtoon_data[0].is_completed ? (
@@ -293,7 +293,7 @@ const WebtoonDetail: React.VFC = () => {
           {webtoonData?.webtoon_data[0].view_count && (
             <>
               <div style={{ display: 'flex', color: '#FF6262', gap: '4px' }}>
-                <img src="/icons/ic_eye_red.svg" alt="eye" width={13} height={13} />
+                <img src="/icons/ic_eye_red.svg" alt="eye" width={16} height={16} />
                 {setComma(webtoonData.webtoon_data[0].view_count)}
               </div>
               <ScoreDivider />
@@ -302,14 +302,14 @@ const WebtoonDetail: React.VFC = () => {
           {webtoonData?.webtoon_data[0].rating && (
             <>
               <div style={{ display: 'flex', color: '#FF6262', gap: '4px' }}>
-                <img src="/icons/ic-star.svg" alt="star" width={13} height={13} />
+                <img src="/icons/ic-star.svg" alt="star" width={16} height={16} />
                 {setComma(webtoonData?.webtoon_data[0].rating)}
               </div>
               <ScoreDivider />
             </>
           )}
           <div style={{ display: 'flex', color: '#FF6262', gap: '4px' }}>
-            <img src="/icons/ic-heart.svg" alt="star" width={13} height={12} />
+            <img src="/icons/ic-heart.svg" alt="star" width={16} height={16} />
             {setComma(webtoonData?.webtoon_data[0].like_count)}
           </div>
         </Score>
@@ -337,24 +337,24 @@ const WebtoonDetail: React.VFC = () => {
         </WebtoonInfo>
         <WebtoonInfo>
           <WebtoonInfoType>연령대</WebtoonInfoType>
-          <WebtoonInfoStory>{webtoonData?.is_censored ? <p>19세 이용가</p> : <p>전체연령가</p>}</WebtoonInfoStory>
+          <WebtoonInfoStory>
+            <p>전체연령가</p>
+          </WebtoonInfoStory>
         </WebtoonInfo>
-
-        {!!webtoonData?.webtoon_data[0]?.paid_date && diffDate < 0 ? (
+        {!!webtoonData?.webtoon_data[0]?.paid_date && diffDate < 0 && (
           <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
             <img src="/icons/ic_talk.svg" alt="arrow" width={180} height={43} />
             <PaytoShow>{dayjs(webtoonData?.webtoon_data[0]?.paid_date).format('YYYY[년] MM[월] DD[일]')} 유료화</PaytoShow>
           </div>
-        ) : (
-          <></>
         )}
 
+        {/* <div style={{ marginTop: '111px' }}> */}
         <div style={{ marginTop: diffDate > 0 ? '153px' : '' }}>
-          <a href={webtoonData?.webtoon_url} target="_blank" rel="noreferrer">
+          <Link href={webtoonData?.webtoon_url}>
             <a className="pointer">
               <Button>바로 정주행 하기!</Button>
             </a>
-          </a>
+          </Link>
         </div>
       </Content>
 
