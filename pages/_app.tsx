@@ -4,7 +4,6 @@ declare global {
   }
 }
 
-
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { SWRConfig } from 'swr';
@@ -38,6 +37,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   const [isHeaderShow, setIsHeaderShow] = useState(true);
+
+  const sendGa = (text: string) => {
+    window.gtag('event', text, { send_to: 'G-RBTEKD8D4E' });
+  };
 
   useEffect(() => {
     // @ts-ignore
@@ -73,7 +76,11 @@ function MyApp({ Component, pageProps }: AppProps) {
               </Link>
 
               <Link href="/search">
-                <a>
+                <a
+                  onClick={() => {
+                    sendGa('오늘의웹툰_검색');
+                  }}
+                >
                   <img src="/icons/ic-search.svg" />
                 </a>
               </Link>

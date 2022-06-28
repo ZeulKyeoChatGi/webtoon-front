@@ -491,6 +491,10 @@ const Calendar = () => {
     setPage(0);
   };
 
+  const sendGa = (text: string) => {
+    window.gtag('event', text, { send_to: 'G-RBTEKD8D4E' });
+  };
+
   // 서버에서 아이템을 가지고 오는 함수
   const getWebtoonListAll = useCallback(async () => {
     const parmas = {
@@ -570,7 +574,7 @@ const Calendar = () => {
     const res = await _getListToBePaid();
 
     if (res.data.count === 0) {
-      setOptions(options.splice(0, 2))
+      setOptions(options.splice(0, 2));
     }
   };
 
@@ -629,7 +633,11 @@ const Calendar = () => {
 
       <NavToggleWrapper>
         <Link href="/">
-          <a>
+          <a
+            onClick={() => {
+              sendGa('오늘의웹툰_유료화_일정');
+            }}
+          >
             <NavItem className={'normal'}>
               <p>유료화 일정</p>
             </NavItem>
@@ -637,7 +645,11 @@ const Calendar = () => {
         </Link>
 
         <Link href="/genre">
-          <a>
+          <a
+            onClick={() => {
+              sendGa('오늘의웹툰_장르별_보기');
+            }}
+          >
             <NavItem className={'toggled'}>
               <p>장르별 보기</p>
             </NavItem>
