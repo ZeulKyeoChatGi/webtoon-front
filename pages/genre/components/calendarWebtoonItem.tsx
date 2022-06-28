@@ -209,15 +209,15 @@ const CalendarWebtoonWrapper = styled.div`
     }
 
     .linked {
-      .font-style: normal;
+      font-style: normal;
       font-weight: 400;
       font-size: 12px;
       line-height: 16px;
       /* identical to box height, or 133% */
+      margin-left: 4px;
+      color: #ff6262;
 
       text-transform: uppercase;
-
-      color: #000000;
     }
 
     .star {
@@ -226,10 +226,10 @@ const CalendarWebtoonWrapper = styled.div`
       font-size: 12px;
       line-height: 16px;
       /* identical to box height, or 133% */
+      margin-left: 4px;
+      color: #ff6262;
 
       text-transform: uppercase;
-
-      color: #000000;
     }
 
     .divider {

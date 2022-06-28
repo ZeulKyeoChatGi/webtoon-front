@@ -15,12 +15,11 @@ import { GetServerSideProps, GetStaticProps } from 'next';
 const FeeBasedPaymentWrapper = styled.div`
   // background-color: #f3f3f3;
 
-  // padding: 16px 16px 0 16px;
   margin-top: 22px;
 
   p.title {
     margin-bottom: 4px;
-    padding: 16px 16px 0 16px;
+    padding: 24px 16px 0 16px;
 
     font-style: normal;
     font-weight: 700;
@@ -607,9 +606,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const res = await _getListToBePaid();
   const res2 = await _getRecentlyPaidWebtoonList({ page: 1 });
 
-  console.log(res.data.results)
-  console.log(res2.data.results)
-  
   if (res.data.results.length <= 0) {
     return { props: { data: res2.data, isEmptyPaidWebtoon: true, fallback: 'blocking' } };
   }
