@@ -22,42 +22,27 @@ const Footer = () => {
 
   const newTabBuyMeACoffe = () => {
     window.open('https://www.buymeacoffee.com/todaytoon', '_blank');
-
-    window.gtag('event', '오늘의웹툰_후원하기', {
-      send_to: 'AW-331000708/IY0_CPqcvfkCEITX6p0B'
-    });
+    window.gtag('event', '오늘의웹툰_후원하기', { send_to: 'G-RBTEKD8D4E' });
   };
 
   const handleClickAboutUs = () => {
     window.open('https://www.notion.so/1jisoo/4dd92cc2681444199c7fe7a9497e248c', '_blank');
-
-    window.gtag('event', '오늘의웹툰_팀소개', {
-      send_to: 'AW-331000708/IY0_CPqcvfkCEITX6p0B'
-    });
+    window.gtag('event', '오늘의웹툰_팀소개', { send_to: 'G-RBTEKD8D4E' });
   };
 
   const handleShareFacebook = () => {
     shareToFacebook();
-
-    window.gtag('event', '오늘의웹툰_공유하기', {
-      send_to: 'AW-331000708/IY0_CPqcvfkCEITX6p0B'
-    });
+    window.gtag('event', '오늘의웹툰_공유하기', { send_to: 'G-RBTEKD8D4E' });
   };
 
   const handleShareTwitter = () => {
     shareToTwitter(`오늘 보면 웹툰가격원 아낄 수 있는 웹툰 알려드림`, 'https://todaytoon.me');
-
-    window.gtag('event', '오늘의웹툰_공유하기', {
-      send_to: 'AW-331000708/IY0_CPqcvfkCEITX6p0B'
-    });
+    window.gtag('event', '오늘의웹툰_공유하기', { send_to: 'G-RBTEKD8D4E' });
   };
 
   const handleClickServay = () => {
     window.open('https://docs.google.com/forms/d/1pSFMT028641RKxr1ougTn3gzqb_pxWr8KyOxjQVt1oY/edit?usp=sharing', '_blank');
-
-    window.gtag('event', '오늘의웹툰_피드백', {
-      send_to: 'AW-331000708/IY0_CPqcvfkCEITX6p0B'
-    });
+    window.gtag('event', '오늘의웹툰_피드백', { send_to: 'G-RBTEKD8D4E' });
   };
 
   const handleShareKakao = () => {
@@ -83,9 +68,7 @@ const Footer = () => {
       );
     }
 
-    window.gtag('event', '오늘의웹툰_공유하기', {
-      send_to: 'AW-331000708/IY0_CPqcvfkCEITX6p0B'
-    });
+    window.gtag('event', '오늘의웹툰_공유하기', { send_to: 'G-RBTEKD8D4E' });
   };
 
   const handleShareUrl = () => {
@@ -108,9 +91,7 @@ const Footer = () => {
       progress: undefined
     });
 
-    window.gtag('event', '오늘의웹툰_공유하기', {
-      send_to: 'AW-331000708/IY0_CPqcvfkCEITX6p0B'
-    });
+    window.gtag('event', '오늘의웹툰_공유하기', { send_to: 'G-RBTEKD8D4E' });
   };
 
   return (

@@ -319,6 +319,10 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
     // router.push(`/${webtoon.id}`)
   };
 
+  const sendGa = (text: string) => {
+    window.gtag('event', text, { send_to: 'G-RBTEKD8D4E' });
+  };
+
   const getRecentlyPaidWebtoonList = async () => {
     setIsApiLoading(true);
 
@@ -495,7 +499,11 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
 
       <NavToggleWrapper>
         <Link href="/">
-          <a>
+          <a
+            onClick={() => {
+              sendGa('오늘의웹툰_유료화_일정');
+            }}
+          >
             <NavItem className={'toggled'}>
               <p>유료화 일정</p>
             </NavItem>
@@ -503,7 +511,11 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
         </Link>
 
         <Link href="/genre">
-          <a>
+          <a
+            onClick={() => {
+              sendGa('오늘의웹툰_장르별_보기');
+            }}
+          >
             <NavItem className={'normal'}>
               <p>장르별 보기</p>
             </NavItem>

@@ -68,6 +68,10 @@ const Search = () => {
     setWebtoonList(res.data.results);
   };
 
+  const sendGa = (text: string) => {
+    window.gtag('event', text, { send_to: 'G-RBTEKD8D4E' });
+  };
+
   useLayoutEffect(() => {
     function updateSize() {
       const width = (window.innerWidth - 44) / 2;
@@ -147,128 +151,170 @@ const Search = () => {
                         <div className="webtoon-genre-layout">
                           <div className="flex">
                             <Link href="/search/all">
-                              <div
-                                className="webtoon-item bg-item-1"
-                                style={{
-                                  width: imageWidth + 'px',
-                                  height: imageWidth + 'px',
-                                  backgroundColor: thumbnails.all[0].thumbnail_bg_color
+                              <a
+                                onClick={() => {
+                                  sendGa('검색_전체');
                                 }}
                               >
-                                <div className="bg-gradient"></div>
-                                <img src={`${thumbnails.all[0].thumbnail_first_layer}`} alt="" />
-                                <img src={`${thumbnails.all[0].thumbnail_second_layer}`} alt="" />
+                                <div
+                                  className="webtoon-item bg-item-1"
+                                  style={{
+                                    width: imageWidth + 'px',
+                                    height: imageWidth + 'px',
+                                    backgroundColor: thumbnails.all[0].thumbnail_bg_color
+                                  }}
+                                >
+                                  <div className="bg-gradient"></div>
+                                  <img src={`${thumbnails.all[0].thumbnail_first_layer}`} alt="" />
+                                  <img src={`${thumbnails.all[0].thumbnail_second_layer}`} alt="" />
 
-                                <p>전체</p>
-                              </div>
+                                  <p>전체</p>
+                                </div>
+                              </a>
                             </Link>
 
                             <Link href="/search/daily">
-                              <div
-                                className="webtoon-item bg-item-2"
-                                style={{
-                                  width: imageWidth + 'px',
-                                  height: imageWidth + 'px',
-                                  backgroundColor: thumbnails.daily[0].thumbnail_bg_color
+                              <a
+                                onClick={() => {
+                                  sendGa('검색_일상&개그');
                                 }}
                               >
-                                <div className="bg-gradient"></div>
-                                <img src={`${thumbnails.daily[0].thumbnail_first_layer}`} alt="" />
-                                <img src={`${thumbnails.daily[0].thumbnail_second_layer}`} alt="" />
+                                <div
+                                  className="webtoon-item bg-item-2"
+                                  style={{
+                                    width: imageWidth + 'px',
+                                    height: imageWidth + 'px',
+                                    backgroundColor: thumbnails.daily[0].thumbnail_bg_color
+                                  }}
+                                >
+                                  <div className="bg-gradient"></div>
+                                  <img src={`${thumbnails.daily[0].thumbnail_first_layer}`} alt="" />
+                                  <img src={`${thumbnails.daily[0].thumbnail_second_layer}`} alt="" />
 
-                                <p>일상/개그</p>
-                              </div>
+                                  <p>일상/개그</p>
+                                </div>
+                              </a>
                             </Link>
                           </div>
 
                           <div className="flex">
                             <Link href="/search/fantasy">
-                              <div
-                                className="webtoon-item bg-item-3"
-                                style={{
-                                  width: imageWidth + 'px',
-                                  height: imageWidth + 'px',
-                                  backgroundColor: thumbnails.fantasy[0].thumbnail_bg_color
+                              <a
+                                onClick={() => {
+                                  sendGa('검색_판타지');
                                 }}
                               >
-                                <div className="bg-gradient"></div>
-                                <img src={`${thumbnails.fantasy[0].thumbnail_first_layer}`} alt="" />
-                                <img src={`${thumbnails.fantasy[0].thumbnail_second_layer}`} alt="" />
+                                <div
+                                  className="webtoon-item bg-item-3"
+                                  style={{
+                                    width: imageWidth + 'px',
+                                    height: imageWidth + 'px',
+                                    backgroundColor: thumbnails.fantasy[0].thumbnail_bg_color
+                                  }}
+                                >
+                                  <div className="bg-gradient"></div>
+                                  <img src={`${thumbnails.fantasy[0].thumbnail_first_layer}`} alt="" />
+                                  <img src={`${thumbnails.fantasy[0].thumbnail_second_layer}`} alt="" />
 
-                                <p>판타지</p>
-                              </div>
+                                  <p>판타지</p>
+                                </div>
+                              </a>
                             </Link>
 
                             <Link href="/search/action">
-                              <div
-                                className="webtoon-item bg-item-4"
-                                style={{
-                                  width: imageWidth + 'px',
-                                  height: imageWidth + 'px',
-                                  backgroundColor: thumbnails.action[0].thumbnail_bg_color
+                              <a
+                                onClick={() => {
+                                  sendGa('검색_액션');
                                 }}
                               >
-                                <div className="bg-gradient"></div>
-                                <img src={`${thumbnails.action[0].thumbnail_first_layer}`} alt="" />
-                                <img src={`${thumbnails.action[0].thumbnail_second_layer}`} alt="" />
+                                <div
+                                  className="webtoon-item bg-item-4"
+                                  style={{
+                                    width: imageWidth + 'px',
+                                    height: imageWidth + 'px',
+                                    backgroundColor: thumbnails.action[0].thumbnail_bg_color
+                                  }}
+                                >
+                                  <div className="bg-gradient"></div>
+                                  <img src={`${thumbnails.action[0].thumbnail_first_layer}`} alt="" />
+                                  <img src={`${thumbnails.action[0].thumbnail_second_layer}`} alt="" />
 
-                                <p>액션</p>
-                              </div>
+                                  <p>액션</p>
+                                </div>
+                              </a>
                             </Link>
                           </div>
 
                           <div className="flex">
                             <Link href="/search/pure">
-                              <div
-                                className="webtoon-item bg-item-5"
-                                style={{
-                                  width: imageWidth + 'px',
-                                  height: imageWidth + 'px',
-                                  backgroundColor: thumbnails.pure[0].thumbnail_bg_color
+                              <a
+                                onClick={() => {
+                                  sendGa('검색_순정');
                                 }}
                               >
-                                <div className="bg-gradient"></div>
-                                <img src={`${thumbnails.pure[0].thumbnail_first_layer}`} alt="" />
-                                <img src={`${thumbnails.pure[0].thumbnail_second_layer}`} alt="" />
+                                <div
+                                  className="webtoon-item bg-item-5"
+                                  style={{
+                                    width: imageWidth + 'px',
+                                    height: imageWidth + 'px',
+                                    backgroundColor: thumbnails.pure[0].thumbnail_bg_color
+                                  }}
+                                >
+                                  <div className="bg-gradient"></div>
+                                  <img src={`${thumbnails.pure[0].thumbnail_first_layer}`} alt="" />
+                                  <img src={`${thumbnails.pure[0].thumbnail_second_layer}`} alt="" />
 
-                                <p>순정</p>
-                              </div>
+                                  <p>순정</p>
+                                </div>
+                              </a>
                             </Link>
 
                             <Link href="/search/drama">
-                              <div
-                                className="webtoon-item bg-item-6"
-                                style={{
-                                  width: imageWidth + 'px',
-                                  height: imageWidth + 'px',
-                                  backgroundColor: thumbnails.drama[0].thumbnail_bg_color
+                              <a
+                                onClick={() => {
+                                  sendGa('검색_드라마');
                                 }}
                               >
-                                <div className="bg-gradient"></div>
-                                <img src={`${thumbnails.drama[0].thumbnail_first_layer}`} alt="" />
-                                <img src={`${thumbnails.drama[0].thumbnail_second_layer}`} alt="" />
+                                <div
+                                  className="webtoon-item bg-item-6"
+                                  style={{
+                                    width: imageWidth + 'px',
+                                    height: imageWidth + 'px',
+                                    backgroundColor: thumbnails.drama[0].thumbnail_bg_color
+                                  }}
+                                >
+                                  <div className="bg-gradient"></div>
+                                  <img src={`${thumbnails.drama[0].thumbnail_first_layer}`} alt="" />
+                                  <img src={`${thumbnails.drama[0].thumbnail_second_layer}`} alt="" />
 
-                                <p>드라마</p>
-                              </div>
+                                  <p>드라마</p>
+                                </div>
+                              </a>
                             </Link>
                           </div>
 
                           <div className="flex">
                             <Link href="/search/thrill">
-                              <div
-                                className="webtoon-item bg-item-5"
-                                style={{
-                                  width: imageWidth + 'px',
-                                  height: imageWidth + 'px',
-                                  backgroundColor: thumbnails.thrill[0].thumbnail_bg_color
+                              <a
+                                onClick={() => {
+                                  sendGa('검색_공포&스릴러');
                                 }}
                               >
-                                <div className="bg-gradient"></div>
-                                <img src={`${thumbnails.thrill[0].thumbnail_first_layer}`} alt="" />
-                                <img src={`${thumbnails.thrill[0].thumbnail_second_layer}`} alt="" />
+                                <div
+                                  className="webtoon-item bg-item-5"
+                                  style={{
+                                    width: imageWidth + 'px',
+                                    height: imageWidth + 'px',
+                                    backgroundColor: thumbnails.thrill[0].thumbnail_bg_color
+                                  }}
+                                >
+                                  <div className="bg-gradient"></div>
+                                  <img src={`${thumbnails.thrill[0].thumbnail_first_layer}`} alt="" />
+                                  <img src={`${thumbnails.thrill[0].thumbnail_second_layer}`} alt="" />
 
-                                <p>공포/스릴러</p>
-                              </div>
+                                  <p>공포/스릴러</p>
+                                </div>
+                              </a>
                             </Link>
                           </div>
                         </div>
