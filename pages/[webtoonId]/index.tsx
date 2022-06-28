@@ -250,18 +250,15 @@ const WebtoonDetail: React.VFC = () => {
         </div>
       </ThumbnailWrapper>
       <Thumbnail>
-        <img style={{ height: '100%', position: 'absolute', zIndex: 1 }} src={webtoonData?.thumbnail_first_layer} />
+      <img style={{ height: '100%', position: 'absolute', zIndex: 1 }} src={webtoonData?.thumbnail_first_layer} />
         <img
-          style={{ height: '100%', position: 'absolute', marginLeft: webtoonData?.diffWidth, zIndex: 2 }}
+          style={{ height: '100%', position: 'absolute', zIndex: 2, marginLeft: webtoonData?.platform === 'NAVER' ?  webtoonData?.diffWidth : '0' }}
           src={webtoonData?.thumbnail_second_layer}
         />
 
-        {webtoonData?.platform === 'NAVER' ? (
+        {webtoonData?.platform === 'NAVER' && (
           <div style={{ width: '100%', height: '100%', backgroundColor: `#${imageBgColor}` }} />
-        ) : (
-          <img style={{ height: '100%', zIndex: 2 }} src={webtoonData?.thumbnail_second_layer} />
         )}
-
         <TeamLabel>
           {webtoonData?.webtoon_data[0].is_completed ? (
             <img src="/icons/ic_complete_status.svg" alt="ic_complete_status" width={48} height={20} />
