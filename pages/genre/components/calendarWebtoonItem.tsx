@@ -267,7 +267,7 @@ const CalendarWebtoonItem = ({
             {is_censored && (
               <img src="/icons/ic-censored.svg" alt="" style={{ position: 'absolute', marginTop: '13px', marginLeft: '5px', zIndex: '100' }} />
             )}
-            <div className={`main-img-section ${is_censored ? 'blur' : ''}`}>
+            <div className={`main-img-section`}>
               <div className="background-color"></div>
               {thumbnailUrl1 && <img className="background2" src={thumbnailUrl1}></img>}
               {thumbnailUrl2 && <img className="background" src={thumbnailUrl2} style={{ marginLeft: widthDiff }}></img>}

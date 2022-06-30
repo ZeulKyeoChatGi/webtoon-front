@@ -22,11 +22,11 @@ export const shareToKakao = (title: string, description: string, imgUrl: string,
         webUrl: buttonLink
       }
     },
-    social: {
-      likeCount: 286,
-      commentCount: 45,
-      sharedCount: 845
-    },
+    // social: {
+    //   likeCount: 286,
+    //   commentCount: 45,
+    //   sharedCount: 845
+    // },
     buttons: [
       {
         title: '웹으로 보기',

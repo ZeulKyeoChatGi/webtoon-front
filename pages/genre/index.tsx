@@ -689,7 +689,8 @@ const Calendar = () => {
               <Link href={`/${webtoon.id}`} key={webtoon.id}>
                 <a onClick={setSessionStorage}>
                   <WebtoonCard className="pointer" ref={ref} style={{ backgroundColor: webtoon.thumbnail_bg_color?.split(':')[1]! }}>
-                    <div className={webtoon.is_censored ? 'blur' : ''}>
+                    {/* 블러 제거 */}
+                    <div>
                       <img className="background" src={webtoon.thumbnail_first_layer} />
 
                       {webtoon.thumbnail_second_layer && (

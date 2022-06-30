@@ -36,7 +36,14 @@ const Footer = () => {
   };
 
   const handleShareTwitter = () => {
-    shareToTwitter(`오늘 보면 웹툰가격원 아낄 수 있는 웹툰 알려드림`, 'https://todaytoon.me');
+    shareToTwitter(`오늘 보면 웹툰가격원 아낄 수 있는 웹툰 알려드림`, '');
+
+    if (document.querySelector('.b-test') === null) {
+      shareToTwitter('내일이면 유료화되는 웹툰이 궁금하다면?', 'https://todaytoon.me');
+    } else {
+      shareToTwitter('지금 봐야 무료인 웹툰이 궁금하다면?', 'https://todaytoon.me');
+    }
+
     window.gtag('event', '오늘의웹툰_공유하기', { send_to: 'G-RBTEKD8D4E' });
   };
 
@@ -56,14 +63,14 @@ const Footer = () => {
       shareToKakao(
         '내일이면 유료화되는 웹툰이 궁금하다면?',
         '#오늘의웹툰 #웹툰정주행 #오늘까지_무료',
-        'https://shared-comic.pstatic.net/thumb/webtoon/703850/thumbnail/thumbnail_IMAG06_fb5b9cec-432d-49c6-8215-8c05d6c8494c.jpg',
+        'https://ifh.cc/g/6FyVQj.png',
         'https://todaytoon.me'
       );
     } else {
       shareToKakao(
         '지금 봐야 무료인 웹툰이 궁금하다면?',
         '#오늘의웹툰 #웹툰정주행 #오늘까지_무료',
-        'https://shared-comic.pstatic.net/thumb/webtoon/703850/thumbnail/thumbnail_IMAG06_fb5b9cec-432d-49c6-8215-8c05d6c8494c.jpg',
+        'https://ifh.cc/g/6FyVQj.png',
         'https://todaytoon.me'
       );
     }
