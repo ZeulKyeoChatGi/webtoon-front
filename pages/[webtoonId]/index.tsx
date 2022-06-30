@@ -111,7 +111,7 @@ const WebtoonInfoStory = styled.div`
   overflow: hidden;
   word-break: break-word;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  // -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 
   p {
@@ -177,20 +177,37 @@ const WebtoonDetail: React.VFC = () => {
   };
 
   const handleShareTwitter = () => {
-    shareToTwitter(`오늘 보면 웹툰가격원 아낄 수 있는 웹툰 알려드림`);
+    if (!!webtoonData?.webtoon_data[0]?.paid_date && diffDate < 0) {
+      // 유료화일때
+      shareToTwitter(`오늘 보면 ${setComma(saveMoney)}원 아낄 수 있는 웹툰 알려드림`, `https://todaytoon.me/${router.query.webtoonId}`);
+    } else {
+      // 유료화 아닐때
+      shareToTwitter(`이 웹툰 재질 걍 미쳤음 꼭 보세요`, `https://todaytoon.me/${router.query.webtoonId}`);
+    }
   };
 
   const handleShareKakao = () => {
-    shareToKakao(
-      '내일이면 유료화되는 웹툰이 궁금하다면?',
-      '#오늘의웹툰 #웹툰정주행 #오늘까지_무료',
-      'https://shared-comic.pstatic.net/thumb/webtoon/703850/thumbnail/thumbnail_IMAG06_fb5b9cec-432d-49c6-8215-8c05d6c8494c.jpg',
-      'https://todaytoon.me'
-    );
+    if (!!webtoonData?.webtoon_data[0]?.paid_date && diffDate < 0) {
+      // 유료화일때
+      shareToKakao(
+        `이 웹툰, 오늘 봐야 ${setComma(saveMoney)}원 아낄 수 있어요!`,
+        '#오늘의웹툰 #웹툰정주행 #오늘까지_무료',
+        'https://ifh.cc/g/6FyVQj.png',
+        `https://todaytoon.me/${router.query.webtoonId}`
+      );
+    } else {
+      // 유료화 아닐때
+      shareToKakao(
+        '이 웹툰, 오늘 봐야 더 재밌어요!',
+        '#오늘의웹툰 #웹툰정주행 #오늘까지_무료',
+        'https://ifh.cc/g/6FyVQj.png',
+        `https://todaytoon.me/${router.query.webtoonId}`
+      );
+    }
   };
 
   const handleShareUrl = () => {
-    const url = 'https://todaytoon.me';
+    const url = `https://todaytoon.me/${router.query.webtoonId}`;
 
     const t = document.createElement('textarea');
     document.body.appendChild(t);
@@ -244,7 +261,10 @@ const WebtoonDetail: React.VFC = () => {
         <div onClick={() => router.back()}>
           <img src="/icons/ic_left_arrow.svg" alt="arrow" className="pointer" width={12} height={20} />
         </div>
-        <WebtoonName>{webtoonData?.title}</WebtoonName>
+        <WebtoonName>
+          {webtoonData?.is_censored && <img style={{ marginRight: '9px' }} src="/icons/ic-censored.svg" />}
+          {webtoonData?.title}
+        </WebtoonName>
         <div>
           <img onClick={() => setIsShareModal(true)} className="pointer" src="/icons/ic_share.svg" alt="arrow" width={24} height={24} />
         </div>
@@ -268,7 +288,7 @@ const WebtoonDetail: React.VFC = () => {
           {webtoonData?.platform === 'KAKAO' && <img src="/icons/ic_kakao.svg" alt="ic_kakao" width={68} height={20} />}
         </TeamLabel>
       </Thumbnail>
-      {webtoonData?.webtoon_data[0].is_completed && diffDate < 0 && (
+      {!!webtoonData?.webtoon_data[0]?.paid_date && diffDate < 0 && (
         <Info>
           <div>
             <img src="/icons/ic_pig.svg" alt="empty" width={48} height={54} />
@@ -346,7 +366,7 @@ const WebtoonDetail: React.VFC = () => {
         )}
 
         <div style={{ marginTop: '153px' }}>
-        {/* <div style={{ marginTop: diffDate < 0 ? '153px' : '153px' }}> */}
+          {/* <div style={{ marginTop: diffDate < 0 ? '153px' : '153px' }}> */}
           <Link href={webtoonData?.webtoon_url}>
             <a className="pointer">
               <Button>바로 정주행 하기!</Button>
