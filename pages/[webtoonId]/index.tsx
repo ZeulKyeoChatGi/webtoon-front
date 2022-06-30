@@ -337,15 +337,16 @@ const WebtoonDetail: React.VFC = () => {
             <p>전체연령가</p>
           </WebtoonInfoStory>
         </WebtoonInfo>
+
         {!!webtoonData?.webtoon_data[0]?.paid_date && diffDate < 0 && (
-          <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
+          <div style={{ position: 'absolute', display: 'flex', width: 'calc(100% - 32px)', justifyContent: 'center', bottom: '92px' }}>
             <img src="/icons/ic_talk.svg" alt="arrow" width={180} height={43} />
             <PaytoShow>{dayjs(webtoonData?.webtoon_data[0]?.paid_date).format('YYYY[년] MM[월] DD[일]')} 유료화</PaytoShow>
           </div>
         )}
 
-        {/* <div style={{ marginTop: '111px' }}> */}
-        <div style={{ marginTop: diffDate > 0 ? '153px' : '' }}>
+        <div style={{ marginTop: '153px' }}>
+        {/* <div style={{ marginTop: diffDate < 0 ? '153px' : '153px' }}> */}
           <Link href={webtoonData?.webtoon_url}>
             <a className="pointer">
               <Button>바로 정주행 하기!</Button>
