@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import CalendarWebtoonItem from './genre/components/calendarWebtoonItem';
 import API from '../api/axios';
 import React, { useRef, useState, useMemo, useCallback, useEffect } from 'react';
-import _throttle from 'lodash/throttle';
 
 import { _getListToBePaid, _getRecentlyPaidWebtoonList } from 'api/webtoon';
 import { CalendarWebtoon } from '@/types/webtoon';
