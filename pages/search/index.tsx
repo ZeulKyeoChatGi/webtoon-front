@@ -51,7 +51,6 @@ const Search = () => {
 
     setSearchSetTime(
       setTimeout(() => {
-        console.log(e.target.value);
         setIsSearching(false);
         getWebtoonList(e.target.value);
       }, 800)
@@ -77,7 +76,6 @@ const Search = () => {
       const width = (window.innerWidth - 44) / 2;
 
       if (width < 298) {
-        console.log(width);
         setImageWidth(width);
       } else {
         setImageWidth(298);
@@ -89,12 +87,37 @@ const Search = () => {
     const genreKeys: any = Object.keys(thumbnailWebtoon);
 
     let tempGenre: any = {};
+    let isOverlaped = false;
+    let isWhile = false;
 
     for (const key of genreKeys) {
-      tempGenre = {
-        ...tempGenre,
-        [key]: _thumbnailWebtoon[key].sort(() => Math.random() - 0.5).splice(0, 1)
-      };
+      isWhile = true;
+
+      while (isWhile) {
+        isOverlaped = false;
+
+        const random = _thumbnailWebtoon[key].sort(() => Math.random() - 0.5).splice(0, 1);
+
+        for (const key of genreKeys) {
+          if (tempGenre[key] === undefined) {
+            continue;
+          }
+
+          if (tempGenre[key][0].id === random[0].id) {
+            isOverlaped = true;
+          }
+        }
+
+        if (!isOverlaped) {
+          isWhile = false;
+
+          tempGenre = {
+            ...tempGenre,
+            [key]: random
+          };
+          break;
+        }
+      }
     }
 
     setThumbnails(tempGenre);
@@ -316,8 +339,6 @@ const Search = () => {
                                 </div>
                               </a>
                             </Link>
-
-                           
                           </div>
                         </div>
                       </div>

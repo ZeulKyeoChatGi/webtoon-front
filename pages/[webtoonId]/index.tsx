@@ -233,7 +233,6 @@ const WebtoonDetail: React.VFC = () => {
 
   useEffect(() => {
     if (webtoonData) {
-      console.log(webtoonData);
       setSaveMoney(webtoonData.webtoon_data[0].series_count * 100);
 
       const nowDate = new Date();

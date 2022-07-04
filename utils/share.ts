@@ -7,9 +7,6 @@ export const shareToTwitter = (text: string, url?: string) => {
 };
 
 export const shareToKakao = (title: string, description: string, imgUrl: string, buttonLink: string) => {
-  console.log(title)
-  console.log(description)
-  console.log(imgUrl)
   // @ts-ignore
   Kakao.Link.sendDefault({
     objectType: 'feed',

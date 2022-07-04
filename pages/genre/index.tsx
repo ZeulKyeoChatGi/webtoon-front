@@ -7,7 +7,6 @@ import { useInView } from 'react-intersection-observer';
 import { _getListToBePaid, _getWebtoonList } from 'api/webtoon';
 import 'react-spring-bottom-sheet/dist/style.css';
 
-import SelectBox from 'components/SelectBox';
 import { BottomSheet } from 'react-spring-bottom-sheet';
 import { CategoryWebtoon } from 'types/webtoon';
 
@@ -433,6 +432,8 @@ const Calendar = () => {
     threshold: 0.9
   });
 
+  const [isApiLoading, setIsApiLoading] = useState(false);
+
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -511,6 +512,8 @@ const Calendar = () => {
 
   // 서버에서 아이템을 가지고 오는 함수
   const getWebtoonListAll = useCallback(async () => {
+    setIsApiLoading(true);
+
     const parmas = {
       genre: selectedCategory,
       order: selectedOrder,
@@ -544,14 +547,11 @@ const Calendar = () => {
       tempWebtoonList.push(webtoon);
     });
 
-    console.log(tempWebtoonList);
-
     setWebtoonList(tempWebtoonList);
+    setIsApiLoading(false);
   }, [filters, page, selectedCategory, selectedOrder]);
 
   const setSessionStorage = () => {
-    console.log(window.scrollY);
-
     // s : sessionStorage 값 설정
 
     // session_obj.totalReturnData = totalReturnData;
@@ -593,9 +593,6 @@ const Calendar = () => {
   };
 
   useEffect(() => {
-    console.log(page, selectedCategory, selectedOrder, filters);
-
-    console.log(isInit);
     if (isInit) {
       getWebtoonListAll();
     }
@@ -613,19 +610,12 @@ const Calendar = () => {
 
     let webtoonList = sessionStorage.getItem('webtoonlist');
 
-    // console.log(webtoonList);
-    // console.log(JSON.parse(webtoonList))
-
     if (webtoonList) {
-      console.log(JSON.parse(webtoonList).page);
-
       setWebtoonList(JSON.parse(webtoonList).data);
       setPage(JSON.parse(webtoonList).page);
       setFilters(JSON.parse(webtoonList).filters);
       setSelectedOrder(JSON.parse(webtoonList).selectedOrder);
       setSelectedCategory(JSON.parse(webtoonList).selectedCategory);
-
-      console.log(JSON.parse(webtoonList).selectedOrder);
 
       setTimeout(() => {
         window.scrollTo({ top: JSON.parse(webtoonList!).scroll, left: 0 });
@@ -729,6 +719,14 @@ const Calendar = () => {
                 </a>
               </Link>
             ))}
+
+            {isApiLoading && (
+              <>
+                <Layout style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
+                  <ReactLoading type="bubbles" color="#000" />
+                </Layout>
+              </>
+            )}
           </>
         ) : (
           <>
