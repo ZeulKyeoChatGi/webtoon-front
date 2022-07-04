@@ -144,7 +144,8 @@
   .webtoon-genre-layout {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    // justify-content: center;
+    justify-content: flex-start;
 
     .webtoon-item {
       overflow: hidden;

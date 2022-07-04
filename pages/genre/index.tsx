@@ -192,13 +192,22 @@ const WebtoonCard = styled.div`
   position: relative;
   overflow: hidden;
   z-index: 3;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.025) 0%, rgba(0, 0, 0, 0) 0.01%, rgba(0, 0, 0, 0.2) 100%), #abb4bf;
+  // background: linear-gradient(180deg, rgba(0, 0, 0, 0.025) 0%, rgba(0, 0, 0, 0) 0.01%, rgba(0, 0, 0, 0.2) 100%), #abb4bf;
 
-  .blur {
-    filter: blur(3px);
-    position: absolute;
+  img.background-gradient {
     width: 100%;
+    z-index: 4;
+    position: absolute;
+    overflow: hidden;
+
     height: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%, 0);
   }
 
   img.background {
@@ -251,7 +260,9 @@ const WebtoonCard = styled.div`
     color: #ffffff;
 
     margin-left: 12px;
-    margin-top: 120px;
+    // margin-top: 120px;
+    position: absolute;
+    top: 120px;
   }
 
   p.writer {
@@ -271,6 +282,9 @@ const WebtoonCard = styled.div`
 
     margin-left: 12px;
     margin-bottom: 4px;
+
+    position: absolute;
+    top: 148px;
   }
 
   p.description {
@@ -691,6 +705,8 @@ const Calendar = () => {
                   <WebtoonCard className="pointer" ref={ref} style={{ backgroundColor: webtoon.thumbnail_bg_color?.split(':')[1]! }}>
                     {/* 블러 제거 */}
                     <div>
+                      <div></div>
+                      <img className="background-gradient" src="/images/gradient.png" />
                       <img className="background" src={webtoon.thumbnail_first_layer} />
 
                       {webtoon.thumbnail_second_layer && (
