@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import CalendarWebtoonItem from './genre/components/calendarWebtoonItem';
 import API from '../api/axios';
-import { useEffect, useState } from 'react';
+import React, { useRef, useState, useMemo, useCallback, useEffect } from 'react';
 
 import { _getListToBePaid, _getRecentlyPaidWebtoonList } from 'api/webtoon';
 import { CalendarWebtoon } from '@/types/webtoon';
@@ -183,15 +183,13 @@ const settings = {
   // autoplay: true,
   autoplaySpeed: 4000,
   slidesToShow: 1,
-  slidesToScroll: 1
+  slidesToScroll: 1,
+  draggable: true
 };
-
 const PRESS_TIME_UNTIL_DRAG_MS = 250;
 
 const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
   const router = useRouter();
-
-  const [isDragging, setDragging] = useState(false);
 
   const [isApiLoading, setIsApiLoading] = useState(false);
 
@@ -205,6 +203,26 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
   const [sliderWebtoon, setSliderWebtoon] = useState<Array<CalendarWebtoon>>([]);
 
   const [dataloaded, setDataloaded] = useState(false);
+
+  const [dragging, setDragging] = useState(false);
+  const [sliderClick, setSliderClick] = useState(false);
+
+  const onDragStart = () => {
+    setSliderClick(true);
+  };
+
+  const onDragMove = () => {
+    if (sliderClick) {
+      setDragging(true);
+    }
+  };
+
+  const onDragEnd = () => {
+    setTimeout(() => {
+      setDragging(false);
+      setSliderClick(false);
+    }, 100);
+  };
 
   const getListToBePaid = async () => {
     const result = {
@@ -305,18 +323,10 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
     setPage(page + 1);
   };
 
-  const onClickSlider = (event: any) => {
-    if (event.type === 'mousemove' || event.type === 'touchmove') {
-      // setIsDragging(true);
+  const onClickSlider = (webtoonId: string) => {
+    if (!dragging) {
+      router.push(`/${webtoonId}`);
     }
-
-    if (event.type === 'mouseup' || event.type === 'touchend') {
-      setTimeout(() => {
-        // setIsDragging(false);
-      }, 100);
-    }
-
-    // router.push(`/${webtoon.id}`)
   };
 
   const sendGa = (text: string) => {
@@ -410,7 +420,14 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
             <>
               <Slider {...settings}>
                 {sliderWebtoon.map((webtoon, index) => (
-                  <div onDrag={onClickSlider} onClick={onClickSlider} key={index}>
+                  <div
+                    onMouseDownCapture={onDragStart}
+                    onMouseMoveCapture={onDragMove}
+                    onMouseUpCapture={onDragEnd}
+                    onClick={() => onClickSlider(String(webtoon.id))}
+                    key={webtoon.id}
+                    className="pointer"
+                  >
                     <div style={{ background: webtoon.thumbnail_bg_color.split(':')[1] }} className="main-slider-wrapper">
                       <img className="img" src={webtoon.thumbnail_first_layer} />
                       <img className="img2" src={webtoon.thumbnail_second_layer} style={{ marginLeft: webtoon.widthDiff }} />

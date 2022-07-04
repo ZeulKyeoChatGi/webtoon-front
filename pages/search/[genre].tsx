@@ -215,6 +215,8 @@ const SearchGenre = () => {
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  const [isApiLoading, setIsApiLoading] = useState(false);
+
   const [totalCount, setTotalCount] = useState(0);
 
   const [open, setOpen] = useState(false);
@@ -243,6 +245,7 @@ const SearchGenre = () => {
 
   // 서버에서 아이템을 가지고 오는 함수
   const getWebtoonListAll = useCallback(async () => {
+    setIsApiLoading(true);
     const genre = selectedCategory === 'all' ? '' : selectedCategory;
 
     const parmas = {
@@ -278,15 +281,12 @@ const SearchGenre = () => {
       tempWebtoonList.push(webtoon);
     });
 
-    console.log(tempWebtoonList)
-
     setTotalCount(result.data.count);
     setWebtoonList(tempWebtoonList);
+    setIsApiLoading(false);
   }, [filters, page, selectedCategory, selectedOrder]);
 
   const setSessionStorage = () => {
-    console.log(window.scrollY);
-
     // s : sessionStorage 값 설정
 
     // session_obj.totalReturnData = totalReturnData;
@@ -338,20 +338,13 @@ const SearchGenre = () => {
 
     let webtoonList = sessionStorage.getItem('searchwebtoonlist');
 
-    // console.log(webtoonList);
-    // console.log(JSON.parse(webtoonList))
-
     if (webtoonList) {
-      console.log(JSON.parse(webtoonList).page);
-
       setWebtoonList(JSON.parse(webtoonList).data);
       setPage(JSON.parse(webtoonList).page);
       setFilters(JSON.parse(webtoonList).filters);
       setSelectedOrder(JSON.parse(webtoonList).selectedOrder);
       setSelectedCategory(JSON.parse(webtoonList).selectedCategory);
       setTotalCount(JSON.parse(webtoonList).totalCount);
-
-      console.log(JSON.parse(webtoonList).selectedOrder);
 
       setTimeout(() => {
         window.scrollTo({ top: JSON.parse(webtoonList!).scroll, left: 0 });
@@ -407,6 +400,14 @@ const SearchGenre = () => {
                 </a>
               </Link>
             ))}
+
+            {isApiLoading && (
+              <>
+                <Layout style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
+                  <ReactLoading type="bubbles" color="#000" />
+                </Layout>
+              </>
+            )}
           </>
         ) : (
           <>
