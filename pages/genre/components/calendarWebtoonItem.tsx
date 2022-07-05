@@ -56,6 +56,15 @@ const CalendarWebtoonWrapper = styled.div`
       margin: 8px 16px 8px 8px;
     }
 
+    div.background {
+      // background-color: rgb(152, 184, 200);
+      z-index: 1;
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      margin: 8px 16px 8px 0px;
+    }
+
     img.background {
       width: 80px;
 
@@ -76,6 +85,14 @@ const CalendarWebtoonWrapper = styled.div`
       height: 80px;
       margin: 8px 16px 8px 0px;
       position: absolute;
+
+      width: 80px;
+      min-width: 80px;
+      margin: 8px 16px 8px 0px;
+      position: absolute;
+      overflow: hidden;
+      object-fit: cover;
+      object-position: top;
     }
   }
 
@@ -268,9 +285,9 @@ const CalendarWebtoonItem = ({
               <img src="/icons/ic-censored.svg" alt="" style={{ position: 'absolute', marginTop: '13px', marginLeft: '5px', zIndex: '100' }} />
             )}
             <div className={`main-img-section`}>
-              <div className="background-color"></div>
+              <div style={{ backgroundColor: `${backgroundColor?.split(':')[1]!}` }} className="background"></div>
               {thumbnailUrl1 && <img className="background2" src={thumbnailUrl1}></img>}
-              {thumbnailUrl2 && <img className="background" src={thumbnailUrl2} style={{ marginLeft: widthDiff }}></img>}
+              {thumbnailUrl2 && <img className="background" src={thumbnailUrl2}></img>}
             </div>
 
             <div className={'content'}>

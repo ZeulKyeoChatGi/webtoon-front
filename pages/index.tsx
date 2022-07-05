@@ -430,7 +430,7 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
                   >
                     <div style={{ background: webtoon.thumbnail_bg_color.split(':')[1] }} className="main-slider-wrapper">
                       <img className="img" src={webtoon.thumbnail_first_layer} />
-                      <img className="img2" src={webtoon.thumbnail_second_layer} style={{ marginLeft: webtoon.widthDiff }} />
+                      <img className="img2" src={webtoon.thumbnail_second_layer} />
 
                       <div className="background_shadow"></div>
 
@@ -630,8 +630,8 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
   );
 };
 
-// export const getStaticProps: GetStaticProps = async (context) => {
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
+// export const getServerSideProps: GetServerSideProps = async (context) => {
   const res = await _getListToBePaid();
   const res2 = await _getRecentlyPaidWebtoonList({ page: 1 });
 
