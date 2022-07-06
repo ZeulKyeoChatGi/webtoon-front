@@ -449,7 +449,7 @@ const Calendar = () => {
       value: 'fantasy'
     },
     {
-      text: '순정',
+      text: '로맨스',
       value: 'pure'
     },
     {

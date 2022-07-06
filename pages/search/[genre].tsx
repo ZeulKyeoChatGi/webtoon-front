@@ -19,7 +19,7 @@ interface Filters {
 const categories: any = {
   all: '전체',
   fantasy: '판타지',
-  pure: '순정',
+  pure: '로맨스',
   action: '액션/무협',
   drama: '드라마',
   thrill: '공포/스릴러',
