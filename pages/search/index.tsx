@@ -272,7 +272,7 @@ const Search = () => {
                             <Link href="/search/pure">
                               <a
                                 onClick={() => {
-                                  sendGa('검색_순정');
+                                  sendGa('검색_로맨스');
                                 }}
                               >
                                 <div
@@ -287,7 +287,7 @@ const Search = () => {
                                   <img src={`${thumbnails.pure[0].thumbnail_first_layer}`} alt="" />
                                   <img src={`${thumbnails.pure[0].thumbnail_second_layer}`} alt="" />
 
-                                  <p>순정</p>
+                                  <p>로맨스</p>
                                 </div>
                               </a>
                             </Link>
