@@ -353,7 +353,9 @@ const WebtoonDetail: React.VFC = () => {
         <WebtoonInfo>
           <WebtoonInfoType>연령대</WebtoonInfoType>
           <WebtoonInfoStory>
-            <p>전체연령가</p>
+            {webtoonData?.is_censored && webtoonData?.platform === 'NAVER' && <p>만 18세 이상</p>}
+            {webtoonData?.is_censored && webtoonData?.platform === 'KAKAO' && <p>만 19세이상</p>}
+            {!webtoonData?.is_censored && <p>전체연령가</p>}
           </WebtoonInfoStory>
         </WebtoonInfo>
 
