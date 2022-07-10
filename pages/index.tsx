@@ -81,16 +81,20 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
   };
 
   const getListToBePaid = async () => {
-    const result = {
-      data: data
-    };
+    let result: any = {};
 
-    const newToBePaidWebtoons = [];
+    if (data.results.length > 0) {
+      result.data = data;
+      setSliderWebtoons(data.results);
+    }
+  };
 
+  const setSliderWebtoons = (results: any) => {
+    console.log(results);
     setDataloaded(true);
 
-    if (result.data) {
-      for (const [idx, webtoon] of result.data.results.entries()) {
+    if (results) {
+      for (const [idx, webtoon] of results.entries()) {
         const nowDate = new Date();
         const toDate = webtoon.webtoon_data[0].paid_date;
 
@@ -116,7 +120,7 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
         webtoon.cookiePrice = cookiePrice;
 
         if (idx > 0) {
-          if (result.data.results[idx - 1].diffDate === webtoon.diffDate) {
+          if (results[idx - 1].diffDate === webtoon.diffDate) {
             webtoon.isSameDiffDate = true;
           } else {
             webtoon.isSameDiffDate = false;
@@ -125,10 +129,10 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
       }
 
       if (!isEmptyPaidWebtoon) {
-        setToBePaidList(result.data.results);
+        setToBePaidList(results);
       }
 
-      let copyList2 = [...result.data.results];
+      let copyList2 = [...results];
 
       const _kakaoWebtoonList = copyList2.filter((x) => x.platform === 'KAKAO');
       const _naverWebtoonList = copyList2.filter((x) => x.platform === 'NAVER');
@@ -171,6 +175,8 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
         }
       }
 
+      console.log(paidWebtoonList);
+
       setSliderWebtoon(paidWebtoonList);
     }
   };
@@ -199,6 +205,10 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
     const result = await _getRecentlyPaidWebtoonList(params);
 
     if (result) {
+      if (data.results.length <= 0) {
+        setSliderWebtoons(result.data.results);
+      }
+
       if (result.data.next === null) setIsLastPage(true);
 
       for (const [idx, webtoon] of result.data.results.entries()) {
@@ -457,14 +467,7 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // export const getStaticProps: GetStaticProps = async (context) => {
   const res = await _getListToBePaid();
-  const res2 = await _getRecentlyPaidWebtoonList({ page: 1 });
-
-  if (res.data.results.length <= 0) {
-    return { props: { data: res2.data, isEmptyPaidWebtoon: true, fallback: 'blocking' } };
-  }
-
   return { props: { data: res.data, isEmptyPaidWebtoon: false, fallback: 'blocking' } };
 };
 
