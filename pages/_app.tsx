@@ -11,19 +11,11 @@ import { SWRConfig } from 'swr';
 import { fetcher } from '@/api/axios';
 
 import Footer from '../components/Footer';
-import styled from 'styled-components';
-
-import '../assets/scss/global.scss';
-import '../assets/scss/animation.scss';
-
-import '../assets/scss/search.scss';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import 'assets/scss/main.scss';
-
-import * as gtag from '../lib/gtag';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';

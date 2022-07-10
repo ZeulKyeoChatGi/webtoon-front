@@ -10,154 +10,10 @@ import Link from 'next/link';
 import ReactLoading from 'react-loading';
 import { setComma } from '@/utils/comma';
 import { useRouter } from 'next/router';
-import { GetServerSideProps, GetStaticProps } from 'next';
-
-const FeeBasedPaymentWrapper = styled.div`
-  // background-color: #f3f3f3;
-
-  margin-top: 22px;
-
-  p.title {
-    margin-bottom: 4px;
-    padding: 24px 16px 0 16px;
-
-    font-style: normal;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 26px;
-    /* identical to box height, or 144% */
-
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-
-    color: #000000;
-  }
-`;
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 
 const Layout = styled.div`
   display: flex;
-`;
-
-const BottomActionWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-
-  img {
-    margin-top: 20px;
-    margin-bottom: 32px;
-    display: flex;
-    justify-content: center;
-  }
-
-  .share_info_text {
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 20px;
-    /* identical to box height, or 167% */
-
-    display: flex;
-    align-items: center;
-    text-align: center;
-
-    /* black/60 */
-
-    color: #a9a9a9;
-  }
-
-  .btn_share {
-    background: #2c3131;
-    width: 100%;
-    height: 48px;
-    margin: 8px 0 24px 0;
-    width: 220px;
-
-    p {
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      font-family: 'Pretendard';
-      font-style: normal;
-      font-weight: 700;
-      font-size: 13px;
-      line-height: 20px;
-      /* identical to box height, or 154% */
-
-      display: flex;
-      align-items: center;
-
-      /* white */
-
-      color: #ffffff;
-    }
-  }
-`;
-
-const NavToggleWrapper = styled.div`
-  display: flex;
-  height: 48px;
-  cursor: pointer;
-  border-bottom: 1px solid #000000;
-  margin-top: 24px;
-
-  .toggled {
-    width: 120px;
-    height: 48px;
-
-    font-style: normal;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 24px;
-
-    color: white;
-    background: #000000;
-  }
-
-  .normal {
-    width: 120px;
-    height: 48px;
-
-    font-style: normal;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 24px;
-    /* identical to box height, or 150% */
-
-    display: flex;
-    align-items: center;
-    text-align: center;
-    text-transform: uppercase;
-
-    opacity: 0.3;
-
-    color: #000000;
-  }
-`;
-
-const NavIcon = styled.div`
-  width: 50%;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  img {
-    width: 16px;
-    height: 18.59px;
-  }
-`;
-
-const NavItem = styled.div`
-  width: 50%;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const Wrapper = styled.div`
@@ -441,14 +297,6 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
                           <p className="text_price">지금보면 최대 {setComma(webtoon.cookiePrice)}원 절약!</p>
                         )}
 
-                        {/* {webtoon.diffDate === 0 ? (
-                          <p className="text_date">오늘 유료화 예정</p>
-                        ) : (
-                          <p className="text_date">
-                            {webtoon.paidYear}년 {webtoon.paidMonth}월 {webtoon.paidDay}일 유료화
-                          </p>
-                        )} */}
-
                         {webtoon.diffDate === 0 && <p className="text_date">오늘 유료화 예정</p>}
 
                         <p className="text_date">
@@ -492,38 +340,16 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
         </>
       )}
 
-      {/* <div>
-
-        </div>
-        <div>
-          <div className="main-slider-wrapper">
-            <img className="img" src="/images/temp/thumb_main.png" />
-
-            <div className="background_shadow"></div>
-
-            <div className="save_info">
-              <p className="text_price">지금보면 최대 20,000원 절약!</p>
-              <p className="text_date">2022년 04월 08일 유료화</p>
-            </div>
-
-            <div className="save_info"> </div>
-
-            <div className="webtoon_info">
-              <p className="webtoon_title">와이키키 뱀파이어</p>
-            </div>
-          </div>
-        </div> */}
-
-      <NavToggleWrapper>
+      <div className="nav-toggle-wrapper">
         <Link href="/">
           <a
             onClick={() => {
               sendGa('오늘의웹툰_유료화_일정');
             }}
           >
-            <NavItem className={'toggled'}>
+            <div className={'toggled nav-item'}>
               <p>유료화 일정</p>
-            </NavItem>
+            </div>
           </a>
         </Link>
 
@@ -533,19 +359,19 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
               sendGa('오늘의웹툰_장르별_보기');
             }}
           >
-            <NavItem className={'normal'}>
+            <div className={'normal nav-item'}>
               <p>장르별 보기</p>
-            </NavItem>
+            </div>
           </a>
         </Link>
-      </NavToggleWrapper>
+      </div>
 
       <Wrapper>
         {toBePaidList.length >= 0 && recentlyPaidList.length >= 0 ? (
           <>
             {toBePaidList.map((webtoon, index) => (
               <>
-                <FeeBasedPaymentWrapper style={{ marginTop: webtoon.isSameDiffDate ? '0' : '22px' }} key={index}>
+                <div className="fee-based-payment-wrapper" style={{ marginTop: webtoon.isSameDiffDate ? '0' : '22px' }} key={index}>
                   {webtoon.diffDate === 0 ? (
                     <>{!webtoon.isSameDiffDate && <p className={'title'}>오늘 유료화 예정</p>}</>
                   ) : (
@@ -570,14 +396,14 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
                     webtoonId={webtoon.id}
                     widthDiff={webtoon.widthDiff}
                   />
-                </FeeBasedPaymentWrapper>
+                </div>
               </>
             ))}
 
             {<p className={'webtoon-list-title'}>최근 유료화 된 작품</p>}
             {recentlyPaidList.map((webtoon, index) => (
               <>
-                <FeeBasedPaymentWrapper style={{ marginTop: webtoon.isSameDiffDate ? '0' : '0' }} key={index}>
+                <div className="fee-based-payment-wrapper" style={{ marginTop: webtoon.isSameDiffDate ? '0' : '0' }} key={index}>
                   <CalendarWebtoonItem
                     key={index}
                     index={index}
@@ -596,7 +422,7 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
                     webtoonId={webtoon.id}
                     widthDiff={webtoon.widthDiff}
                   />
-                </FeeBasedPaymentWrapper>
+                </div>
               </>
             ))}
 
@@ -618,20 +444,20 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
           </>
         )}
 
-        <BottomActionWrapper>
+        <div className="bottom-action-wrapper">
           {!isLastPage ? (
             <img onClick={getNextPage} className="pointer" style={{ width: '32px', height: '32px' }} src="/icons/ic-more-btn.svg" />
           ) : (
             <div style={{ height: '90px' }}></div>
           )}
-        </BottomActionWrapper>
+        </div>
       </Wrapper>
     </>
   );
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
-// export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  // export const getStaticProps: GetStaticProps = async (context) => {
   const res = await _getListToBePaid();
   const res2 = await _getRecentlyPaidWebtoonList({ page: 1 });
 
