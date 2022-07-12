@@ -24,6 +24,33 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { DefaultSeo } from 'next-seo';
+
+const DEFAULT_SEO = {
+  title: '오늘의 웹툰ㅣ오늘까지 무료인 웹툰 정보를 한 눈에',
+  description: '네이버, 카카오웹툰에 흩어진 웹툰별 정보를 <오늘의 웹툰>에서 한 눈에 확인하세요.',
+  canonical: 'https://www.todaytoon.me',
+  openGraph: {
+    type: 'website',
+    locale: 'ko_KR',
+    url: 'https://www.todaytoon.me',
+    title: '오늘의 웹툰ㅣ오늘까지 무료인 웹툰 정보를 한 눈에',
+    site_name: '오늘의 웹툰',
+    images: [
+      {
+        url: 'https://ifh.cc/g/6FyVQj.png',
+        width: 128,
+        height: 128,
+        alt: '오늘의_웹툰_로고'
+      }
+    ]
+  },
+  twitter: {
+    handle: '@handle',
+    site: '@site',
+    cardType: 'summary_large_image'
+  }
+};
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -59,6 +86,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
           <script async src="https://www.googleoptimize.com/optimize.js?id=OPT-TGCBRJD"></script>
         </Head>
+
+        <DefaultSeo {...DEFAULT_SEO} />
 
         <div className="global-wrapper">
           {isHeaderShow && (

@@ -26,7 +26,7 @@ const Footer = () => {
   };
 
   const handleClickAboutUs = () => {
-    window.open('https://www.notion.so/1jisoo/4dd92cc2681444199c7fe7a9497e248c', '_blank');
+    window.open('https://todaytoon.oopy.io/', '_blank');
     window.gtag('event', '오늘의웹툰_팀소개', { send_to: 'G-RBTEKD8D4E' });
   };
 
