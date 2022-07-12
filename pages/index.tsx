@@ -468,7 +468,9 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const res = await _getListToBePaid();
-  return { props: { data: res.data, isEmptyPaidWebtoon: false, fallback: 'blocking' } };
+
+
+  return { props: { data: res.data, isEmptyPaidWebtoon: res.data.count === 0, fallback: 'blocking' } };
 };
 
 export default Calendar;
