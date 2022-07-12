@@ -467,8 +467,9 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const res = await _getListToBePaid();
+  context.res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
 
+  const res = await _getListToBePaid();
 
   return { props: { data: res.data, isEmptyPaidWebtoon: res.data.count === 0, fallback: 'blocking' } };
 };
