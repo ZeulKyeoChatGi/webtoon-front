@@ -472,8 +472,9 @@ const Calendar = () => {
 
   const [options, setOptions] = useState([
     { value: 'recent', label: '최신순' },
-    { value: 'old', label: '오래된 순' },
-    { value: 'money', label: '절약금액 순' }
+    { value: 'old', label: '오래된순' },
+    { value: 'money', label: '절약금액순' },
+    { value: 'like', label: '좋아요순' }
   ]);
 
   const [selectedOrder, setSelectedOrder] = useState('recent');
@@ -551,7 +552,7 @@ const Calendar = () => {
     setIsApiLoading(false);
   }, [filters, page, selectedCategory, selectedOrder]);
 
-  const setSessionStorage = () => {
+  const setSessionStorage = (webtoonData: any) => {
     // s : sessionStorage 값 설정
 
     // session_obj.totalReturnData = totalReturnData;
