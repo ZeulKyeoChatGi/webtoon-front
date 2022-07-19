@@ -90,7 +90,6 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
   };
 
   const setSliderWebtoons = (results: any) => {
-    console.log(results);
     setDataloaded(true);
 
     if (results) {
@@ -174,8 +173,6 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
           img.widthDiff = (_img2.width - _img1.width) * -1 + 'px';
         }
       }
-
-      console.log(paidWebtoonList);
 
       setSliderWebtoon(paidWebtoonList);
     }
