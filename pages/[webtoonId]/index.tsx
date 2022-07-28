@@ -294,7 +294,7 @@ const WebtoonDetail: React.VFC = () => {
           </div>
           <div>
             <SaveMoneyText>
-              지금보면 <br />
+              지금 보면 <br />
               최대 <SaveMoney>{setComma(saveMoney)}원</SaveMoney>을 아낄 수 있어요!
             </SaveMoneyText>
           </div>

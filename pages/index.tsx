@@ -301,7 +301,7 @@ const Calendar = ({ data, isEmptyPaidWebtoon }: any) => {
                         {webtoon.diffDate > 0 ? (
                           <p className="text_price">최근 유료화 됐어요</p>
                         ) : (
-                          <p className="text_price">지금보면 최대 {setComma(webtoon.cookiePrice)}원 절약!</p>
+                          <p className="text_price">지금 보면 최대 {setComma(webtoon.cookiePrice)}원 절약!</p>
                         )}
 
                         {webtoon.diffDate === 0 && <p className="text_date">오늘 유료화 예정</p>}
