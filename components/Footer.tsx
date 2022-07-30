@@ -22,17 +22,17 @@ const Footer = () => {
 
   const newTabBuyMeACoffe = () => {
     window.open('https://www.buymeacoffee.com/todaytoon', '_blank');
-    window.gtag('event', '오늘의웹툰_후원하기', { send_to: 'G-RBTEKD8D4E' });
+    window.gtag('event', '웹툰투데이_후원하기', { send_to: 'G-RBTEKD8D4E' });
   };
 
   const handleClickAboutUs = () => {
     window.open('https://todaytoon.oopy.io/', '_blank');
-    window.gtag('event', '오늘의웹툰_팀소개', { send_to: 'G-RBTEKD8D4E' });
+    window.gtag('event', '웹툰투데이_팀소개', { send_to: 'G-RBTEKD8D4E' });
   };
 
   const handleShareFacebook = () => {
     shareToFacebook();
-    window.gtag('event', '오늘의웹툰_공유하기', { send_to: 'G-RBTEKD8D4E' });
+    window.gtag('event', '웹툰투데이_공유하기', { send_to: 'G-RBTEKD8D4E' });
   };
 
   const handleShareTwitter = () => {
@@ -44,12 +44,12 @@ const Footer = () => {
       shareToTwitter('지금 봐야 무료인 웹툰이 궁금하다면?', 'https://todaytoon.me');
     }
 
-    window.gtag('event', '오늘의웹툰_공유하기', { send_to: 'G-RBTEKD8D4E' });
+    window.gtag('event', '웹툰투데이_공유하기', { send_to: 'G-RBTEKD8D4E' });
   };
 
   const handleClickServay = () => {
     window.open('https://docs.google.com/forms/d/1pSFMT028641RKxr1ougTn3gzqb_pxWr8KyOxjQVt1oY/edit?usp=sharing', '_blank');
-    window.gtag('event', '오늘의웹툰_피드백', { send_to: 'G-RBTEKD8D4E' });
+    window.gtag('event', '웹툰투데이_피드백', { send_to: 'G-RBTEKD8D4E' });
   };
 
   const handleShareKakao = () => {
@@ -62,20 +62,20 @@ const Footer = () => {
     if (document.querySelector('.b-test') === null) {
       shareToKakao(
         '내일이면 유료화되는 웹툰이 궁금하다면?',
-        '#오늘의웹툰 #웹툰정주행 #오늘까지_무료',
+        '#웹툰투데이 #웹툰정주행 #오늘까지_무료',
         'https://ifh.cc/g/6FyVQj.png',
         'https://todaytoon.me'
       );
     } else {
       shareToKakao(
         '지금 봐야 무료인 웹툰이 궁금하다면?',
-        '#오늘의웹툰 #웹툰정주행 #오늘까지_무료',
+        '#웹툰투데이 #웹툰정주행 #오늘까지_무료',
         'https://ifh.cc/g/6FyVQj.png',
         'https://todaytoon.me'
       );
     }
 
-    window.gtag('event', '오늘의웹툰_공유하기', { send_to: 'G-RBTEKD8D4E' });
+    window.gtag('event', '웹툰투데이_공유하기', { send_to: 'G-RBTEKD8D4E' });
   };
 
   const handleShareUrl = () => {
@@ -98,14 +98,14 @@ const Footer = () => {
       progress: undefined
     });
 
-    window.gtag('event', '오늘의웹툰_공유하기', { send_to: 'G-RBTEKD8D4E' });
+    window.gtag('event', '웹툰투데이_공유하기', { send_to: 'G-RBTEKD8D4E' });
   };
 
   return (
     <>
       <div className="footer-wrapper">
         <div className="section_logo">
-          <p className="logo">오늘의 웹툰</p>
+          <p className="logo">웹툰투데이</p>
           <p className="team">by.즐겨찾기팀</p>
         </div>
 
@@ -157,7 +157,7 @@ const Footer = () => {
               </div>
 
               <div className="content">
-                <p>오늘의 웹툰을 친구들에게 공유하세요!</p>
+                <p>웹툰투데이를 친구들에게 공유하세요!</p>
               </div>
 
               <div className="modal_actions">
@@ -175,7 +175,7 @@ const Footer = () => {
           있으며, 사용에 대한 책임은 전적으로 사용자에게 있음을 알립니다.
         </p>
 
-        <p className="copyright">copyright(c) 2022 All rights reserved by 오늘의 웹툰.</p>
+        <p className="copyright">copyright(c) 2022 All rights reserved by 웹툰투데이.</p>
       </div>
     </>
   );

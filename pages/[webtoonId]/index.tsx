@@ -191,7 +191,7 @@ const WebtoonDetail: React.VFC = () => {
       // 유료화일때
       shareToKakao(
         `이 웹툰, 오늘 봐야 ${setComma(saveMoney)}원 아낄 수 있어요!`,
-        '#오늘의웹툰 #웹툰정주행 #오늘까지_무료',
+        '#웹툰투데이 #웹툰정주행 #오늘까지_무료',
         'https://ifh.cc/g/6FyVQj.png',
         `https://todaytoon.me/${router.query.webtoonId}`
       );
@@ -199,7 +199,7 @@ const WebtoonDetail: React.VFC = () => {
       // 유료화 아닐때
       shareToKakao(
         '이 웹툰, 오늘 봐야 더 재밌어요!',
-        '#오늘의웹툰 #웹툰정주행 #오늘까지_무료',
+        '#웹툰투데이  #웹툰정주행 #오늘까지_무료',
         'https://ifh.cc/g/6FyVQj.png',
         `https://todaytoon.me/${router.query.webtoonId}`
       );
@@ -394,7 +394,7 @@ const WebtoonDetail: React.VFC = () => {
             </div>
 
             <div className="content">
-              <p>오늘의 웹툰을 친구들에게 공유하세요!</p>
+              <p>웹툰투데이를 친구들에게 공유하세요!</p>
             </div>
 
             <div className="modal_actions">
