@@ -41,7 +41,7 @@ const DEFAULT_SEO = {
         url: 'https://ifh.cc/g/6FyVQj.png',
         width: 128,
         height: 128,
-        alt: '오늘의투데이_로고'
+        alt: '웹툰투데이_로고'
       }
     ]
   },
