@@ -7,6 +7,20 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'PyeongChangPeace-Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/PyeongChangPeace-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ChangwonDangamAsac';
+  font-weight: 200;
+  src: url('/fonts/ChangwonDangamAsac.ttf') format('truetype');
+}
+
+
 html,
 body {
   margin: 0;
@@ -29,14 +43,9 @@ body {
 .logo {
   padding: 0;
   margin: 0;
-  font-family: ChangwonDangamAsac, sans-serif !important;
+  font-family: PyeongChangPeace-Bold, sans-serif !important;
 }
 
-@font-face {
-  font-family: 'ChangwonDangamAsac';
-  font-weight: 200;
-  src: url('/fonts/ChangwonDangamAsac.ttf') format('truetype');
-}
 
 .slider_item {
   background-color: aqua;

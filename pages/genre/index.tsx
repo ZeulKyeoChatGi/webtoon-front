@@ -640,7 +640,7 @@ const Calendar = () => {
         <Link href="/">
           <a
             onClick={() => {
-              sendGa('오늘의웹툰_유료화_일정');
+              sendGa('웹툰투데이_유료화_일정');
             }}
           >
             <NavItem className={'normal'}>
@@ -652,7 +652,7 @@ const Calendar = () => {
         <Link href="/genre">
           <a
             onClick={() => {
-              sendGa('오늘의웹툰_장르별_보기');
+              sendGa('웹툰투데이_장르별_보기');
             }}
           >
             <NavItem className={'toggled'}>
