@@ -14,13 +14,6 @@
   font-style: normal;
 }
 
-@font-face {
-  font-family: 'ChangwonDangamAsac';
-  font-weight: 200;
-  src: url('/fonts/ChangwonDangamAsac.ttf') format('truetype');
-}
-
-
 html,
 body {
   margin: 0;
@@ -45,7 +38,6 @@ body {
   margin: 0;
   font-family: PyeongChangPeace-Bold, sans-serif !important;
 }
-
 
 .slider_item {
   background-color: aqua;
@@ -127,7 +119,6 @@ body {
   }
 
   h1 {
-    font-family: 'ChangwonDangamAsac';
     font-style: normal;
     font-weight: 700;
     font-size: 24px;
