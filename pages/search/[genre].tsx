@@ -212,6 +212,7 @@ const SearchGenre = () => {
   const { ref, inView, entry } = useInView({
     threshold: 0.9
   });
+
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
 
