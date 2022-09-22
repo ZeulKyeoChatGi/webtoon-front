@@ -1,14 +1,13 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import CalendarWebtoonItem from './components/calendarWebtoonItem';
 
 import { useInView } from 'react-intersection-observer';
 
-import { _getListToBePaid, _getWebtoonList } from 'api/webtoon';
+import { _getListToBePaid, _getWebtoonList } from 'src/api/webtoon';
 import 'react-spring-bottom-sheet/dist/style.css';
 
 import { BottomSheet } from 'react-spring-bottom-sheet';
-import { CategoryWebtoon } from 'types/webtoon';
+import { CategoryWebtoon } from 'src/types/webtoon';
 
 import Select from 'react-select';
 

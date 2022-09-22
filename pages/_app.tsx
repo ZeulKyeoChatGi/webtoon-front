@@ -4,13 +4,14 @@ declare global {
   }
 }
 
-import '../styles/globals.css';
+import '../src/styles/globals.css';
+
 import type { AppProps } from 'next/app';
 import { SWRConfig } from 'swr';
 
-import { fetcher } from '@/api/axios';
+import { fetcher } from 'src/api/axios';
 
-import Footer from '../components/Footer';
+import Footer from '../src/components/Footer';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -83,7 +84,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <SWRConfig value={{ fetcher }}>
         <Head>
           <title>웹툰투데이</title>
-          <script async src="https://www.googleoptimize.com/optimize.js?id=OPT-TGCBRJD"></script>
+          {/* <script async src="https://www.googleoptimize.com/optimize.js?id=OPT-TGCBRJD"></script> */}
         </Head>
 
         <DefaultSeo {...DEFAULT_SEO} />

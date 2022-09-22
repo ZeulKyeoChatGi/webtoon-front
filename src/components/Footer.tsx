@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { ToastContainer, toast } from 'react-toastify';
 
-import { shareToFacebook, shareToTwitter, shareToKakao } from '@/utils/share';
+import { shareToFacebook, shareToTwitter, shareToKakao } from 'src/utils/share';
 
 const Footer = () => {
   const router = useRouter();
@@ -82,6 +82,7 @@ const Footer = () => {
     const url = 'https://todaytoon.me';
 
     const t = document.createElement('textarea');
+    t.style.display = 'none'
     document.body.appendChild(t);
     t.value = url;
     t.select();

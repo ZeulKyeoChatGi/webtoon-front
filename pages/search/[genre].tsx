@@ -1,14 +1,14 @@
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import { BottomSheet } from 'react-spring-bottom-sheet';
-import { CategoryWebtoon } from 'types/webtoon';
+import { CategoryWebtoon } from 'src/types/webtoon';
 import ReactLoading from 'react-loading';
 import { useInView } from 'react-intersection-observer';
-import { _getWebtoonList } from 'api/webtoon';
+import { _getWebtoonList } from 'src/api/webtoon';
 import styled from 'styled-components';
 import 'react-spring-bottom-sheet/dist/style.css';
 import Link from 'next/link';
-import { setComma } from '@/utils/comma';
+import { setComma } from 'src/utils/comma';
 
 interface Filters {
   title: String;

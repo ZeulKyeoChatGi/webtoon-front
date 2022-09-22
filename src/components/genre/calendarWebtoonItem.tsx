@@ -1,5 +1,4 @@
-import { setComma } from '@/utils/comma';
-import Image from 'next/image';
+import { setComma } from 'src/utils/comma';
 import styled from 'styled-components';
 import Link from 'next/link';
 

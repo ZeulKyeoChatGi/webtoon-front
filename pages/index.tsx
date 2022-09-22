@@ -1,14 +1,12 @@
 import styled from 'styled-components';
-import CalendarWebtoonItem from './genre/components/calendarWebtoonItem';
-import API from '../api/axios';
-import React, { useRef, useState, useMemo, useCallback, useEffect } from 'react';
-
-import { _getListToBePaid, _getRecentlyPaidWebtoonList } from 'api/webtoon';
-import { CalendarWebtoon } from '@/types/webtoon';
+import CalendarWebtoonItem from '../src/components/genre/calendarWebtoonItem';
+import React, { useState, useEffect } from 'react';
+import { _getListToBePaid, _getRecentlyPaidWebtoonList } from 'src/api/webtoon';
+import { CalendarWebtoon } from 'src/types/webtoon';
 import Slider from 'react-slick';
 import Link from 'next/link';
 import ReactLoading from 'react-loading';
-import { setComma } from '@/utils/comma';
+import { setComma } from 'src/utils/comma';
 import { useRouter } from 'next/router';
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 

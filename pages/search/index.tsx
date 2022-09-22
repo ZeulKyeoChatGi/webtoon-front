@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
-import { _getWebtoonList } from 'api/webtoon';
+import { _getWebtoonList } from 'src/api/webtoon';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import Link from 'next/link';
-import { CategoryWebtoon } from '@/types/webtoon';
+import { CategoryWebtoon } from 'src/types/webtoon';
 import styled from 'styled-components';
 import ReactLoading from 'react-loading';
 

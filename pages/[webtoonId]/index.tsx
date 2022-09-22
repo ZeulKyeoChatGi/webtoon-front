@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import dayjs from 'dayjs';
 
-import _getWebtoonDetail from '@/api/webtoonId';
+import _getWebtoonDetail from 'src/api/webtoonId';
 import { useEffect, useRef, useState } from 'react';
-import { setComma } from '@/utils/comma';
-import { shareToFacebook, shareToKakao, shareToTwitter } from '@/utils/share';
+import { setComma } from 'src/utils/comma';
+import { shareToFacebook, shareToKakao, shareToTwitter } from 'src/utils/share';
 import { toast } from 'react-toastify';
 import { setDefaultResultOrder } from 'dns';
 

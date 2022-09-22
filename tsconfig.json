@@ -4,11 +4,11 @@
     "paths": {
       "@/components/*": ["components/*"],
       "@/store/*": ["store/*"],
-      "@/utils/*": ["utils/*"],
-      "@/api/*": ["api/*"],
+      "@/utils/*": ["src/utils/*"],
+      "@/api/*": ["src/api/*"],
       "@/config/*": ["config/*"],
       "@/styles/*": ["styles/*"],
-      "@/types/*": ["types/*"]
+      "@/types/*": ["src/types/*"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
