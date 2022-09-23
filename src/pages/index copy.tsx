@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import CalendarWebtoonItem from '../src/components/genre/calendarWebtoonItem';
+import CalendarWebtoonItem from 'src/components/genre/calendarWebtoonItem';
 import React, { useState, useEffect } from 'react';
 import { _getListToBePaid, _getRecentlyPaidWebtoonList } from 'src/api/webtoon';
 import { CalendarWebtoon } from 'src/types/webtoon';

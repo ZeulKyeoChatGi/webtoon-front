@@ -3,15 +3,14 @@ declare global {
     gtag?: any;
   }
 }
-
-import '../src/styles/globals.css';
+import 'src/styles/globals.css';
 
 import type { AppProps } from 'next/app';
 import { SWRConfig } from 'swr';
 
 import { fetcher } from 'src/api/axios';
 
-import Footer from '../src/components/Footer';
+import Footer from 'src/components/Footer';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
